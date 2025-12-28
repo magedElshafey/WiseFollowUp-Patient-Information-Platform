@@ -1,0 +1,37 @@
+:root {
+    /* Brand colors */
+    --color-primary: #0058ff;
+    --color-primary-soft: #e0ecff;
+
+    --color-secondary: #1b1e28;
+
+    --color-accent: #0ebe7f;
+    --color-accent-soft: #e3f8f0;
+
+    /* Backgrounds */
+    --bg-page: #f4f7fb;
+    --bg-surface: #ffffff;
+
+    /* Text */
+    --text-main: #1b1e28;
+    --text-muted: #6b7280;
+
+    /* Borders */
+    --border-subtle: #e2e8f0;
+
+    /* Shadows */
+    --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+
+    /* Radius */
+    --radius-card: 1rem;
+    /* 16px */
+    --radius-pill: 999px;
+
+    /* Spacing (plenty of spacing) */
+    --space-section-y: 3.5rem;
+    /* 56px */
+    --space-section-y-sm: 2.5rem;
+    /* 40px */
+    --space-card-gap: 1rem;
+    /* 16px */
+}

@@ -1,0 +1,85 @@
+import { Link } from "react-router-dom";
+import { FooterLink } from "../../types/footer.types";
+import { openCookieSettings } from "@/features/cookies/cookie-consent";
+
+const CopyRight = () => {
+  const year = new Date().getFullYear();
+  const POLICY_LINKS: FooterLink[] = [
+    { label: "Privacy", href: "/privacy" },
+    { label: "Cookies", href: "/cookies" },
+    { label: "Terms of use", href: "/terms" },
+  ];
+  return (
+    <div
+      className="
+            mt-6 pt-4 border-t border-border-subtle
+            flex flex-col gap-3 md:flex-row md:items-center md:justify-between
+          "
+    >
+      <div className="text-xs text-text-muted">
+        <p className="mb-1">
+          &copy; {year} Wise Follow Up. All rights reserved.
+        </p>
+        <p className="text-[11px] leading-relaxed">
+          Information on this website is for general education only and does not
+          replace advice from your own doctor or healthcare team.
+        </p>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-3 md:justify-end">
+        {/* Small pills for policies */}
+        <ul className="flex flex-wrap items-center gap-2 text-xs">
+          {POLICY_LINKS.map((item) => (
+            <li key={item.href}>
+              <Link
+                to={item.href}
+                className="
+                      inline-flex items-center rounded-pill
+                      border border-border-subtle
+                      px-3 py-1
+                      text-[11px] text-text-muted
+                      hover:text-text-main hover:bg-bg-page
+                      focus-visible:outline-none focus-visible:ring-2
+                      focus-visible:ring-primary focus-visible:ring-offset-2
+                      focus-visible:ring-offset-bg-surface
+                    "
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <button
+          type="button"
+          onClick={openCookieSettings}
+          className="
+    inline-flex items-center rounded-pill border border-border-subtle
+    px-3 py-1 text-[11px] text-text-muted
+    hover:bg-bg-page hover:text-text-main
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
+    focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
+  "
+        >
+          Cookie settings
+        </button>
+        {/* Back to top */}
+        <a
+          href="#top"
+          className="
+                inline-flex items-center gap-1 rounded-pill
+                bg-bg-page px-3 py-1.5 text-[11px] text-text-muted
+                hover:bg-primary-soft hover:text-primary
+                focus-visible:outline-none focus-visible:ring-2
+                focus-visible:ring-primary focus-visible:ring-offset-2
+                focus-visible:ring-offset-bg-surface
+              "
+        >
+          <span aria-hidden="true">↑</span>
+          <span>Back to top</span>
+        </a>
+      </div>
+    </div>
+  );
+};
+
+export default CopyRight;
