@@ -1,26 +1,30 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { Axios } from "@/lib/axios/Axios";
 import { apiRoutes } from "@/services/api-routes/apiRoutes";
-import type { Brand } from "../types/brand.types";
+import { CountiesListType } from "@/features/categories/types/category.types";
 
 interface UseGetBrandsOptions {
   featured?: boolean;
-  delay?: Partial<UseQueryOptions<Brand[]>>;
+  delay?: Partial<UseQueryOptions<CountiesListType[]>>;
   category?: string;
 }
 
-const useGetBrands = ({ featured, delay, category }: UseGetBrandsOptions = {}) => {
-  return useQuery<Brand[]>({
-    queryKey: [apiRoutes.brands, { featured, category }],
+const useGetBrands = ({
+  featured,
+  delay,
+  category,
+}: UseGetBrandsOptions = {}) => {
+  return useQuery<CountiesListType[]>({
+    queryKey: [apiRoutes.counties, { featured, category }],
     queryFn: async () => {
       const params = new URLSearchParams();
       if (featured !== undefined) params.append("featured", String(featured));
-      if (category !== undefined) params.append("category", category);
+      if (category !== undefined) params.append("country_id", category);
 
       const queryString = params.toString() ? `?${params.toString()}` : "";
-      const { data } = await Axios.get(`${apiRoutes.brands}${queryString}`);
+      const { data } = await Axios.get(`${apiRoutes.counties}${queryString}`);
 
-      return data?.data as Brand[];
+      return data?.data as CountiesListType[];
     },
     ...delay,
   });

@@ -1,94 +1,155 @@
-import { memo } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa";
+
 import { useProductsFilters } from "@/features/products/providers/ProductsFiltersProvider";
 import useGetBrands from "@/features/brands/api/useGetBrands";
 import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
-import type { Brand } from "@/features/brands/types/brand.types";
+
+import type { CountiesListType } from "@/features/categories/types/category.types";
+
+/* ================================= */
+/* ========== Item ================= */
+/* ================================= */
 
 interface BrandItemProps {
-  brand: Brand;
+  brand: CountiesListType;
 }
 
-const BrandItem: React.FC<BrandItemProps> = ({ brand }) => {
+const BrandItem: FC<BrandItemProps> = memo(({ brand }) => {
   const {
-    filters: { brand: brands = [] },
+    filters: { county_id },
     handleChangeFilters,
   } = useProductsFilters();
 
-  const selectedBrands = Array.isArray(brands) ? brands : [brands];
+  const isSelected = county_id === String(brand.id);
 
-  const isSelected = selectedBrands.includes(brand.id.toString());
+  const toggle = useCallback(() => {
+    handleChangeFilters("county_id", isSelected ? undefined : String(brand.id));
 
-  const handleBrandToggle = () => {
-    let newBrands: string[];
-    
-    if (isSelected) {
-      // Remove brand from selection
-      newBrands = selectedBrands.filter((id) => id !== brand.id.toString());
-    } else {
-      // Add brand to selection
-      newBrands = [...selectedBrands, brand.id.toString()];
-    }
-
-    // If no brands selected, pass undefined to clear the filter
-    handleChangeFilters("brand", newBrands.length > 0 ? newBrands : undefined);
-  };
+    // reset dependent filter
+    handleChangeFilters("organization_id", undefined);
+  }, [brand.id, handleChangeFilters, isSelected]);
 
   return (
-    <div className="w-full">
-      <div
-        onClick={handleBrandToggle}
-        className="flex items-center gap-2 py-2 px-2 rounded-md cursor-pointer transition-colors hover:bg-gray-50"
-      >
-        {/* Custom checkbox */}
-        <div
-          className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${
+    <button
+      type="button"
+      onClick={toggle}
+      className="
+        w-full flex items-center gap-3
+        rounded-pill
+        px-3 py-2
+        text-left
+        transition-colors
+        focus:outline-none focus:ring-2 focus:ring-primary
+        hover:bg-bg-page
+      "
+      aria-pressed={isSelected}
+    >
+      {/* Checkbox */}
+      <span
+        className={`
+          inline-flex h-4 w-4
+          items-center justify-center
+          rounded
+          border-2
+          transition-colors
+          ${
             isSelected
-              ? "bg-orangeColor border-orangeColor"
-              : "border-gray-300 bg-white"
-          }`}
-        >
-          {isSelected && <FaCheck className="w-2.5 h-2.5 text-white" />}
-        </div>
+              ? "bg-primary border-primary"
+              : "border-border-subtle bg-bg-surface"
+          }
+        `}
+        aria-hidden="true"
+      >
+        <FaCheck
+          className={`
+            h-2.5 w-2.5
+            text-white
+            transition-opacity
+            ${isSelected ? "opacity-100" : "opacity-0"}
+          `}
+        />
+      </span>
 
-        <span
-          className="text-sm text-text-gray"
-        >
-          {brand.name}
-        </span>
-      </div>
-    </div>
+      <span
+        className={`
+          text-sm
+          ${isSelected ? "text-text-main font-medium" : "text-text-muted"}
+        `}
+      >
+        {brand.name}
+      </span>
+    </button>
   );
-};
+});
 
-const BrandFilter: React.FC = () => {
+BrandItem.displayName = "BrandItem";
+
+/* ================================= */
+/* ========= Filter ================= */
+/* ================================= */
+
+const BrandFilter: FC = () => {
   const { t } = useTranslation();
-  const { filters: {category} } = useProductsFilters();
-  const queryResult = useGetBrands({ category: category });
-  const brands = queryResult.data || [];
+  const {
+    filters: { country_id },
+  } = useProductsFilters();
+
+  const queryResult = useGetBrands({ category: country_id });
+  const brands = queryResult.data ?? [];
+
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  const toggleExpand = useCallback(() => {
+    setIsExpanded((prev) => !prev);
+  }, []);
 
   return (
     <FetchHandler queryResult={queryResult} skeletonType="list">
-      <div>
-        <h3 className="text-base font-semibold text-gray-800 mb-3">
-          {t("brands")}
-        </h3>
-        {brands.length === 0 ? (
-          <div className="text-center py-4 text-gray-500 text-sm">
-            {t("no brands available")}
+      <section className="space-y-3">
+        {/* Header */}
+        <button
+          type="button"
+          onClick={toggleExpand}
+          className="
+            w-full flex items-center justify-between
+            text-left
+            focus:outline-none
+          "
+          aria-expanded={isExpanded}
+        >
+          <h3 className="text-sm font-semibold text-text-main">
+            {t("counties")}
+          </h3>
+
+          <span className="text-text-muted text-lg leading-none">
+            {isExpanded ? "−" : "+"}
+          </span>
+        </button>
+
+        {/* Collapsible Content (No CLS) */}
+        <div
+          className={`
+            overflow-hidden
+            transition-[max-height,opacity]
+            duration-300 ease-in-out
+            ${isExpanded ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}
+          `}
+        >
+          <div className="pt-2 space-y-1">
+            {brands.length === 0 ? (
+              <div className="py-4 text-center text-sm text-text-muted">
+                {t("no brands available")}
+              </div>
+            ) : (
+              brands.map((brand) => <BrandItem key={brand.id} brand={brand} />)
+            )}
           </div>
-        ) : (
-          <div className="space-y-1">
-            {brands.map((brand) => (
-              <BrandItem key={brand.id} brand={brand} />
-            ))}
-          </div>
-        )}
-      </div>
+        </div>
+      </section>
     </FetchHandler>
   );
 };
 
 export default memo(BrandFilter);
-

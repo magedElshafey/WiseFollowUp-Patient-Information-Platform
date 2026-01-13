@@ -23,10 +23,5 @@ export const DEFAULT_QUICK_LINKS: HeroQuickLink[] = [
     description: "How to use eye drops and other treatments safely.",
     href: "/leaflets/medications",
   },
-  {
-    id: "tools",
-    label: "Tools & calculators",
-    description: "Patient-friendly tools to better understand your health.",
-    href: "/explore?type=tools",
-  },
+
 ];

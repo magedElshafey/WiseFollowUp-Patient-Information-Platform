@@ -29,16 +29,30 @@ const ProductsFiltersContext = createContext<IProductsFiltersContext>({
 const ProductsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const isPushed = useRef(false);
   const [sortBy, setSortBy] = useState<IProductsFiltersContext["sortBy"]>(
     () => {
       const sortParam = searchParams.get("sort_by");
       const sortKey = sortParam?.split("-")[0];
-      if (sortParam && sortableKeys.some((key) => sortKey === key)) {
+      if (
+        sortParam &&
+        sortableKeys.some((key) => sortKey === key || sortKey === key)
+      ) {
         return sortParam as IProductsFiltersContext["sortBy"];
       }
       return undefined;
     }
   );
+
+  useEffect(() => {
+    function handleBackNavigate() {
+      isPushed.current = false;
+    }
+    window.addEventListener("popstate", handleBackNavigate);
+    return () => {
+      window.removeEventListener("popstate", handleBackNavigate);
+    };
+  }, []);
 
   const [filters, setFilters] = useState<Filters>(() => {
     const parsed: Filters = {};
@@ -64,15 +78,22 @@ const ProductsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const handleSortChange = useCallback(
     (newSortBy: IProductsFiltersContext["sortBy"]) => {
+      if (!isPushed.current) {
+        window.history.pushState({}, "");
+        isPushed.current = true;
+      }
       setSortBy(newSortBy);
-      setSearchParams((searchParams) => {
-        if (newSortBy) {
-          searchParams.set("sort_by", newSortBy);
-        } else {
-          searchParams.delete("sort_by");
-        }
-        return searchParams;
-      });
+      setSearchParams(
+        (searchParams) => {
+          if (newSortBy) {
+            searchParams.set("sort_by", newSortBy);
+          } else {
+            searchParams.delete("sort_by");
+          }
+          return searchParams;
+        },
+        { replace: true }
+      );
     },
     [setSearchParams]
   );
@@ -82,25 +103,32 @@ const ProductsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
     value: Filters[typeof key] | undefined,
     debounce?: boolean
   ) {
+    if (!isPushed.current) {
+      window.history.pushState({}, "");
+      isPushed.current = true;
+    }
     function handleChange() {
-      setSearchParams((params) => {
-        const paramKey = `filter-${key}`;
+      setSearchParams(
+        (params) => {
+          const paramKey = `filter-${key}`;
 
-        // Always delete existing parameters first
-        params.delete(paramKey);
+          // Always delete existing parameters first
+          params.delete(paramKey);
 
-        if (!value || (Array.isArray(value) && value.length === 0)) {
-          // Already deleted above, nothing more to do
-        } else if (Array.isArray(value)) {
-          // Append each value as a separate parameter
-          value.forEach((val) => {
-            params.append(paramKey, val);
-          });
-        } else {
-          params.set(paramKey, value.toString());
-        }
-        return params;
-      });
+          if (!value || (Array.isArray(value) && value.length === 0)) {
+            // Already deleted above, nothing more to do
+          } else if (Array.isArray(value)) {
+            // Append each value as a separate parameter
+            value.forEach((val) => {
+              params.append(paramKey, val);
+            });
+          } else {
+            params.set(paramKey, value.toString());
+          }
+          return params;
+        },
+        { replace: true }
+      );
     }
 
     setFilters((old) => ({
@@ -120,6 +148,10 @@ const ProductsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const resetFilters = useCallback(() => {
+    if (!isPushed.current) {
+      window.history.pushState({}, "");
+      isPushed.current = true;
+    }
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }

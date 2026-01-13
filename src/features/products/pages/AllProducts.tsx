@@ -3,7 +3,6 @@ import AllProductsHeader from "../components/all-products/AllProductsHeader";
 import ProductsFilters from "../components/all-products/ProductsFilters";
 import ProductsList from "../components/all-products/ProductsList";
 import ProductsFiltersProvider from "../providers/ProductsFiltersProvider";
-import ProductsViewProvider from "../providers/ProductsViewProvider";
 import useGetWebsiteSettings from "@/features/settings/api/useGetWebsiteSettings";
 
 const AllProducts: FC = () => {
@@ -23,13 +22,11 @@ const AllProducts: FC = () => {
       </div>
       <div className="containerr">
         <ProductsFiltersProvider>
-          <ProductsViewProvider>
-            <AllProductsHeader />
-            <div className="flex flex-col lg:flex-row gap-4">
-              <ProductsFilters />
-              <ProductsList />
-            </div>
-          </ProductsViewProvider>
+          <AllProductsHeader />
+          <div className="flex flex-col lg:flex-row gap-4">
+            <ProductsFilters />
+            <ProductsList />
+          </div>
         </ProductsFiltersProvider>
       </div>
     </div>

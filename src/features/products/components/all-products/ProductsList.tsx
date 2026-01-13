@@ -1,9 +1,10 @@
 import { FC, memo } from "react";
 import { useTranslation } from "react-i18next";
+import { Link, useSearchParams } from "react-router-dom";
+
 import ProductCard from "../card/ProductCard";
 import ProductListCard from "../card/ProductListCard";
 import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
-import { useProductsView } from "../../providers/ProductsViewProvider";
 import useInfiniteProducts from "../../api/useInfiniteProducts";
 import MainBtn from "@/common/components/buttons/MainBtn";
 import ProductSkelton from "@/common/components/loader/skeltons/ProductSkelton";
@@ -11,36 +12,24 @@ import ProductSkelton from "@/common/components/loader/skeltons/ProductSkelton";
 const ProductsList: FC = () => {
   const { t } = useTranslation();
 
-  const { view } = useProductsView();
-  // const queryResult = useGetAllProducts();
-  const queryResult = useInfiniteProducts();
-  const products = (queryResult.data?.pages || []).flatMap((page) => page.data);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageFromUrl = Number(searchParams.get("page")) || 1;
 
+  const queryResult = useInfiniteProducts();
+  console.log("query from leaflet", queryResult?.data);
+  const products = (queryResult.data?.pages || []).flatMap((page) => page.data);
+  console.log("products", products);
   return (
     <div className="w-full flex-1">
       <div className="bg-white rounded-lg">
         <FetchHandler queryResult={queryResult} skeletonType="product">
-          {products && products.length > 0 ? (
-            <div
-              className={`
-                            ${
-                              view === "cards"
-                                ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-4"
-                                : "flex flex-col gap-4"
-                            }
-                        `}
-            >
-              {products.map((product) =>
-                view === "cards" ? (
-                  <ProductCard
-                    className="p-2"
-                    key={product.id}
-                    product={product}
-                  />
-                ) : (
-                  <ProductListCard key={product.id} product={product} />
-                )
-              )}
+          {products.length > 0 ? (
+            <div>
+              {products.map((product) => (
+                <Link className="block mb-5" to={`/leaflets/${product?.slug}`}>
+                  {product?.title}
+                </Link>
+              ))}
             </div>
           ) : (
             <div className="flex justify-center items-center py-12">
@@ -56,6 +45,18 @@ const ProductsList: FC = () => {
             <div className="py-10 flex-center">
               <MainBtn
                 onClick={() => {
+                  const nextPage = pageFromUrl + 1;
+
+                  // update URL
+                  setSearchParams(
+                    (prev) => {
+                      const params = new URLSearchParams(prev);
+                      params.set("page", String(nextPage));
+                      return params;
+                    },
+                    { replace: true }
+                  );
+
                   queryResult.fetchNextPage();
                 }}
               >

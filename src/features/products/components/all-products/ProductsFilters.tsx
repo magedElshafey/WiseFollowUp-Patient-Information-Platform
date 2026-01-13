@@ -1,112 +1,149 @@
 import { FC, memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import MainBtn from "@/common/components/buttons/MainBtn";
+import CountriesFilter from "./CountriesFilter";
+import CountiesFilter from "./BrandFilter";
+import OrgnizationTypesFilter from "./OrgnizationTypesFilter";
+import OrgnizationFilter from "./OrgnizationFilter";
+import DepartmentFilter from "./DepartmentFilter";
+import YearFilter from "@/common/components/years-filter/YearFilter";
 import { useProductsFilters } from "../../providers/ProductsFiltersProvider";
-// import PriceFilter from "@/common/components/double-slider/PriceFilter";
-import CategoryFilter from "./CategoryFilter";
-// import BrandFilter from "./BrandFilter";
-// import DiscountFilter from "./DiscountFilter";
-// import OfferFilter from "./OfferFilter";
 
 const ProductsFilters: FC = () => {
   const { t } = useTranslation();
   const { isDrawerOpen, setIsDrawerOpen, filters, resetFilters } =
     useProductsFilters();
+
   const isThereFilters = Object.values(filters).some((value) => {
-    if (Array.isArray(value)) {
-      return value.length > 0;
-    }
+    if (Array.isArray(value)) return value.length > 0;
     return value !== undefined && value !== null && value !== "";
   });
 
-  // Disable scroll on body when drawer is open (mobile/tablet only)
+  /**
+   * Prevent body scroll when drawer is open
+   * (No CLS – no width changes)
+   */
   useEffect(() => {
-    if (isDrawerOpen) {
-      // Disable scroll
-      document.body.style.overflow = "hidden";
-    } else {
-      // Re-enable scroll
-      document.body.style.overflow = "unset";
-    }
-
-    // Cleanup function to restore scroll when component unmounts
+    document.body.style.overflow = isDrawerOpen ? "hidden" : "unset";
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [isDrawerOpen]);
 
   return (
-    <div className="w-full lg:w-1/4 relative lg:block">
-      {/* Overlay for mobile/tablet */}
+    <aside className="w-full lg:w-1/4 relative">
+      {/* Overlay (Mobile / Tablet) */}
       {isDrawerOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 lg:hidden z-50"
+          className="
+            fixed inset-0 z-40
+            bg-black/40
+            lg:hidden
+          "
           onClick={() => setIsDrawerOpen(false)}
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar content */}
+      {/* Sidebar / Drawer */}
       <div
         className={`
-                bg-white lg:bg-transparent
-                h-full
-                fixed left-0 top-0 max-w-[400px] w-[80vw] lg:relative lg:w-full
-                z-50 lg:z-auto
-                overflow-y-auto
-                transform transition-transform duration-300 ease-in-out lg:transform-none
-                ${
-                  isDrawerOpen
-                    ? "translate-x-0"
-                    : "-translate-x-full lg:translate-x-0"
-                }
-            `}
+          fixed lg:relative
+          inset-y-0 left-0
+          z-50 lg:z-auto
+          w-[85vw] max-w-[380px] lg:w-full
+          bg-bg-surface lg:bg-transparent
+          transform transition-transform duration-300 ease-in-out
+          ${
+            isDrawerOpen
+              ? "translate-x-0"
+              : "-translate-x-full lg:translate-x-0"
+          }
+        `}
       >
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between px-2 pt-4">
-            <h3 className="text-lg font-semibold text-gray-800">
-              {t("filters")}
-            </h3>
-            <div className="w-auto">
+        {/* Card */}
+        <div
+          className="
+            h-full
+            lg:h-auto
+            lg:sticky lg:top-24
+            rounded-none lg:rounded-card
+            shadow-none lg:shadow-soft
+            border-0 lg:border border-border-subtle
+            overflow-y-auto
+          "
+        >
+          <div className="flex flex-col gap-5 p-4">
+            {/* Header */}
+            <header className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-text-main">
+                {t("filters")}
+              </h3>
+
               <MainBtn
-                text="Clear"
-                onClick={() => resetFilters()}
+                onClick={resetFilters}
                 disabled={!isThereFilters}
-                className="!w-auto h-9 px-4 py-0 text-sm font-medium transition-colors duration-200"
-              />
-            </div>
+                className="!px-3 !py-1.5 text-sm"
+              >
+                {t("clear")}
+              </MainBtn>
+            </header>
+
+            <Divider />
+
+            {/* Price */}
+            <FilterSection title={t("price")}>
+              <YearFilter />
+            </FilterSection>
+
+            <FilterSection>
+              <CountriesFilter />
+            </FilterSection>
+
+            <FilterSection>
+              <CountiesFilter />
+            </FilterSection>
+
+            <FilterSection>
+              <OrgnizationTypesFilter />
+            </FilterSection>
+
+            <FilterSection>
+              <OrgnizationFilter />
+            </FilterSection>
+
+            <FilterSection>
+              <DepartmentFilter />
+            </FilterSection>
           </div>
-
-          {/* Price Range Filter */}
-          {/* <div className="bg-background-gray px-2 py-4">
-            <h4 className="text-md font-medium text-gray-700 mb-3">
-              {t("price")}
-            </h4>
-            <PriceFilter initialMax={5000} initialMin={0} />
-          </div> */}
-
-          {/* Category Filter */}
-          <div className="bg-background-gray px-2 py-4">
-            <CategoryFilter />
-          </div>
-
-          {/* Brand Filter */}
-          {/* <div className="bg-background-gray px-2 py-4">
-            <BrandFilter />
-          </div> */}
-
-          {/* Discount Filter */}
-          {/* <div className="bg-background-gray px-2 py-4">
-            <DiscountFilter />
-          </div> */}
-
-          {/* Offer Filter */}
-          {/* <div className="bg-background-gray px-2 py-4">
-            <OfferFilter />
-          </div> */}
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 
 export default memo(ProductsFilters);
+
+/* ========================= */
+/* ===== Sub Components ==== */
+/* ========================= */
+
+const Divider = () => <div className="h-px w-full bg-border-subtle" />;
+
+const FilterSection: FC<{ title?: string; children: React.ReactNode }> = ({
+  title,
+  children,
+}) => (
+  <section
+    className="
+      bg-bg-alt
+      rounded-card
+      border border-border-subtle
+      p-4
+      space-y-3
+    "
+  >
+    {title && <h4 className="text-sm font-medium text-text-main">{title}</h4>}
+    {children}
+  </section>
+);

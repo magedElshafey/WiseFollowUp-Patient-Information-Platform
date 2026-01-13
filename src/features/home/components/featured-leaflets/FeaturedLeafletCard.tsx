@@ -29,22 +29,6 @@ const FeaturedLeafletCard: React.FC<Props> = ({ leaflet }) => {
         {leaflet.description}
       </p>
 
-      {/* Tags */}
-      <ul className="flex flex-wrap gap-1.5">
-        {leaflet.tags.map((tag) => (
-          <li
-            key={tag.id}
-            className="
-              rounded-pill bg-primary-soft
-              px-2 py-0.5
-              text-[11px] text-primary
-            "
-          >
-            {tag.label}
-          </li>
-        ))}
-      </ul>
-
       {/* Meta */}
       <p className="mt-auto text-[11px] text-text-muted">
         Updated{" "}

@@ -19,6 +19,8 @@ export interface Product {
   quantity: number;
   is_in_wishlist: boolean;
   category_id: number;
+  product_at: string;
+  expired_at: string;
 }
 
 export interface Dimensions {
@@ -78,13 +80,14 @@ export interface ProductDetails extends Omit<Product, "category"> {
 type SortByKey<T> = T extends string ? `${T}-asc` | `${T}-desc` : never;
 
 export interface Filters {
-  date_from?: string;
-  date_to?: string;
-  category?: string;
-  brand?: string[];
-  // has_discount?: string;
-  // in_offer?: string;
-  type?: "all" | "leaflets" | "tools";
+  year_from?: string;
+  year_to?: string;
+  country_id?: string;
+  county_id?: string;
+  organization_type_id?: string;
+  organization_id?: string;
+  department_id?: string;
+
 }
 
 export interface ProductsFiltersContext {
@@ -103,11 +106,11 @@ export interface ProductsFiltersContext {
 }
 
 export interface ProductsViewContext {
-  view: "table" | "cards";
+  view: "list" | "cards";
   setView: (view: ProductsViewContext["view"]) => void;
 }
 
 // Legacy interface for backward compatibility if needed
 export interface ProductsContext
   extends ProductsFiltersContext,
-    ProductsViewContext {}
+  ProductsViewContext { }

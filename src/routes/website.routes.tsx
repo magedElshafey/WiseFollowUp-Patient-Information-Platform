@@ -12,10 +12,8 @@ export const websiteRoutes: RouteObject = {
     },
 
     {
-      path: "about-us",
-      element: lazyLoad(
-        () => import("../features/static-pages/pages/about/About")
-      ),
+      path: "about",
+      element: lazyLoad(() => import("../features/about/pages/AboutPage")),
       handle: {
         breadcrumb: "About",
       },

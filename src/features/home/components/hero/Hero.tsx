@@ -2,7 +2,6 @@ import React from "react";
 import Section from "@/common/components/section/Section";
 import { DEFAULT_QUICK_LINKS, type HeroQuickLink } from "./data/heroData";
 import HeroTextBlock from "./text-block/HeroTextBlock";
-import HeroSidePanel from "./side-panel/HeroSidePanel";
 import SearchBar from "@/features/search/components/SearchBar";
 import { useNavigate } from "react-router-dom";
 import HeroQuickLinks from "./quick-links/HeroQuickLinks";
@@ -50,10 +49,7 @@ const HomeHero: React.FC<HomeHeroProps> = ({
     "
       />
       <div className="containerr relative">
-        <div className="grid gap-8 md:gap-10 lg:gap-14 md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center">
-          <HeroTextBlock />
-          <HeroSidePanel />
-        </div>
+        <HeroTextBlock />
 
         <div className="mt-8 md:mt-10 space-y-6">
           <SearchBar

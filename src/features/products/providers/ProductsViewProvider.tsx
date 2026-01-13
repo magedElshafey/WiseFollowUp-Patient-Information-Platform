@@ -8,12 +8,12 @@ import {
 import type { ProductsViewContext as IProductsViewContext } from "../types/product.types";
 
 const ProductsViewContext = createContext<IProductsViewContext>({
-  view: "table",
+  view: "cards",
   setView: () => null,
 });
 
 const ProductsViewProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [view, setView] = useState<IProductsViewContext["view"]>("table");
+  const [view, setView] = useState<IProductsViewContext["view"]>("cards");
 
   return (
     <ProductsViewContext.Provider

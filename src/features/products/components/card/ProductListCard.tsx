@@ -4,6 +4,10 @@ import { memo, useCallback, useMemo } from "react";
 import { FaStar } from "react-icons/fa";
 import { Product } from "../../types/product.types";
 import { twMerge } from "tailwind-merge";
+import ProductAlertButton from "../product-alert/ProductAlertButton";
+import MainBtn from "@/common/components/buttons/MainBtn";
+import FavoriteButton from "../product-details/FavoriteButton";
+import { formatDate } from "@/utils/formatDate";
 
 interface ProductListCardProps {
   product: Product;
@@ -48,6 +52,20 @@ const ProductListCard: React.FC<ProductListCardProps> = memo(
         )}
         aria-label={`${product.name} - ${product.category}`}
       >
+        <div
+          className="absolute top-2 right-2 w-7 h-7 bg-white flex-center border shadow rounded-[50%] z-20 
+    md:opacity-0 
+    md:translate-y-[-10px]
+    md:group-hover:opacity-100 
+    md:group-hover:translate-y-0 
+    transition-all duration-300"
+        >
+          <FavoriteButton
+            productId={product?.id}
+            showLabel={false}
+            isInWishlist={product?.is_in_wishlist}
+          />
+        </div>
         {/* ✅ Discount badge */}
         {product?.has_discount && product.discount_percentage > 0 && (
           <div
@@ -106,6 +124,18 @@ const ProductListCard: React.FC<ProductListCardProps> = memo(
               </span>
             </div>
 
+            {/* ✅ Price */}
+            <div className="flex items-center gap-3 mb-2">
+              <div
+                aria-label={`${product.sale_price || product?.price} ${t(
+                  "Saudi Riyal"
+                )}`}
+                className="text-orangeColor text-xl font-bold flex justify-center items-center  gap-1"
+              >
+                <p> {product.sale_price || +product?.price}</p>
+              </div>
+            </div>
+
             {/* ✅ Progress bar */}
             <div
               className={`w-full h-2 bg-gray-200 rounded-full overflow-hidden mb-1 ${
@@ -118,6 +148,18 @@ const ProductListCard: React.FC<ProductListCardProps> = memo(
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
+            {product?.stock_quantity > 0 && (
+              <div className="flex-between my-3 text-xs">
+                <div>
+                  <p className=" text-slate-500">{t("Production date")}</p>
+                  <p>{formatDate(product?.product_at)}</p>
+                </div>
+                <div>
+                  <p className=" text-slate-500">{t("expired date")}</p>
+                  <p>{formatDate(product?.expired_at)}</p>
+                </div>
+              </div>
+            )}
 
             {product.stock_quantity > 0 ? (
               <p
@@ -131,6 +173,24 @@ const ProductListCard: React.FC<ProductListCardProps> = memo(
               <p className="font-medium text-sm mb-2 text-end">
                 {t("not-available")}
               </p>
+            )}
+          </div>
+
+          {/* ✅ Add to cart button - full width on mobile, fixed width on desktop */}
+          <div className="w-full md:w-fit md:self-start">
+            {product?.stock_quantity > 0 ? (
+              <div className="w-full"></div>
+            ) : (
+              <ProductAlertButton productId={product.id}>
+                {({ onClick }) => (
+                  <MainBtn
+                    onClick={onClick}
+                    className="sm:!w-fit px-5 text-sm font-normal  rounded-md"
+                  >
+                    {t("notify me")}
+                  </MainBtn>
+                )}
+              </ProductAlertButton>
             )}
           </div>
         </div>

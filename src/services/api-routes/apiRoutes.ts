@@ -1,4 +1,4 @@
-export const apiUrl: string = "https://dashboard.abazeer.sa/api/site/v1/";
+export const apiUrl: string = "https://dashboard.wisefollowup.com/api/v1/";
 export const baseUrl: string = "https://appadvertisements.almasader.net";
 export const apiRoutes = {
   login: "/auth/login",
@@ -13,9 +13,8 @@ export const apiRoutes = {
   resetPassword: "auth/reset_password",
   changePassword: "auth/changePassword",
   about: "about",
-  countries: "countries",
   cities: "cities",
-  products: "products",
+  products: "leaflets",
   wishlist: "wishlist/toggle",
   faqs: "faqs",
   simpleCategories: "/categories/simple",
@@ -45,4 +44,6 @@ export const apiRoutes = {
   notifications: "/notifications",
   contactStore: "contact-us/store",
   contactSettings: "settings/contact",
+  counties: "/counties",
+  countries: "/countries", orgTypes: "/organization-types", organizations: "/organizations", departments: "departments", years: "/leaflets/years-stats"
 };
