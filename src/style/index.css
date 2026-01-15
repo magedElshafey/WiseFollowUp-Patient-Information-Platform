@@ -241,3 +241,228 @@ textarea {
         background-position: 0% 50%;
     }
 }
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes scale-pulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.9);
+        opacity: 0.6;
+    }
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-fade-out {
+    animation: fade-out 2.6s ease forwards;
+}
+
+.animate-scale-pulse {
+    animation: scale-pulse 1.6s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+    animation: spin-slow 2.4s linear infinite;
+}
+
+
+/* ============================= */
+/* ===== Intro Scene =========== */
+/* ============================= */
+
+.intro-gradient {
+    background: radial-gradient(circle at 30% 30%,
+            rgba(66, 201, 111, 0.12),
+            transparent 60%),
+        linear-gradient(120deg,
+            #e6f2f1,
+            #f6fbfa,
+            #e6f2f1);
+    background-size: 200% 200%;
+    animation: intro-gradient-move 6s ease-in-out infinite;
+}
+
+@keyframes intro-gradient-move {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* ============================= */
+/* Floating particles (super light) */
+/* ============================= */
+
+.intro-particles {
+    background-image:
+        radial-gradient(circle, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+    animation: intro-particles-float 8s linear infinite;
+}
+
+@keyframes intro-particles-float {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 -120px;
+    }
+}
+
+/* ============================= */
+/* Halo pulse */
+/* ============================= */
+
+.intro-halo {
+    width: 260px;
+    height: 260px;
+    border-radius: 999px;
+    background: radial-gradient(circle,
+            rgba(66, 201, 111, 0.25),
+            rgba(66, 201, 111, 0.05),
+            transparent 70%);
+    animation: intro-halo-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes intro-halo-pulse {
+    0% {
+        transform: scale(0.85);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.85);
+        opacity: 0.6;
+    }
+}
+
+/* ============================= */
+/* Core shape */
+/* ============================= */
+
+.intro-core {
+    width: 96px;
+    height: 96px;
+    border-radius: 24px;
+    background: linear-gradient(135deg,
+            #038262,
+            #42c96f);
+    animation: intro-core-rotate 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.intro-core-inner {
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: white;
+    animation: intro-core-pop 1.2s ease-out;
+}
+
+@keyframes intro-core-rotate {
+    0% {
+        transform: rotate(0deg) scale(0.9);
+    }
+
+    50% {
+        transform: rotate(90deg) scale(1);
+    }
+
+    100% {
+        transform: rotate(180deg) scale(0.9);
+    }
+}
+
+@keyframes intro-core-pop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ============================= */
+/* Exit */
+/* ============================= */
+
+.intro-fade-out {
+    animation: intro-exit 3.2s ease forwards;
+}
+
+@keyframes intro-exit {
+    0% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Reduced motion احترامًا */
+@media (prefers-reduced-motion: reduce) {
+
+    .intro-gradient,
+    .intro-particles,
+    .intro-halo,
+    .intro-core {
+        animation: none;
+    }
+}

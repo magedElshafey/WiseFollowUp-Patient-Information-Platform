@@ -3,10 +3,12 @@ import StickyNavbar from "./sticky-navbar/StickyNavbar";
 import { Outlet } from "react-router-dom";
 import Footer from "./footer/Footer";
 import CookieBanner from "@/features/cookies/CookieBanner";
+import IntroMotion from "../intro-motion/IntroMotion";
 
 const WebsiteLayout = () => {
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden mt-[60px]">
+      <IntroMotion />
       <ScrollToTopButton />
 
       <StickyNavbar logo={""} />
