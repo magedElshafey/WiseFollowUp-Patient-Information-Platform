@@ -8,7 +8,7 @@ const ListSkeleton = () => {
         >
           {/* Text line skeleton */}
           <div className="h-4 bg-gray-200 rounded flex-1" />
-          
+
           {/* Optional icon/button skeleton on the right */}
           <div className="h-4 w-4 bg-gray-200 rounded" />
         </div>
@@ -18,4 +18,3 @@ const ListSkeleton = () => {
 };
 
 export default ListSkeleton;
-

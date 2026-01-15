@@ -14,4 +14,6 @@ export const apiRoutes = {
   cookies: "static-pages/cookies-policy",
   terms: "static-pages/terms-of-use",
   disclaimer: "static-pages/medical-disclaimer",
+  news_letter: "newsletter/subscribe", simpleBlogs: "blogs/simple",
+
 };

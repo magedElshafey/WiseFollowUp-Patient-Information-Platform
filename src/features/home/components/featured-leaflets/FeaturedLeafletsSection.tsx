@@ -1,9 +1,8 @@
 // src/features/home/featured-leaflets/FeaturedLeafletsSection.tsx
 import React from "react";
 import FeaturedLeafletCard from "./FeaturedLeafletCard";
-import type { LeafletType } from "../../../leaflets/types/featuredLeaflet.types";
 import SectionHeader from "@/common/components/section-header/SectionHeader";
-
+import type { LeafletType } from "@/features/leaflets/types/leaflets.types";
 type Props = {
   leaflets: LeafletType[];
   isLoading?: boolean;

@@ -19,7 +19,7 @@ const LeafletsList: FC = () => {
   return (
     <div className="w-full flex-1">
       <div className="bg-white rounded-lg">
-        <FetchHandler queryResult={queryResult} skeletonType="product">
+        <FetchHandler queryResult={queryResult} skeletonType="leaflet">
           {leaflets.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {leaflets.map((leaflet: LeafletType) => (

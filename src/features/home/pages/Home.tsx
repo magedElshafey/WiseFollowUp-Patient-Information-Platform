@@ -16,14 +16,14 @@ const Home = () => {
     <>
       <Hero />
       <div className="min-h-7">
-        <FetchHandler queryResult={query} skeletonType="product">
+        <FetchHandler queryResult={query} skeletonType="leaflet">
           {query?.data && query?.data?.length > 0 && (
             <FeaturedLeafletsSection leaflets={query?.data} />
           )}
         </FetchHandler>
       </div>
       <div className="min-h-7">
-        <FetchHandler queryResult={departmentQuery} skeletonType="product">
+        <FetchHandler queryResult={departmentQuery} skeletonType="leaflet">
           {departmentQuery?.data && departmentQuery?.data?.length > 0 && (
             <BrowseByBodySection systems={departmentQuery?.data} />
           )}

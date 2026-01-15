@@ -1,8 +1,7 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
-import { DepartmentSystem } from "@/features/categories/types/category.types";
 import { FaLayerGroup } from "react-icons/fa";
-
+import type { DepartmentSystem } from "@/features/uk-hierarchy/types/ukHierarchy.types";
 type Props = {
   system: DepartmentSystem;
 };

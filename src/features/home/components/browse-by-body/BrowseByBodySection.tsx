@@ -1,8 +1,7 @@
 import React from "react";
 import SectionHeader from "@/common/components/section-header/SectionHeader";
 import BodySystemTile from "./BodySystemTile";
-import { DepartmentSystem } from "@/features/categories/types/category.types";
-
+import type { DepartmentSystem } from "@/features/uk-hierarchy/types/ukHierarchy.types";
 type Props = {
   systems: DepartmentSystem[];
 };

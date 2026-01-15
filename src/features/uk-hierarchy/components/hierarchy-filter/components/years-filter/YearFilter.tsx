@@ -1,5 +1,5 @@
-import { memo, useState } from "react";
-import * as XLSX from "xlsx";
+import { memo } from "react";
+// import * as XLSX from "xlsx";
 import { useYearStats } from "./useYearStats";
 import YearHistogram from "./YearHistogram";
 import YearRangeSlider from "./YearRangeSlider";
@@ -11,7 +11,6 @@ const END = 2026;
 
 const YearFilter = () => {
   const { data = [], isLoading } = useYearStats(START, END);
-  const [expanded, setExpanded] = useState(true);
 
   // const exportExcel = () => {
   //   const sheet = XLSX.utils.json_to_sheet(data);
@@ -37,11 +36,7 @@ const YearFilter = () => {
       {isLoading ? (
         <YearFilterSkeleton />
       ) : (
-        <div
-          className={`transition-all duration-300 overflow-hidden ${
-            expanded ? "max-h-64" : "max-h-0"
-          }`}
-        >
+        <>
           <YearHistogram data={data} min={START} max={END} />
           <YearRangeSlider min={START} max={END} data={data} />
 
@@ -49,7 +44,7 @@ const YearFilter = () => {
             <span>{START}</span>
             <span>{END}</span>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
