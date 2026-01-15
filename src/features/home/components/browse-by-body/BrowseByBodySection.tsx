@@ -1,11 +1,10 @@
-// src/features/home/browse-by-body/BrowseByBodySection.tsx
 import React from "react";
 import SectionHeader from "@/common/components/section-header/SectionHeader";
 import BodySystemTile from "./BodySystemTile";
-import type { BodySystem } from "./browseByBody.types";
+import { DepartmentSystem } from "@/features/categories/types/category.types";
 
 type Props = {
-  systems: BodySystem[];
+  systems: DepartmentSystem[];
 };
 
 const BrowseByBodySection: React.FC<Props> = ({ systems }) => {

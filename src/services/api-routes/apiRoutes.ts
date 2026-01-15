@@ -45,5 +45,8 @@ export const apiRoutes = {
   contactStore: "contact-us/store",
   contactSettings: "settings/contact",
   counties: "/counties",
-  countries: "/countries", orgTypes: "/organization-types", organizations: "/organizations", departments: "departments", years: "/leaflets/years-stats"
+  countries: "/countries", orgTypes: "/organization-types", organizations: "/organizations", departments: "departments", years: "/leaflets/years-stats", privacy: "static-pages/privacy-policy",
+  cookies: "static-pages/cookies-policy",
+  terms: "static-pages/terms-of-use",
+  disclaimer: "static-pages/medical-disclaimer",
 };

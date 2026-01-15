@@ -1,18 +1,17 @@
 import Hero from "../components/hero/Hero";
 import FeaturedLeafletsSection from "../components/featured-leaflets/FeaturedLeafletsSection";
 import BrowseByBodySection from "../components/browse-by-body/BrowseByBodySection";
-import { DUMMY_BODY_SYSTEMS } from "../components/browse-by-body/dummyData";
 import TrustSection from "../components/trust/TrustSection";
 import { DUMMY_TRUST_PILLARS } from "../components/trust/dummyTrust";
 import TestimonialsSection from "../components/testimonails/TestimonialsSection";
-import { DUMMY_TESTIMONIALS } from "../components/testimonails/dummyTestimonials";
 import BlogsHomeSection from "../components/blogs/BlogsHomeSection";
 import { DUMMY_BLOGS } from "../components/blogs/dummyBlogs";
 import useGetAllProducts from "@/features/products/api/useGetAllProducts";
 import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
+import useGetDepartments from "@/features/products/api/useGetDepartments";
 const Home = () => {
   const query = useGetAllProducts({ featured: true });
-  console.log("feat query", query?.data);
+  const departmentQuery = useGetDepartments();
   return (
     <>
       <Hero />
@@ -23,10 +22,18 @@ const Home = () => {
           )}
         </FetchHandler>
       </div>
+      <div className="min-h-7">
+        <FetchHandler queryResult={departmentQuery} skeletonType="product">
+          {departmentQuery?.data && departmentQuery?.data?.length > 0 && (
+            <BrowseByBodySection systems={departmentQuery?.data} />
+          )}
+        </FetchHandler>
+      </div>
 
-      <BrowseByBodySection systems={DUMMY_BODY_SYSTEMS} />
       <TrustSection pillars={DUMMY_TRUST_PILLARS} />
-      <TestimonialsSection items={DUMMY_TESTIMONIALS} />
+
+      <TestimonialsSection />
+
       {/* <RecentlyUpdatedSection items={DUMMY_RECENT_UPDATES} /> */}
       <BlogsHomeSection posts={DUMMY_BLOGS} />
     </>

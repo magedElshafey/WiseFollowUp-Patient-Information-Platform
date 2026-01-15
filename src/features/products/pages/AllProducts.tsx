@@ -11,7 +11,7 @@ const AllProducts: FC = () => {
   console.log(params.get("filter-search"));
   return (
     <>
-      <HeroLayout>
+      <HeroLayout minHeight="min-h-[30vh] lg:min-h-[50vh]">
         <div>
           <h1 className="text-3xl text-center font-bold text-text-main">
             Browse all leaflets

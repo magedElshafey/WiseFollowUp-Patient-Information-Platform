@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FooterLink } from "../../types/footer.types";
-import { openCookieSettings } from "@/features/cookies/cookie-consent";
+import { openCookieSettings } from "@/features/cookies/CookieConsentProvider";
 
 const CopyRight = () => {
   const year = new Date().getFullYear();

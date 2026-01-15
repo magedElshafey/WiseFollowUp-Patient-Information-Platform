@@ -35,9 +35,7 @@
         @apply leading-relaxed;
     }
 
-    /* a {
-            @apply hover:underline;
-        } */
+
 
     button {
         @apply capitalize;
@@ -149,4 +147,97 @@ html {
 textarea {
     scrollbar-width: thin;
     scrollbar-color: #42C96F #E6F2F1;
+}
+
+.control-btn {
+    @apply h-9 w-9 rounded-full flex items-center justify-center border border-border-subtle bg-bg-surface text-text-main hover:bg-primary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-primary;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Animated Gradient Background                                                */
+/* -------------------------------------------------------------------------- */
+
+.animated-bg {
+    background: linear-gradient(120deg,
+            #E6F2F1,
+            #F6FBFA,
+            #E6F2F1);
+    background-size: 200% 200%;
+    animation: gradient-shift 18s ease-in-out infinite;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .animated-bg {
+        animation: none;
+    }
+
+    .animate-float {
+        animation: none;
+    }
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Subtle floating card */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Error Page Animated Background                                              */
+/* -------------------------------------------------------------------------- */
+
+.error-animated-bg {
+    background: linear-gradient(120deg,
+            #E6F2F1,
+            #F6FBFA,
+            #E6F2F1);
+    background-size: 200% 200%;
+    animation: error-gradient 20s ease-in-out infinite;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .error-animated-bg {
+        animation: none;
+    }
+}
+
+@keyframes error-gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }

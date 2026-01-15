@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import type { CookieConsentState, CookiePreferences } from "./cookie-consent";
 import { defaultPrefs, readConsent, writeConsent } from "./cookie-consent";
+import { applyConsentToScripts } from "./cookie-scripts";
 
 type CookieConsentCtx = {
   consent: CookieConsentState | null;
@@ -15,6 +16,7 @@ type CookieConsentCtx = {
   acceptAll: () => void;
   rejectNonEssential: () => void;
   savePrefs: (prefs: Omit<CookiePreferences, "essential">) => void;
+  openSettings: () => void;
 };
 
 const CookieConsentContext = createContext<CookieConsentCtx | null>(null);
@@ -39,17 +41,10 @@ export const CookieConsentProvider: React.FC<{ children: React.ReactNode }> = ({
       window.removeEventListener("wf:cookie-consent-changed", onChanged);
   }, []);
 
-  // OPTIONAL: Gate analytics loading here (example placeholder)
+  // ✅ run scripts based on consent
   useEffect(() => {
     if (!consent) return;
-
-    // Only run non-essential tools AFTER consent
-    if (consent.preferences.analytics) {
-      // loadAnalytics();
-    }
-    if (consent.preferences.marketing) {
-      // loadMarketing();
-    }
+    applyConsentToScripts(consent);
   }, [consent]);
 
   const value = useMemo<CookieConsentCtx>(() => {
@@ -57,10 +52,12 @@ export const CookieConsentProvider: React.FC<{ children: React.ReactNode }> = ({
       consent,
       prefs,
       hasDecision,
+
       acceptAll: () =>
         setConsent(
           writeConsent({ analytics: true, functional: true, marketing: true })
         ),
+
       rejectNonEssential: () =>
         setConsent(
           writeConsent({
@@ -69,7 +66,12 @@ export const CookieConsentProvider: React.FC<{ children: React.ReactNode }> = ({
             marketing: false,
           })
         ),
+
       savePrefs: (p) => setConsent(writeConsent(p)),
+
+      openSettings: () => {
+        window.dispatchEvent(new Event("wf:open-cookie-settings"));
+      },
     };
   }, [consent, prefs, hasDecision]);
 
@@ -87,4 +89,8 @@ export function useCookieConsent() {
       "useCookieConsent must be used within CookieConsentProvider"
     );
   return ctx;
+}
+
+export function openCookieSettings() {
+  window.dispatchEvent(new Event("wf:open-cookie-settings"));
 }

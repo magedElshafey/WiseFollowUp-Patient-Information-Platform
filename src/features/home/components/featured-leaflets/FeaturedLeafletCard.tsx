@@ -63,7 +63,7 @@ const FeaturedLeafletCard: React.FC<Props> = ({ leaflet }) => {
 
   return (
     <Link
-      to={`/products/${leaflet.slug}`}
+      to={`/leaflets/${leaflet.slug}`}
       className={baseClasses}
       aria-label={`Open leaflet ${leaflet.title}`}
     >

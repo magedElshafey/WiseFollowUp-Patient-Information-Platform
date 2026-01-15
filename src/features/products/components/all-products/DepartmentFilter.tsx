@@ -5,14 +5,14 @@ import { useProductsFilters } from "@/features/products/providers/ProductsFilter
 import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
 import useGetDepartments from "../../api/useGetDepartments";
 
-import type { CountiesListType } from "@/features/categories/types/category.types";
+import type { DepartmentSystem } from "@/features/categories/types/category.types";
 
 /* ================================= */
 /* ========== Item ================= */
 /* ================================= */
 
 interface DepartmentItemProps {
-  department: CountiesListType;
+  department: DepartmentSystem;
   level?: number;
 }
 

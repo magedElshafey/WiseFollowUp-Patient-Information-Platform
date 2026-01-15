@@ -3,7 +3,7 @@ import { useCookieConsent } from "./CookieConsentProvider";
 import CookiePreferencesModal from "./CookiePreferencesModal";
 
 const CookieBanner: React.FC = () => {
-  const { hasDecision, acceptAll, rejectNonEssential } = useCookieConsent();
+  const { hasDecision, acceptAll } = useCookieConsent();
   const [openPrefs, setOpenPrefs] = useState(false);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const CookieBanner: React.FC = () => {
 
             {/* Buttons: equal prominence (ICO expectation) */}
             <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
-              <button
+              {/* <button
                 type="button"
                 onClick={rejectNonEssential}
                 className="
@@ -69,7 +69,7 @@ const CookieBanner: React.FC = () => {
                 "
               >
                 Reject non-essential
-              </button>
+              </button> */}
 
               <button
                 type="button"

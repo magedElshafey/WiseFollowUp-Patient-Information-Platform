@@ -39,45 +39,7 @@ export const websiteRoutes: RouteObject = {
         breadcrumb: "terms",
       },
     },
-    {
-      path: "faq",
-      element: lazyLoad(() => import("../features/static-pages/pages/faq/Faq")),
-      handle: {
-        breadcrumb: "faq",
-      },
-    },
-    {
-      path: "static/:slug",
-      element: lazyLoad(
-        () => import("../features/static-pages/pages/static-pages/ShowPage")
-      ),
-      handle: {
-        breadcrumb: "static page name",
-        queryKey: [apiRoutes.static_page],
-      },
-    },
 
-    {
-      path: "contact-us",
-      element: lazyLoad(
-        () => import("../features/static-pages/pages/contact/Contact")
-      ),
-
-      handle: {
-        breadcrumb: "contact",
-      },
-    },
-    {
-      path: "category/:slugAndId",
-
-      element: lazyLoad(
-        () => import("../features/categories/pages/CategoryDetails")
-      ),
-
-      handle: {
-        breadcrumb: "category name",
-      },
-    },
     {
       path: "leaflets",
       children: [

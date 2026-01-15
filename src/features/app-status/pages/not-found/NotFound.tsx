@@ -1,66 +1,67 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import AnimatedTitle from "../../components/AnimatedTitle";
-import AppStatusFooter from "@/common/components/app-status/AppStatusFooter";
 
-const NotFound = () => {
-  const { t, i18n } = useTranslation();
-
+const NotFoundPage: React.FC = () => {
   return (
-    <div
-      dir={i18n.language === "ar" ? "rtl" : "ltr"}
-      className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-orange-50 via-white to-gray-100 text-gray-800 px-6 text-center overflow-hidden"
+    <main
+      className="
+        relative min-h-screen overflow-hidden
+        flex items-center justify-center
+        bg-bg-page
+      "
+      role="main"
+      aria-labelledby="not-found-title"
     >
-      {/* خلفية متحركة */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-16 left-0 w-60 h-60 bg-orange-100 rounded-full blur-3xl opacity-60 animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-orange-200 rounded-full blur-2xl opacity-40 animate-bounce-slow"></div>
-      </div>
+      {/* Animated background */}
+      <div aria-hidden="true" className="absolute inset-0 animated-bg" />
 
-      <div className="relative z-10 max-w-md flex flex-col items-center">
-        {/* أيقونة العدسة المكسورة (SVG بدل lucide-react) */}
-        <div className="flex justify-center mb-5">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-16 h-16 text-orangeColor animate-float"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-4.35-4.35m1.1-5.4A6.75 6.75 0 1110.75 4.5a6.75 6.75 0 017.05 6.75z"
-            />
-            <line
-              x1="13"
-              y1="13"
-              x2="21"
-              y2="21"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-          </svg>
-        </div>
+      {/* Content */}
+      <section
+        className="
+          relative z-10
+          max-w-md w-full mx-4
+          rounded-card
+          bg-bg-surface
+          border border-border-subtle
+          shadow-soft
+          p-8 text-center
+          animate-float
+        "
+      >
+        <span className="block text-6xl font-extrabold text-primary">404</span>
 
-        <AnimatedTitle title="404" />
+        <h1
+          id="not-found-title"
+          className="mt-3 text-xl font-bold text-text-main"
+        >
+          Page not found
+        </h1>
 
-        <p className="mt-3 text-lg text-gray-600 leading-relaxed">
-          {t("Oops! The page you are looking for doesn’t exist.")}
+        <p className="mt-2 text-sm text-text-muted leading-relaxed">
+          Sorry, the page you’re looking for doesn’t exist or has been moved.
         </p>
 
         <Link
           to="/"
-          className="mt-6 inline-block px-6 py-2 rounded-xl bg-orangeColor text-white font-medium shadow-md hover:bg-orange-500 hover:shadow-lg transition-all"
+          className="
+            inline-flex items-center justify-center
+            mt-6
+            rounded-pill
+            bg-primary
+            px-6 py-3
+            text-sm font-semibold text-white
+            transition
+            hover:bg-primary-dark
+            focus:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-primary
+          "
         >
-          {t("Back to Home")}
+          Back to home
         </Link>
-      </div>
-
-      <AppStatusFooter />
-    </div>
+      </section>
+    </main>
   );
 };
 
-export default NotFound;
+export default NotFoundPage;
