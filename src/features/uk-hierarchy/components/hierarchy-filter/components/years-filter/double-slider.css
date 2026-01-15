@@ -15,7 +15,7 @@
 }
 
 .slider__track {
-    @apply bg-gray-200;
+    @apply bg-primary;
     width: 100%;
     z-index: 1;
 }
