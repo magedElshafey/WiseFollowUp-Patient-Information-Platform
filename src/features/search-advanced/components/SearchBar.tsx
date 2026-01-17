@@ -4,6 +4,7 @@ import Loader from "@/common/components/loader/spinner/Loader";
 import EmptyData from "@/common/components/empty-data/EmptyData";
 import { useSearchController } from "@/features/search-advanced/hooks/useSearchController";
 import i18n from "@/lib/i18n/i18n";
+
 type SearchBarVariant = "hero" | "compact";
 
 type SuggestionItem = {
@@ -14,11 +15,13 @@ type SuggestionItem = {
 type SearchBarProps = {
   variant?: SearchBarVariant;
   controller: ReturnType<typeof useSearchController>;
+  placeholder?: string;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({
   variant = "compact",
   controller,
+  placeholder = "",
 }) => {
   const { t } = useTranslation();
 
@@ -57,16 +60,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
             }}
             onFocus={() => query && setOpen(true)}
             placeholder={
-              isHero
-                ? t("Search symptoms, or conditions …")
-                : t("Refine search…")
+              placeholder ??
+              (isHero
+                ? t("Search a symptom (e.g. chest pain, fever, rash)…")
+                : t("Refine search…"))
             }
             className={`w-full rounded-pill border border-border-subtle bg-bg-surface px-4 py-2.5 ${
               i18n.language === "en" ? "pr-10" : "pe-10"
             } text-sm text-text-main shadow-soft/40 placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg-page ${
-              isHero
-                ? "px-4 py-2.5 pr-10 text-sm md:text-base"
-                : "px-3 py-2 pr-9 text-sm"
+              isHero ? "md:text-base" : "text-sm"
             }`}
           />
 
@@ -89,9 +91,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
             🔍
           </span>
 
-          {/* suggestions dropdown */}
+          {/* suggestions */}
           {open && query.trim().length > 1 && hasData && (
             <ul className="absolute z-30 mt-2 w-full rounded-card border border-border-subtle bg-bg-surface shadow-soft max-h-72 overflow-auto">
+              <li className="px-4 py-2 text-xs text-text-muted">
+                Suggested results
+              </li>
+
               {suggestions.isLoading && (
                 <li className="p-4 flex-center">
                   <Loader />

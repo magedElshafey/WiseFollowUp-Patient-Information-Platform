@@ -34,8 +34,8 @@ export interface LeafletType {
   pdf_url?: string; // 👈 optional
   created_at: string;
   updated_at: string;
+  related_leaflets?: LeafletType[]
 }
-
 export type Organization = {
   name: string;
   slug: string;

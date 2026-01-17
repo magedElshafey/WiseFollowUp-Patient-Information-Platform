@@ -3,5 +3,5 @@ export type SkeletonType =
   | "leaflet"
   | "blog"
   | "hero"
-  | "footer" | "list"
+  | "footer" | "list" | "page" | "card" | "rev"
 

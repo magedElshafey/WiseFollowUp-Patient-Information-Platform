@@ -147,20 +147,48 @@ const LeafletsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
+  // const resetFilters = useCallback(() => {
+  //   if (!isPushed.current) {
+  //     window.history.pushState({}, "");
+  //     isPushed.current = true;
+  //   }
+  //   if (debounceRef.current) {
+  //     clearTimeout(debounceRef.current);
+  //   }
+
+  //   setFilters({});
+
+  //   setSearchParams((params) => {
+  //     Array.from(params.keys()).forEach((key) => {
+  //       if (key.startsWith("filter-")) {
+  //         params.delete(key);
+  //       }
+  //     });
+  //     return params;
+  //   });
+  // }, [setSearchParams]);
   const resetFilters = useCallback(() => {
     if (!isPushed.current) {
       window.history.pushState({}, "");
       isPushed.current = true;
     }
+
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
 
+    // 1️⃣ reset local states
     setFilters({});
+    setSortBy(undefined);
 
+    // 2️⃣ reset URL params
     setSearchParams((params) => {
       Array.from(params.keys()).forEach((key) => {
-        if (key.startsWith("filter-")) {
+        if (
+          key.startsWith("filter-") || // filters
+          key === "sort_by" || // sort
+          key === "page" // pagination
+        ) {
           params.delete(key);
         }
       });

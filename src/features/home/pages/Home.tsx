@@ -9,21 +9,25 @@ import { DUMMY_BLOGS } from "../components/blogs/dummyBlogs";
 import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
 import useGetDepartments from "@/features/uk-hierarchy/api/useGetDepartments";
 import useGetAllLeaflets from "@/features/leaflets/api/useGetAllLeaflets";
+import RecentlyUpdatedSection from "../components/recent-updates/RecentlyUpdatedSection";
+import HomePageSeo from "../components/seo/HomePageSeo";
 const Home = () => {
-  const query = useGetAllLeaflets({ featured: true });
+  const query = useGetAllLeaflets({ is_featured: true });
+  const recentQuery = useGetAllLeaflets({ is_recently: true });
   const departmentQuery = useGetDepartments();
   return (
     <>
+      <HomePageSeo />
       <Hero />
       <div className="min-h-7">
-        <FetchHandler queryResult={query} skeletonType="leaflet">
+        <FetchHandler queryResult={query} skeletonType="card">
           {query?.data && query?.data?.length > 0 && (
             <FeaturedLeafletsSection leaflets={query?.data} />
           )}
         </FetchHandler>
       </div>
       <div className="min-h-7">
-        <FetchHandler queryResult={departmentQuery} skeletonType="leaflet">
+        <FetchHandler queryResult={departmentQuery} skeletonType="card">
           {departmentQuery?.data && departmentQuery?.data?.length > 0 && (
             <BrowseByBodySection systems={departmentQuery?.data} />
           )}
@@ -31,6 +35,13 @@ const Home = () => {
       </div>
 
       <TrustSection pillars={DUMMY_TRUST_PILLARS} />
+      <div className="min-h-7">
+        <FetchHandler queryResult={recentQuery} skeletonType="card">
+          {recentQuery?.data && recentQuery.data?.length > 0 && (
+            <RecentlyUpdatedSection leaflets={recentQuery.data} />
+          )}
+        </FetchHandler>
+      </div>
 
       <TestimonialsSection />
 

@@ -2,7 +2,7 @@ export type SearchMode = "normal" | "advanced";
 
 export type AdvancedSearchKey =
     | "author"
-    | "organization"
+    | "trust_id"
     | "date"
     | undefined;
 

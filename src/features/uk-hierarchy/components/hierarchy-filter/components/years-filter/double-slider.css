@@ -76,3 +76,69 @@
     pointer-events: all;
     position: relative;
 }
+
+.slider {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    margin-top: 8px;
+}
+
+.slider__track,
+.slider__range {
+    position: absolute;
+    height: 4px;
+    border-radius: 4px;
+}
+
+.slider__track {
+    width: 100%;
+    background: #038262;
+}
+
+.slider__range {
+    background: #e5e7eb;
+}
+
+/* reset default */
+.thumb,
+.thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+
+.thumb {
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 0;
+}
+
+.thumbLeft {
+    z-index: 3;
+}
+
+.thumbRight {
+    z-index: 4;
+}
+
+/* Chrome */
+.thumb::-webkit-slider-thumb {
+    pointer-events: all;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #038262;
+    cursor: pointer;
+}
+
+/* Firefox */
+.thumb::-moz-range-thumb {
+    pointer-events: all;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #038262;
+    cursor: pointer;
+}

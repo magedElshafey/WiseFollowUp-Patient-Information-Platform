@@ -1,11 +1,11 @@
 export const seoConfig = {
-    siteName: "Norfolk Eyes",
-    defaultTitle: "Specialist Eye Clinic in Norfolk",
+    siteName: "Wise Followup",
+    defaultTitle: "Trusted Medical Leaflets & Patient Information",
     defaultDescription:
-        "Evidence-based patient information and expert ophthalmology care in the UK.",
-    siteUrl: "https://norfolkeyes.com",
-    defaultOgImage: "https://norfolkeyes.com/static/og-default.jpg",
-    twitterHandle: "@NorfolkEyes",
+        "Browse trusted, clinically reviewed medical leaflets and patient information. Search by symptom, author, Trust ID, or date.",
+    siteUrl: "https://wisefollowup.com",
+    defaultOgImage: "https://wisefollowup.com/static/og-default.jpg",
+    twitterHandle: "@WiseFollowup",
 
     favicon: "/favicon.ico",
     appleTouchIcon: "/apple-touch-icon.png",

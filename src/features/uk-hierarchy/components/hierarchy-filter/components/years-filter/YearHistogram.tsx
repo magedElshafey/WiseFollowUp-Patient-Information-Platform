@@ -2,6 +2,7 @@ import { memo, useMemo } from "react";
 import { YearStat } from "./useYearStats";
 
 const BARS = 48;
+const MIN_BAR_HEIGHT = 6; // 👈 مهم جدًا
 
 interface Props {
   data: YearStat[];
@@ -11,6 +12,10 @@ interface Props {
 
 const YearHistogram = ({ data, min, max }: Props) => {
   const bars = useMemo(() => {
+    // 1️⃣ map سريعة للبحث
+    const map = new Map<number, number>();
+    data.forEach((d) => map.set(d.year, d.count));
+
     const span = Math.ceil((max - min + 1) / BARS);
 
     const buckets = Array.from({ length: BARS }, (_, i) => {
@@ -19,23 +24,31 @@ const YearHistogram = ({ data, min, max }: Props) => {
 
       let value = 0;
       for (let y = start; y <= end; y++) {
-        value += data.find((d) => d.year === y)?.count ?? 0;
+        value += map.get(y) ?? 0;
       }
 
-      return value;
+      return { start, end, value };
     });
 
-    const maxValue = Math.max(...buckets, 1);
-    return buckets.map((v) => (v / maxValue) * 100);
-  }, [data, min, max]);
+    const maxValue = Math.max(...buckets.map((b) => b.value), 1);
 
+    return buckets.map((b) => ({
+      ...b,
+      height:
+        b.value === 0
+          ? MIN_BAR_HEIGHT
+          : Math.max((b.value / maxValue) * 100, MIN_BAR_HEIGHT),
+    }));
+  }, [data, min, max]);
+  console.log("bars", bars);
   return (
-    <div className="flex h-8 items-end gap-px mb-2">
-      {bars.map((h, i) => (
+    <div className="flex h-20 items-end gap-[2px] mb-3">
+      {bars.map((bar, i) => (
         <div
           key={i}
-          className="flex-1 bg-primary/40 rounded-sm transition-transform duration-300 origin-bottom"
-          style={{ transform: `scaleY(${h / 100})` }}
+          className="flex-1 rounded-sm bg-primary/40 hover:bg-primary transition-colors"
+          style={{ height: `${bar.height}%` }}
+          title={`${bar.start}–${bar.end}: ${bar.value}`}
         />
       ))}
     </div>

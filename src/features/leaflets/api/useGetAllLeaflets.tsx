@@ -4,10 +4,14 @@ import { apiRoutes } from "@/services/api-routes/apiRoutes";
 import { useSearchParams } from "react-router-dom";
 import type { LeafletType } from "../types/leaflets.types";
 interface UseGetLeafletsOptions {
-  featured?: boolean;
+  is_featured?: boolean;
+  is_recently?: boolean;
 }
 
-const useGetAllLeaflets = ({ featured }: UseGetLeafletsOptions = {}) => {
+const useGetAllLeaflets = ({
+  is_featured,
+  is_recently,
+}: UseGetLeafletsOptions = {}) => {
   const [searchParams] = useSearchParams();
 
   const sortBy = searchParams.get("sort_by");
@@ -31,13 +35,18 @@ const useGetAllLeaflets = ({ featured }: UseGetLeafletsOptions = {}) => {
   if (sortBy) filterParams.set("sort", sortBy);
 
   return useQuery<LeafletType[]>({
-    queryKey: [apiRoutes.leaflets, { featured }, filterParams.toString()],
+    queryKey: [
+      apiRoutes.leaflets,
+      { is_featured, is_recently },
+      filterParams.toString(),
+    ],
     queryFn: async ({ signal }) => {
       const { data } = await Axios.get(
         `${apiRoutes.leaflets}?${filterParams.toString()}`,
         {
           params: {
-            is_featured: featured,
+            is_featured,
+            is_recently,
           },
           signal,
         }

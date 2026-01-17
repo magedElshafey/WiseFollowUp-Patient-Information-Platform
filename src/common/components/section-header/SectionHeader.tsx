@@ -22,10 +22,11 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
       <div>
         <h2
           id={titleId}
-          className="text-lg md:text-xl xl:text-2xl 2xl:text-4xl font-semibold text-primary"
+          className="text-lg md:text-xl xl:text-2xl font-semibold text-text-main"
         >
           {t(title)}
         </h2>
+
         {description && (
           <p className="text-sm text-text-muted">{t(description)}</p>
         )}

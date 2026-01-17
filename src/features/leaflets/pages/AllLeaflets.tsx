@@ -1,50 +1,48 @@
-import { FC } from "react";
-import AllLeafletsHeader from "../../uk-hierarchy/components/hierarchy-filter/components/AllLeafletsHeader";
+import { FC, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import PageSeo from "@/common/components/seo/PageSeo";
+import LeafletsFiltersProvider from "../../uk-hierarchy/components/hierarchy-filter/providers/LeafletsFiltersProvider";
 import LeafletsFilters from "../../uk-hierarchy/components/hierarchy-filter/components/LeafletsFilters";
 import LeafletsList from "../components/LeafletsList";
-import LeafletsFiltersProvider from "../../uk-hierarchy/components/hierarchy-filter/providers/LeafletsFiltersProvider";
-import HeroLayout from "@/common/layout/hero-layout/HeroLayout";
-import SearchBar from "@/features/search-advanced/components/SearchBar";
-import { Link, useSearchParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { useSearchController } from "@/features/search-advanced/hooks/useSearchController";
+import AllLeafletsSearchHeader from "../components/AllLeafletsSearchHeader";
+
+const NON_INDEXABLE_FILTERS = [
+  "year_from",
+  "year_to",
+  "organization_id",
+  "county_id",
+];
+
 const AllLeaflets: FC = () => {
-  const [params] = useSearchParams();
-  const { t } = useTranslation();
-  const searchController = useSearchController({
-    mode: "normal",
-    initialPayload: {
-      value: params.get("filter-search") || "",
-    },
-  });
+  const [searchParams] = useSearchParams();
+
+  const hasNonIndexableFilters = useMemo(
+    () =>
+      NON_INDEXABLE_FILTERS.some((key) => searchParams.has(`filter-${key}`)),
+    [searchParams]
+  );
+
   return (
     <>
-      <HeroLayout minHeight="min-h-[30vh] lg:min-h-[50vh]">
-        <div>
-          <h1 className="text-3xl text-center font-bold text-text-main">
-            Browse all leaflets
-          </h1>
+      <PageSeo
+        title="Browse all patient leaflets"
+        description="Explore trusted UK patient information leaflets reviewed by healthcare professionals."
+        canonicalPath="/leaflets"
+        ogType="website"
+        noIndex={hasNonIndexableFilters}
+      />
 
-          <p className="my-2  text-text-muted max-w-xl">
-            Explore trusted medical information curated by professionals.
-          </p>
+      {/* Search + title header */}
+      <AllLeafletsSearchHeader />
 
-          <div>
-            <SearchBar variant="hero" controller={searchController} />
-            <Link
-              to="/search-advanced"
-              className="block w-fit mt-2 capitalize duration-300 transition-all hover:underline  text-text-main"
-            >
-              {t("advanced search")}
-            </Link>
-          </div>
-        </div>
-      </HeroLayout>
-      <div className="containerr">
+      {/* Content */}
+      <div className="containerr py-6">
         <LeafletsFiltersProvider>
-          <AllLeafletsHeader />
           <div className="flex flex-col lg:flex-row gap-4">
+            {/* Filters (sidebar + drawer mobile) */}
             <LeafletsFilters />
+
+            {/* Results */}
             <LeafletsList />
           </div>
         </LeafletsFiltersProvider>

@@ -5,6 +5,9 @@ import BlogSkelton from "./BlogSkelton";
 import HeroSkeleton from "./HeroSkeltion";
 import FooterSkeleton from "./FooterSkeleton";
 import ListSkeleton from "./ListSkeleton";
+import PageSkeleton from "./PageSkeleton";
+import CardSkeleton from "./CardSkeleton";
+import ReviewSkeleton from "./ReviewSkeleton";
 
 interface SkeltonProps {
   type: SkeletonType;
@@ -21,6 +24,12 @@ const Skeleton: React.FC<SkeltonProps> = ({ type }) => {
       return <BlogSkelton />;
     case "list":
       return <ListSkeleton />;
+    case "page":
+      return <PageSkeleton />;
+    case "card":
+      return <CardSkeleton />;
+    case "rev":
+      return <ReviewSkeleton />;
     case "footer":
       return <FooterSkeleton />;
 

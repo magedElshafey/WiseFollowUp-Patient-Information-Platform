@@ -1,8 +1,8 @@
-import { useState, FormEvent, useMemo } from "react";
+import { useState, useMemo, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSearchSuggestions } from "@/features/search-advanced/hooks/useSearchSuggestions";
+import { useSearchSuggestions } from "./useSearchSuggestions";
 import type { SearchPayload } from "../types/search.types";
-
+import { saveSearchHistory } from "../components/searchHistory";
 type Params = {
   mode: "normal" | "advanced";
   initialPayload?: SearchPayload;
@@ -16,54 +16,43 @@ export function useSearchController({ mode, initialPayload }: Params) {
   );
   const [open, setOpen] = useState(false);
 
-  /**
-   * 👇 هنا استخدام mode فعليًا
-   * - normal  => نتجاهل key
-   * - advanced => نبعث key + value
-   */
+  /* -------------------- normalize payload -------------------- */
   const effectivePayload = useMemo<SearchPayload>(() => {
     if (mode === "normal") {
       return {
         value: typeof payload.value === "string" ? payload.value : "",
       };
     }
-
-    // advanced
     return payload;
   }, [mode, payload]);
 
-  /**
-   * 👇 suggestions تختلف حسب mode
-   */
+  /* -------------------- suggestions -------------------- */
   const suggestions = useSearchSuggestions(effectivePayload);
 
-  /**
-   * ✅ behavior موحد
-   */
-  const navigateToExplore = (value: string) => {
-    if (!value.trim()) return;
+  /* -------------------- navigation -------------------- */
+  const navigateToLeaflets = (value: string) => {
+    const trimmed = value.trim();
+    if (!trimmed) return;
 
-    navigate(`/leaflets?filter-search=${encodeURIComponent(value.trim())}`);
+    // save history
+    saveSearchHistory(trimmed, (effectivePayload.key as any) ?? "default");
+
+    navigate(`/leaflets?filter-search=${encodeURIComponent(trimmed)}`);
   };
 
-  /**
-   * submit (enter / search button)
-   */
+  /* -------------------- handlers -------------------- */
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setOpen(false);
 
     if (typeof effectivePayload.value === "string") {
-      navigateToExplore(effectivePayload.value);
+      navigateToLeaflets(effectivePayload.value);
     }
   };
 
-  /**
-   * select from suggestions
-   */
   const handleSelect = (value: string) => {
     setOpen(false);
-    navigateToExplore(value);
+    navigateToLeaflets(value);
   };
 
   return {

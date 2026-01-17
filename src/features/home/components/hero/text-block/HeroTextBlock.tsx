@@ -1,12 +1,14 @@
+import React from "react";
+
 const HeroTextBlock: React.FC = () => {
   return (
-    <div className="space-y-3 md:space-y-4 flex flex-col items-center gap-3 text-center">
+    <div className="flex flex-col items-center gap-3 text-center space-y-2">
       <h1
         id="home-hero-heading"
         className="
-            text-2xl sm:text-3xl md:text-4xl lg:text-5xl
-            font-bold tracking-tight text-text-main
-          "
+          text-2xl sm:text-3xl md:text-4xl lg:text-5xl
+          font-bold tracking-tight text-text-main
+        "
       >
         Clear patient leaflets{" "}
         <span className="text-primary">and healthcare tools</span> in one place.
