@@ -58,9 +58,11 @@ const LeafletShareActions: FC<Props> = ({ title }) => {
 
   const message = useMemo(() => {
     return `
+    Read the leaflet on Wise Follow Up 👇
+    
 📄 ${title}
 
-Read the leaflet on Wise Follow Up 👇
+
 ${url}
     `.trim();
   }, [title, url]);
