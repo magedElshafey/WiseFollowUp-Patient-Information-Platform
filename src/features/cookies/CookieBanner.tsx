@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCookieConsent } from "./CookieConsentProvider";
 import CookiePreferencesModal from "./CookiePreferencesModal";
+import { Link } from "react-router-dom";
 
 const CookieBanner: React.FC = () => {
   const { hasDecision, acceptAll } = useCookieConsent();
@@ -43,8 +44,8 @@ const CookieBanner: React.FC = () => {
                 improve the website. You can change your choice at any time in
                 Cookie settings.
               </p>
-              <a
-                href="/cookies"
+              <Link
+                to="/policies/cookies-policy"
                 className="
                   inline-flex text-xs text-primary hover:underline
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
@@ -52,25 +53,11 @@ const CookieBanner: React.FC = () => {
                 "
               >
                 Read our Cookies Policy
-              </a>
+              </Link>
             </div>
 
             {/* Buttons: equal prominence (ICO expectation) */}
             <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
-              {/* <button
-                type="button"
-                onClick={rejectNonEssential}
-                className="
-                  rounded-pill border border-border-subtle bg-bg-page
-                  px-4 py-2 text-sm font-semibold text-text-main
-                  hover:bg-primary-soft hover:text-primary
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
-                  focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
-                "
-              >
-                Reject non-essential
-              </button> */}
-
               <button
                 type="button"
                 onClick={() => setOpenPrefs(true)}

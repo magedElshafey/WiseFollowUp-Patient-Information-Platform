@@ -2,6 +2,7 @@ import React, { useId } from "react";
 import useNewsLetterLogic from "../../newsletter/logic/useNewsLetterLogic";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n/i18n";
+import { Link } from "react-router-dom";
 type SocialLink = { label: string; href: string; icon?: string };
 
 const SOCIAL_LINKS: SocialLink[] = [
@@ -165,8 +166,8 @@ const FooterConnectSection: React.FC<FooterConnectSectionProps> = ({
 
         <p className="mt-2 text-[11px] text-text-muted">
           Prefer email?{" "}
-          <a
-            href="/contact"
+          <Link
+            to="/contact-us"
             className="
               text-primary hover:underline
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
@@ -175,7 +176,7 @@ const FooterConnectSection: React.FC<FooterConnectSectionProps> = ({
             "
           >
             Contact us
-          </a>
+          </Link>
           .
         </p>
       </div>
