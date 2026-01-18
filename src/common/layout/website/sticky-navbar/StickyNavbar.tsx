@@ -1,6 +1,6 @@
 import Navbar from "../navbar/Navbar";
 import { LogoProps } from "@/common/components/logo/Logo";
-const StickyNavbar: React.FC<LogoProps> = ({ logo }) => {
+const StickyNavbar: React.FC<LogoProps> = ({ src }) => {
   return (
     <>
       <div
@@ -8,7 +8,7 @@ const StickyNavbar: React.FC<LogoProps> = ({ logo }) => {
          
         `}
       >
-        <Navbar logo={logo} />
+        <Navbar src={src} />
       </div>
     </>
   );

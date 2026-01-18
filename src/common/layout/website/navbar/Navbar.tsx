@@ -9,12 +9,12 @@ import MobileMenu from "../mobile-menu/MobileMenu";
 
 export type NavbarProps = {
   links?: NavLinkItem[];
-  logo?: string;
+  src?: string;
 };
 
 const Navbar: React.FC<NavbarProps> = ({
   links = DEFAULT_LINKS,
-  logo = "/images/main-logo.png",
+  src = "/images/main-logo.png",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,7 +47,7 @@ const Navbar: React.FC<NavbarProps> = ({
           "
           aria-label="Main navigation"
         >
-          <Logo src={logo} />
+          <Logo src={src} />
 
           {/* Desktop nav */}
           <div className="hidden md:flex md:items-center md:gap-6 lg:gap-8">

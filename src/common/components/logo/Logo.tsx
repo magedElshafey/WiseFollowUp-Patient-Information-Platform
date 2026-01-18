@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-interface LogoProps {
+export interface LogoProps {
   src?: string;
 }
 
