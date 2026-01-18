@@ -1,3 +1,4 @@
+// all inputs type available
 export type CalculatorInputType =
     | "number"
     | "select"
@@ -12,6 +13,7 @@ export type CalculatorInputType =
     | "weight"
     | "readOnly";
 
+// type for any options (select , radio , checkbox )
 export interface CalculatorOption {
     label: string;
     value: string | number | boolean;
@@ -23,13 +25,13 @@ export interface CalculatorInput {
     type: CalculatorInputType;
     unit?: string;
     required?: boolean;
-    min?: number;
-    max?: number;
-    step?: number;
-    options?: CalculatorOption[];
+    min?: number; // for numbers and range inputs
+    max?: number; // for numbers and range inputs
+    step?: number; // for numbers and range inputs
+    options?: CalculatorOption[];  // for select , radio , checkbox inputs
     description?: string;
 }
-
+// POST Methods Response
 export interface CalculatorResult {
     value: string | number;
     interpretation?: string;
@@ -42,5 +44,5 @@ export interface CalculatorDefinition {
     description: string;
     category: string;
     inputs: CalculatorInput[];
-    calculate: (values: Record<string, any>) => CalculatorResult;
+    calculate: (values: Record<string, any>) => CalculatorResult; // Front end Only 
 }
