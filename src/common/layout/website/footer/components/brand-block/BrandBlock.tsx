@@ -1,3 +1,5 @@
+import Logo from "@/common/components/logo/Logo";
+
 const BrandBlock: React.FC = () => {
   return (
     <section
@@ -5,30 +7,15 @@ const BrandBlock: React.FC = () => {
       className="
         rounded-card border border-border-subtle bg-bg-page
         p-4 sm:p-5
-        flex flex-col gap-3
+        flex flex-col gap-2
       "
     >
-      <div className="flex items-start gap-3">
-        <div
-          className="
-            flex h-9 w-9 items-center justify-center
-            rounded-xl bg-primary-soft
-          "
-          aria-hidden="true"
-        >
-          <span className="text-sm font-bold text-primary">WF</span>
-        </div>
-        <div className="space-y-1">
-          <h2 className="text-sm md:text-base font-semibold text-text-main">
-            Wise Follow Up
-          </h2>
-          <p className="text-xs md:text-sm text-text-muted leading-relaxed ">
-            A patient-friendly library of UK-oriented leaflets, tools, and
-            checklists – written in plain language to help you prepare for
-            appointments and follow up safely.
-          </p>
-        </div>
-      </div>
+      <Logo src="/images/footer-logo.png" />
+      <p className="text-xs md:text-sm text-text-muted leading-relaxed ">
+        A patient-friendly library of UK-oriented leaflets, tools, and
+        checklists – written in plain language to help you prepare for
+        appointments and follow up safely.
+      </p>
 
       <div
         className="

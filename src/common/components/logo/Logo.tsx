@@ -1,47 +1,32 @@
 import { Link } from "react-router-dom";
-export interface LogoProps {
-  logo?: string;
+
+interface LogoProps {
+  src?: string;
 }
-const Logo: React.FC<LogoProps> = ({ logo = "" }) => {
+
+const Logo: React.FC<LogoProps> = ({ src = "/images/main-logo.png" }) => {
   return (
-    <Link to="/" className="shrink-0">
-      {logo ? (
+    <Link
+      to="/"
+      aria-label="Wise Follow Up home"
+      className="flex items-center shrink-0"
+    >
+      {/* layout box (لا يغيّر ارتفاع الناف) */}
+      <div className="h-11 flex items-center overflow-visible">
         <img
-          alt="wise followup logo"
-          src={logo}
-          className={`h-[44px] w-auto object-contain `}
-        />
-      ) : (
-        <Link
-          to="/"
+          src={src}
+          alt="Wise Follow Up logo"
           className="
-        inline-flex items-center gap-2
-        focus-visible:outline-none
-        focus-visible:ring-2 focus-visible:ring-primary
-        focus-visible:ring-offset-2 focus-visible:ring-offset-bg-page
-        rounded-pill
-        px-1 py-0.5
-      "
-        >
-          <div
-            className="
-          flex h-8 w-8 items-center justify-center
-          rounded-xl bg-primary-soft
-        "
-            aria-hidden="true"
-          >
-            <span className="text-sm font-bold text-primary">WF</span>
-          </div>
-          <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold text-text-main">
-              Wise Follow Up
-            </span>
-            <span className="text-[10px] text-text-muted">
-              Patient-friendly leaflets
-            </span>
-          </div>
-        </Link>
-      )}
+            h-full w-auto
+            object-contain
+            scale-[1.4]
+            origin-left
+          "
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+        />
+      </div>
     </Link>
   );
 };

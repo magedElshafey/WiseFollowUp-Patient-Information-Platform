@@ -14,7 +14,7 @@ export type NavbarProps = {
 
 const Navbar: React.FC<NavbarProps> = ({
   links = DEFAULT_LINKS,
-  logo = "",
+  logo = "/images/main-logo.png",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,7 +47,7 @@ const Navbar: React.FC<NavbarProps> = ({
           "
           aria-label="Main navigation"
         >
-          <Logo logo={logo} />
+          <Logo src={logo} />
 
           {/* Desktop nav */}
           <div className="hidden md:flex md:items-center md:gap-6 lg:gap-8">

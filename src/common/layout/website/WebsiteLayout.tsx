@@ -11,7 +11,7 @@ const WebsiteLayout = () => {
       <IntroMotion />
       <ScrollToTopButton />
 
-      <StickyNavbar logo={""} />
+      <StickyNavbar logo="/images/main-logo.png" />
 
       <main className="grow py-2 flex flex-col">
         <Outlet />
