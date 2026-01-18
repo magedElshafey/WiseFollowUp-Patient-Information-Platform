@@ -1,21 +1,32 @@
 import { CalculatorDefinition } from "../types/calculator.types";
 
 export const calculators: CalculatorDefinition[] = [
-    /* ================= BMI ================= */
     {
         id: "bmi",
-        slug: "bmi-calculator",
+        slug: "bmi",
         title: "BMI Calculator",
         category: "General health",
-        description:
-            "Calculate Body Mass Index using height and weight.",
+        description: "Body mass index with lifestyle modifiers",
         inputs: [
-            { key: "weight", label: "Weight", type: "number", unit: "kg", required: true, min: 1 },
-            { key: "height", label: "Height", type: "number", unit: "cm", required: true, min: 50 },
+            { key: "height", label: "Height", type: "height", required: true },
+            { key: "weight", label: "Weight", type: "weight", required: true },
+            { key: "age", label: "Age", type: "age", required: true },
+            { key: "sex", label: "Sex", type: "sex", required: true },
+            {
+                key: "conditions",
+                label: "Existing conditions",
+                type: "checkbox",
+                options: [
+                    { label: "Diabetes", value: "diabetes" },
+                    { label: "Hypertension", value: "htn" },
+                    { label: "Heart disease", value: "heart" },
+                ],
+            },
         ],
         calculate(values) {
             const h = values.height / 100;
             const bmi = values.weight / (h * h);
+
             return {
                 value: bmi.toFixed(1),
                 interpretation:
@@ -29,111 +40,187 @@ export const calculators: CalculatorDefinition[] = [
             };
         },
     },
-
-    /* ================= eGFR ================= */
     {
         id: "egfr",
-        slug: "egfr-calculator",
+        slug: "egfr",
         title: "eGFR Calculator",
         category: "Renal",
-        description:
-            "Estimate kidney function using creatinine, age and sex.",
+        description: "Estimate kidney function",
         inputs: [
-            { key: "age", label: "Age", type: "number", required: true, min: 1 },
-            { key: "creatinine", label: "Creatinine", type: "number", unit: "µmol/L", required: true },
+            { key: "age", label: "Age", type: "age", required: true },
+            { key: "sex", label: "Sex", type: "sex", required: true },
             {
-                key: "sex",
-                label: "Sex",
-                type: "radio",
+                key: "creatinine",
+                label: "Creatinine",
+                type: "number",
+                unit: "µmol/L",
                 required: true,
-                options: [
-                    { label: "Male", value: "male" },
-                    { label: "Female", value: "female" },
-                ],
+                min: 20,
+                max: 1500,
             },
         ],
         calculate(values) {
             const factor = values.sex === "female" ? 0.85 : 1;
-            const egfr = (140 - values.age) * factor / values.creatinine;
+            const egfr = ((140 - values.age) * factor) / values.creatinine;
+
             return {
                 value: egfr.toFixed(1),
                 interpretation:
                     egfr >= 90
                         ? "Normal kidney function"
                         : egfr >= 60
-                            ? "Mildly reduced"
+                            ? "Mild reduction"
                             : egfr >= 30
                                 ? "Moderate reduction"
-                                : "Severely reduced",
+                                : "Severe reduction",
             };
         },
     },
 
-    /* ================= CHA2DS2-VASc ================= */
     {
-        id: "cha2ds2vasc",
-        slug: "cha2ds2-vasc-score",
-        title: "CHA₂DS₂-VASc Score",
+        id: "ascvd",
+        slug: "ascvd-risk",
+        title: "ASCVD Risk Calculator",
         category: "Cardiology",
-        description:
-            "Estimate stroke risk in patients with atrial fibrillation.",
+        description: "Estimate 10-year cardiovascular risk",
         inputs: [
-            { key: "age", label: "Age ≥ 75", type: "radio", options: [{ label: "Yes", value: 2 }, { label: "No", value: 0 }] },
-            { key: "hypertension", label: "Hypertension", type: "radio", options: [{ label: "Yes", value: 1 }, { label: "No", value: 0 }] },
-            { key: "diabetes", label: "Diabetes", type: "radio", options: [{ label: "Yes", value: 1 }, { label: "No", value: 0 }] },
+            { key: "age", label: "Age", type: "age", required: true },
+            { key: "sex", label: "Sex", type: "sex", required: true },
+            { key: "smoker", label: "Current smoker", type: "boolean" },
+            {
+                key: "cholesterol",
+                label: "Total cholesterol",
+                type: "number",
+                unit: "mg/dL",
+            },
+            {
+                key: "activity",
+                label: "Physical activity",
+                type: "select",
+                options: [
+                    { label: "Low", value: "low" },
+                    { label: "Moderate", value: "moderate" },
+                    { label: "High", value: "high" },
+                ],
+            },
         ],
         calculate(values) {
-            const score = Object.values(values).reduce((a, b) => a + Number(b), 0);
+            let risk = values.age * 0.15;
+            if (values.smoker) risk += 5;
+            if (values.activity === "low") risk += 3;
+
+            return {
+                value: `${Math.min(risk, 30).toFixed(1)}%`,
+                interpretation:
+                    risk > 20 ? "High cardiovascular risk" : "Low to moderate risk",
+            };
+        },
+    },
+    {
+        id: "pain",
+        slug: "pain-score",
+        title: "Pain Severity Score",
+        category: "General",
+        description: "Assess current pain severity",
+        inputs: [
+            {
+                key: "pain",
+                label: "Pain intensity",
+                type: "range",
+                min: 0,
+                max: 10,
+                step: 1,
+                required: true,
+            },
+            {
+                key: "scale",
+                label: "Scale used",
+                type: "readOnly",
+            },
+        ],
+        calculate(values) {
+            return {
+                value: values.pain,
+                interpretation:
+                    values.pain <= 3
+                        ? "Mild pain"
+                        : values.pain <= 6
+                            ? "Moderate pain"
+                            : "Severe pain",
+            };
+        },
+    },
+    {
+        id: "pregnancy",
+        slug: "pregnancy-due-date",
+        title: "Pregnancy Due Date",
+        category: "Obstetrics",
+        description: "Estimate expected delivery date",
+        inputs: [
+            {
+                key: "lmp",
+                label: "First day of last menstrual period",
+                type: "date",
+                required: true,
+            },
+            {
+                key: "ivf",
+                label: "IVF pregnancy",
+                type: "boolean",
+            },
+        ],
+        calculate(values) {
+            const lmp = new Date(values.lmp);
+            const due = new Date(lmp);
+            due.setDate(due.getDate() + 280);
+
+            return {
+                value: due.toDateString(),
+                interpretation: "Estimated delivery date",
+            };
+        },
+    },
+    {
+        id: "cha2ds2vasc",
+        slug: "cha2ds2-vasc",
+        title: "CHA₂DS₂-VASc Score",
+        category: "Cardiology",
+        description: "Estimate stroke risk in atrial fibrillation",
+        inputs: [
+            {
+                key: "age75", label: "Age ≥ 75", type: "radio", options: [
+                    { label: "Yes", value: 2 },
+                    { label: "No", value: 0 },
+                ]
+            },
+            {
+                key: "conditions",
+                label: "Risk factors",
+                type: "checkbox",
+                options: [
+                    { label: "Heart failure", value: 1 },
+                    { label: "Diabetes", value: 2 },
+                    { label: "Vascular disease", value: 3 },
+                ],
+            },
+        ],
+        calculate(values) {
+            const base = Number(values.age75 ?? 0);
+            const extra = (values.conditions ?? []).reduce(
+                (a: number, b: number) => a + b,
+                0
+            );
+
+            const score = base + extra;
+
             return {
                 value: score,
                 interpretation:
                     score >= 2
                         ? "High stroke risk – anticoagulation recommended"
-                        : "Low to moderate risk",
+                        : "Low risk",
             };
         },
-    },
+    }
 
-    /* ================= Blood Pressure ================= */
-    {
-        id: "bp",
-        slug: "blood-pressure-classification",
-        title: "Blood Pressure Classification",
-        category: "Cardiology",
-        description:
-            "Classify blood pressure based on systolic and diastolic values.",
-        inputs: [
-            { key: "systolic", label: "Systolic", type: "number", unit: "mmHg", required: true },
-            { key: "diastolic", label: "Diastolic", type: "number", unit: "mmHg", required: true },
-        ],
-        calculate(values) {
-            const { systolic, diastolic } = values;
-            let status = "Normal";
-            if (systolic >= 140 || diastolic >= 90) status = "Hypertension";
-            else if (systolic >= 130 || diastolic >= 80) status = "High-normal";
-            return { value: status };
-        },
-    },
-
-    /* ================= Waist-to-Hip ================= */
-    {
-        id: "whr",
-        slug: "waist-to-hip-ratio",
-        title: "Waist-to-Hip Ratio",
-        category: "General health",
-        description:
-            "Assess health risk based on waist and hip measurements.",
-        inputs: [
-            { key: "waist", label: "Waist circumference", type: "number", unit: "cm", required: true },
-            { key: "hip", label: "Hip circumference", type: "number", unit: "cm", required: true },
-        ],
-        calculate(values) {
-            const ratio = values.waist / values.hip;
-            return {
-                value: ratio.toFixed(2),
-                interpretation:
-                    ratio > 0.9 ? "Increased health risk" : "Low risk",
-            };
-        },
-    },
 ];

@@ -1,7 +1,21 @@
 export type CalculatorInputType =
     | "number"
     | "select"
-    | "radio";
+    | "radio"
+    | "checkbox"
+    | "boolean"
+    | "range"
+    | "date"
+    | "age"
+    | "sex"
+    | "height"
+    | "weight"
+    | "readOnly";
+
+export interface CalculatorOption {
+    label: string;
+    value: string | number | boolean;
+}
 
 export interface CalculatorInput {
     key: string;
@@ -12,11 +26,12 @@ export interface CalculatorInput {
     min?: number;
     max?: number;
     step?: number;
-    options?: { label: string; value: string | number }[];
+    options?: CalculatorOption[];
+    description?: string;
 }
 
 export interface CalculatorResult {
-    value: number | string;
+    value: string | number;
     interpretation?: string;
 }
 
