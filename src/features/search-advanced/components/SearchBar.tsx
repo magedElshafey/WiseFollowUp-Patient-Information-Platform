@@ -115,10 +115,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
                   <li key={item.id}>
                     <button
                       type="button"
-                      onClick={() => handleSelect(item.title)}
+                      onClick={() => handleSelect(item)}
                       className="w-full px-4 py-2 text-start text-sm transition hover:bg-primary-soft hover:text-primary"
                     >
-                      {item.title}
+                      {item}
                     </button>
                   </li>
                 ))}

@@ -8,7 +8,7 @@ const SafetyNote: React.FC = () => {
         flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between
       "
     >
-      <div className="flex items-start gap-2">
+      <div className="flex items-center">
         <span
           aria-hidden="true"
           className="

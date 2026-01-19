@@ -5,13 +5,13 @@ import useGetAllReviews from "../../api/reveiws/useGetAllReviews";
 import { Link } from "react-router-dom";
 import MainBtn from "@/common/components/buttons/MainBtn";
 import type { Reviews } from "../../types/reviews.types";
-
+import { useTranslation } from "react-i18next";
 const MAX_REVIEWS = 4;
 
 const TestimonialsSection: React.FC = () => {
   const query = useGetAllReviews();
   const reviews = (query.data ?? []) as Reviews[];
-
+  const { t } = useTranslation();
   return (
     <FetchHandler queryResult={query} skeletonType="card">
       {reviews.length > 0 && (
@@ -77,7 +77,7 @@ const TestimonialsSection: React.FC = () => {
                   variant="primary"
                   className="text-xs sm:text-sm px-4 py-2 sm:px-5 sm:py-2.5"
                 >
-                  Share your experience
+                  {t("Share your experience")}
                 </MainBtn>
               </Link>
             </div>

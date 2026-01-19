@@ -16,6 +16,12 @@ export const apiRoutes = {
   cookies: "policies-pages/cookies-policy",
   terms: "policies-pages/terms-of-use",
   disclaimer: "policies-pages/medical-disclaimer",
-  news_letter: "newsletter/subscribe", simpleBlogs: "blogs/simple", advancedSearch: "leaflets/advanced-search", contacts: "contacts"
+  news_letter: "newsletter/subscribe",
+  simpleBlogs: "blogs",
+  advancedSearch: "leaflets/advanced-search",
+  contacts: "contacts",
+  hero: "content/home-intro",
+  trust: "content/home-trust",
+  categories: "categories"
 
 };

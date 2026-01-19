@@ -31,3 +31,10 @@ export interface Articles extends SimpleArticle {
   };
   author_name?: string
 }
+
+export interface BlogCategories {
+  name: string
+  description: string
+  slug: string
+  blogs_count: number
+}

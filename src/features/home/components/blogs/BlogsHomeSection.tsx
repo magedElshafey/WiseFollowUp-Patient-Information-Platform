@@ -1,9 +1,9 @@
 import React from "react";
 import SectionHeader from "@/common/components/section-header/SectionHeader";
-import type { BlogPost } from "./blog.types";
 import BlogCard from "./BlogCard";
+import { Articles } from "@/features/blogs/types/blog.types";
 
-type Props = { posts: BlogPost[]; isLoading?: boolean };
+type Props = { posts: Articles[]; isLoading?: boolean };
 
 const BlogsHomeSection: React.FC<Props> = ({ posts, isLoading = false }) => {
   return (

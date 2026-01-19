@@ -1,48 +1,11 @@
-// import React from "react";
-// import type { BlogPost } from "./blog.types";
-// import { Link } from "react-router-dom";
-
-// const BlogCardFeed: React.FC<{ post: BlogPost }> = ({ post }) => {
-//   return (
-//     <Link
-//       to={`/blogs/${post.slug}`}
-//       className="
-//         group block
-//         border-l-2 border-border-subtle
-//         pl-4 py-4
-//         transition-colors
-//         hover:border-primary
-//         focus-visible:outline-none focus-visible:ring-2
-//         focus-visible:ring-primary focus-visible:ring-offset-2
-//         focus-visible:ring-offset-bg-page
-//       "
-//     >
-//       <div className="flex items-center gap-2 text-[11px] text-text-muted">
-//         <span className="font-semibold text-primary">{post.category}</span>
-//         <span>•</span>
-//         <time>{new Date(post.updatedAt).toLocaleDateString()}</time>
-//         <span>•</span>
-//         <span>{post.readTime}</span>
-//       </div>
-
-//       <h3 className="mt-1 text-base font-semibold text-text-main leading-snug">
-//         {post.title}
-//       </h3>
-
-//       <p className="mt-1 text-sm text-text-muted line-clamp-2">
-//         {post.excerpt}
-//       </p>
-//     </Link>
-//   );
-// };
-
-// export default BlogCardFeed;
-
 import React from "react";
-import type { BlogPost } from "./blog.types";
 import { Link } from "react-router-dom";
+import { Articles } from "@/features/blogs/types/blog.types";
+import { useTranslation } from "react-i18next";
 
-const BlogCardFeed: React.FC<{ post: BlogPost }> = ({ post }) => {
+const BlogCardFeed: React.FC<{ post: Articles }> = ({ post }) => {
+  const { t } = useTranslation();
+
   return (
     <Link
       to={`/blogs/${post.slug}`}
@@ -85,12 +48,16 @@ const BlogCardFeed: React.FC<{ post: BlogPost }> = ({ post }) => {
     >
       {/* Meta */}
       <div className="flex items-center gap-2 text-[11px] text-text-muted">
-        <span className="font-semibold text-primary">{post.category}</span>
+        {post.category?.name && (
+          <span className="font-semibold text-primary">
+            {post.category.name}
+          </span>
+        )}
 
         <span aria-hidden>•</span>
 
-        <time dateTime={post.updatedAt}>
-          {new Date(post.updatedAt).toLocaleDateString("en-GB", {
+        <time dateTime={post.created_at}>
+          {new Date(post.created_at).toLocaleDateString("en-GB", {
             year: "numeric",
             month: "short",
             day: "numeric",
@@ -98,7 +65,10 @@ const BlogCardFeed: React.FC<{ post: BlogPost }> = ({ post }) => {
         </time>
 
         <span aria-hidden>•</span>
-        <span>{post.readTime}</span>
+
+        <span>
+          {post.reading_time} {t("minutes")}
+        </span>
       </div>
 
       {/* Title */}
@@ -116,6 +86,12 @@ const BlogCardFeed: React.FC<{ post: BlogPost }> = ({ post }) => {
       <p className="mt-1 text-sm text-text-muted line-clamp-2">
         {post.excerpt}
       </p>
+      {/* Author (optional) */}
+      {post.author?.name && (
+        <p className="mt-3 text-xs text-text-muted">
+          By <span className="font-medium">{post.author.name}</span>
+        </p>
+      )}
     </Link>
   );
 };

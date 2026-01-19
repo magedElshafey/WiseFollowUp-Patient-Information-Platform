@@ -1,167 +1,168 @@
 import React, { useMemo, useState } from "react";
-import { BlogPost } from "@/features/home/components/blogs/blog.types";
-import BlogCard from "@/features/home/components/blogs/BlogCard";
-import { DUMMY_BLOGS } from "@/features/home/components/blogs/dummyBlogs";
 import PageSeo from "@/common/components/seo/PageSeo";
+import useGetSimpleBlogs from "../api/useGetSimpleBlogs";
+import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
+import useGetBlogCategories from "../api/useGetBlogCategories";
+import BlogCardFeed from "@/features/home/components/blogs/BlogCard";
+import { useTranslation } from "react-i18next";
+
+const ALL_CATEGORY = "all";
+const GRID_MIN_HEIGHT = "min-h-[200px]";
 
 const AllBlogsPage: React.FC = () => {
+  const { t, i18n } = useTranslation();
+
+  const blogsQuery = useGetSimpleBlogs();
+  const categoriesQuery = useGetBlogCategories();
+
+  const blogs = blogsQuery.data ?? [];
+  const categories = categoriesQuery.data ?? [];
+
   const [q, setQ] = useState("");
-  const [cat, setCat] = useState<string>("All");
+  const [cat, setCat] = useState<string>(ALL_CATEGORY);
 
-  const categories = useMemo(() => {
-    const set = new Set(DUMMY_BLOGS.map((b) => b.category));
-    return ["All", ...Array.from(set)];
-  }, []);
-
-  const filtered: BlogPost[] = useMemo(() => {
+  /* =========================
+     Filtering (memoized)
+  ========================= */
+  const filteredBlogs = useMemo(() => {
     const term = q.trim().toLowerCase();
-    return DUMMY_BLOGS.filter((b) => {
-      const matchesQ =
+
+    return blogs.filter((blog) => {
+      const matchesSearch =
         !term ||
-        b.title.toLowerCase().includes(term) ||
-        b.excerpt.toLowerCase().includes(term);
+        blog.title.toLowerCase().includes(term) ||
+        blog.excerpt.toLowerCase().includes(term);
 
-      const matchesCat = cat === "All" || b.category === cat;
-      return matchesQ && matchesCat;
+      const matchesCategory =
+        cat === ALL_CATEGORY || blog.category?.slug === cat;
+
+      return matchesSearch && matchesCategory;
     });
-  }, [q, cat]);
+  }, [blogs, q, cat]);
 
-  const hasActiveFilters = q.trim() !== "" || cat !== "All";
+  const hasActiveFilters = q.trim() !== "" || cat !== ALL_CATEGORY;
 
   return (
     <>
       <PageSeo
-        title="patient leaflets Blogs"
-        description="Read expert-written articles and insights about eye health, treatments, and patient education from Wise Followup."
+        title="Blogs | Wise Followup"
+        description="Expert-written articles about eye health, treatments, and patient education."
         canonicalPath="/blogs"
         ogType="website"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "Blog",
-          name: "Wise Followup Blog",
-          url: "https://wisefollowup.com/blogs",
-          description:
-            "Expert-written eye health articles and patient education content.",
-        }}
       />
+
       <main className="section-shell">
-        <div className="containerr space-y-6">
-          {/* Header */}
-          <header className="space-y-2">
-            <h1 className="text-2xl font-bold text-text-main">
-              All blog posts
-            </h1>
-            <p className="text-sm text-text-muted">
-              Practical guidance for patients and clinicians.
-            </p>
-          </header>
+        <FetchHandler queryResult={blogsQuery} skeletonType="card">
+          <div className="containerr space-y-6">
+            {/* ================= Header ================= */}
+            <header className="space-y-1">
+              <h1 className="text-2xl font-bold text-text-main">
+                {t("All blog posts")}
+              </h1>
+              <p className="text-sm text-text-muted">
+                {t("Practical guidance for patients and clinicians.")}
+              </p>
+            </header>
 
-          {/* Controls */}
-          <div className="rounded-card border border-border-subtle bg-bg-surface shadow-soft p-4">
-            <div className="grid gap-3 md:grid-cols-[1fr_auto_auto] items-center">
-              {/* Search */}
-              <div className="relative">
-                <input
-                  type="search"
-                  value={q}
-                  onChange={(e) => setQ(e.target.value)}
-                  placeholder="Search blog posts…"
+            {/* ================= Filters ================= */}
+            <div className="rounded-card border border-border-subtle bg-bg-surface p-4 shadow-soft">
+              <div className="grid gap-3 md:grid-cols-[1fr_auto_auto] items-center">
+                {/* Search */}
+                <div className="relative">
+                  <input
+                    type="search"
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                    placeholder={t("Search blog posts…")}
+                    className="
+                      w-full rounded-pill border border-border-subtle bg-bg-page
+                      px-4 py-2.5 text-sm text-text-main
+                      focus:outline-none focus:ring-2 focus:ring-primary
+                    "
+                  />
+                  <span
+                    className={`absolute ${
+                      i18n.language === "en" ? "right-4" : "left-4"
+                    } top-1/2 -translate-y-1/2 text-text-muted`}
+                    aria-hidden
+                  >
+                    🔎
+                  </span>
+                </div>
+
+                {/* Category */}
+                <select
+                  value={cat}
+                  onChange={(e) => setCat(e.target.value)}
+                  aria-label={t("Filter by category")}
                   className="
-                  w-full rounded-pill border border-border-subtle bg-bg-page
-                  px-4 py-2.5 text-sm text-text-main
-                  focus:outline-none focus:ring-2 focus:ring-primary
-                  focus:ring-offset-2 focus:ring-offset-bg-page
-                "
-                />
-                <span
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted"
-                  aria-hidden="true"
+                    rounded-pill border border-border-subtle bg-bg-page
+                    px-4 py-2.5 text-sm text-text-main
+                    focus:outline-none focus:ring-2 focus:ring-primary
+                  "
                 >
-                  🔎
-                </span>
-              </div>
+                  <option value={ALL_CATEGORY}>{t("All categories")}</option>
 
-              {/* Category */}
-              <select
-                value={cat}
-                onChange={(e) => setCat(e.target.value)}
-                className="
-                rounded-pill border border-border-subtle bg-bg-page
-                px-4 py-2.5 text-sm text-text-main
-                focus:outline-none focus:ring-2 focus:ring-primary
-                focus:ring-offset-2 focus:ring-offset-bg-page
-              "
-                aria-label="Filter by category"
-              >
-                {categories.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+                  {categories.map((c) => (
+                    <option key={c.slug} value={c.slug}>
+                      {c.name} ({c.blogs_count})
+                    </option>
+                  ))}
+                </select>
 
-              {/* Reset */}
-              {hasActiveFilters && (
+                {/* Reset – always rendered (CLS safe) */}
                 <button
                   type="button"
                   onClick={() => {
                     setQ("");
-                    setCat("All");
+                    setCat(ALL_CATEGORY);
                   }}
-                  className="
-                  rounded-pill border border-border-subtle bg-bg-page
-                  px-4 py-2.5 text-sm font-medium text-text-muted
-                  hover:bg-bg-surface hover:text-text-main
-                  focus-visible:outline-none focus-visible:ring-2
-                  focus-visible:ring-primary focus-visible:ring-offset-2
-                  focus-visible:ring-offset-bg-page
-                "
+                  disabled={!hasActiveFilters}
+                  aria-hidden={!hasActiveFilters}
+                  className={`
+                    rounded-pill border border-border-subtle
+                    px-4 py-2.5 text-sm font-medium transition
+                    ${
+                      hasActiveFilters
+                        ? "bg-bg-page text-text-muted hover:bg-bg-surface hover:text-text-main"
+                        : "invisible pointer-events-none"
+                    }
+                  `}
                 >
-                  Reset filters
+                  {t("Reset")}
                 </button>
+              </div>
+            </div>
+
+            {/* ================= Results ================= */}
+            <div className="relative">
+              {/* Grid (space reserved to prevent CLS) */}
+              <section
+                aria-label="Blog results"
+                className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${GRID_MIN_HEIGHT}`}
+              >
+                {!blogsQuery.isLoading &&
+                  filteredBlogs.map((post) => (
+                    <BlogCardFeed key={post.id} post={post} />
+                  ))}
+              </section>
+
+              {/* Empty state overlay (no layout shift) */}
+              {!blogsQuery.isLoading && filteredBlogs.length === 0 && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="rounded-card border border-border-subtle bg-bg-surface p-6 text-center">
+                    <p className="text-sm font-semibold text-text-main">
+                      {t("No posts found")}
+                    </p>
+                    <p className="mt-1 text-xs text-text-muted">
+                      {t("Try a different keyword or category.")}
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
           </div>
-
-          {/* Results count */}
-          <div aria-live="polite" className="flex items-center justify-between">
-            <p className="text-sm text-text-muted">
-              Showing{" "}
-              <span className="font-semibold text-text-main">
-                {filtered.length}
-              </span>{" "}
-              result{filtered.length !== 1 && "s"}
-            </p>
-          </div>
-
-          {/* Results */}
-          <section
-            aria-label="Blog results"
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {filtered.map((p) => (
-              <BlogCard key={p.id} post={p} />
-            ))}
-          </section>
-
-          {/* Empty state */}
-          {filtered.length === 0 && (
-            <div
-              role="status"
-              className="
-              rounded-card border border-border-subtle
-              bg-bg-surface p-6 text-center
-            "
-            >
-              <p className="text-sm font-semibold text-text-main">
-                No posts found
-              </p>
-              <p className="mt-1 text-xs text-text-muted">
-                Try a different keyword or category.
-              </p>
-            </div>
-          )}
-        </div>
+        </FetchHandler>
       </main>
     </>
   );

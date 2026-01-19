@@ -31,7 +31,7 @@ const ContactPage: React.FC = () => {
     const email = getValues().email;
     try {
       const response = await mutateAsync(data);
-      if (response?.status) {
+      if (response?.success) {
         toast.success(response.message);
         mutateNewsLetter(email);
         reset();
@@ -71,7 +71,7 @@ const ContactPage: React.FC = () => {
           </h1>
           <p className="mt-3 text-text-muted max-w-xl mx-auto">
             {t(
-              "Questions, feedback, or found an issue? Your message helps us improve Wise Follow Up."
+              "Questions, feedback, or found an issue? Your message helps us improve Wise Follow Up.",
             )}
           </p>
         </div>

@@ -3,7 +3,7 @@ import { FooterLink } from "../../types/footer.types";
 import { openCookieSettings } from "@/features/cookies/CookieConsentProvider";
 import useGetAllPolicies from "@/features/policies/api/useGetAllPolicies";
 import { useMemo } from "react";
-
+import { useTranslation } from "react-i18next";
 const CopyRight = () => {
   const year = new Date().getFullYear();
   const { data } = useGetAllPolicies();
@@ -17,7 +17,7 @@ const CopyRight = () => {
     }));
   }, [data]);
   const linksToRender = policyLinks.length ? policyLinks : [];
-
+  const { t } = useTranslation();
   return (
     <div
       className="
@@ -82,7 +82,7 @@ const CopyRight = () => {
     focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
   "
         >
-          Cookie settings
+          {t("Cookie settings")}
         </button>
       </div>
     </div>
