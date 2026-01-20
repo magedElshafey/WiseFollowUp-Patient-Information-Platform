@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next";
 import Loader from "@/common/components/loader/spinner/Loader";
 import EmptyData from "@/common/components/empty-data/EmptyData";
 import { useSearchController } from "@/features/search-advanced/hooks/useSearchController";
-import i18n from "@/lib/i18n/i18n";
-
 type SearchBarVariant = "hero" | "compact";
 
 type SuggestionItem = {
@@ -23,7 +21,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   controller,
   placeholder = "",
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const {
     payload,
@@ -93,9 +91,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
           {/* suggestions */}
           {open && query.trim().length > 1 && hasData && (
-            <ul className="absolute z-30 mt-2 w-full rounded-card border border-border-subtle bg-bg-surface shadow-soft max-h-72 overflow-auto">
+            <ul
+              className="absolute z-30 mt-2 w-full  max-w-full left-0
+    right-0 rounded-card border border-border-subtle bg-bg-surface shadow-soft max-h-72 overflow-y-auto
+    overflow-x-hidden"
+            >
               <li className="px-4 py-2 text-xs text-text-muted">
-                Suggested results
+                {t("Suggested results")}
               </li>
 
               {suggestions.isLoading && (
@@ -116,7 +118,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     <button
                       type="button"
                       onClick={() => handleSelect(item?.title)}
-                      className="w-full px-4 py-2 text-start text-sm transition hover:bg-primary-soft hover:text-primary"
+                      className="w-full max-w-full px-4 py-2 text-start text-sm  break-words
+  whitespace-normal transition hover:bg-primary-soft hover:text-primary"
                     >
                       {item?.title}
                     </button>
