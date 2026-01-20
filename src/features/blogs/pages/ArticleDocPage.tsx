@@ -31,7 +31,6 @@ const ArticleDocPage: React.FC<Props> = ({
 }) => {
   const query = useQueryHook();
   const post = seoType === "blog" ? query.data : query?.data?.data;
-  console.log("cookies post", post);
 
   const sections = useMemo(() => post?.content ?? [], [post]);
   const sectionsWithIds = useSectionsWithIds(sections);
@@ -98,10 +97,8 @@ const ArticleDocPage: React.FC<Props> = ({
               </article>
 
               {/* Aside */}
-              <aside className="hidden lg:block">
-                <div className="sticky top-48">
-                  <BlogAside tocItems={tocItems} activeId={activeId} />
-                </div>
+              <aside className="hidden lg:block sticky top-[120px] self-start">
+                <BlogAside tocItems={tocItems} activeId={activeId} />
               </aside>
             </div>
           </main>
