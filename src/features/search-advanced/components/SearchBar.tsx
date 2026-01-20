@@ -47,7 +47,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       <form
         role="search"
         onSubmit={handleSubmit}
-        className="flex flex-col gap-3 sm:flex-row"
+        className="flex flex-col gap-3 md:flex-row"
       >
         <div className="relative flex-1">
           <input
@@ -66,7 +66,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 : t("Refine search…"))
             }
             className={`w-full truncate overflow-hidden whitespace-nowrap rounded-pill border border-border-subtle bg-bg-surface px-4 py-2.5 ${
-              i18n.language === "en" ? "pr-10" : "pe-10"
+              i18n.language === "en" ? "" : ""
             } text-sm text-text-main  shadow-soft/40 placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg-page ${
               isHero ? "md:text-base" : "text-sm"
             }`}
