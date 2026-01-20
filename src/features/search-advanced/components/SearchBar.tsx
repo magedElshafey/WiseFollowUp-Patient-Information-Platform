@@ -65,9 +65,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 ? t("Search a symptom (e.g. chest pain, fever, rash)…")
                 : t("Refine search…"))
             }
-            className={`w-full rounded-pill border border-border-subtle bg-bg-surface px-4 py-2.5 ${
+            className={`w-full truncate overflow-hidden whitespace-nowrap rounded-pill border border-border-subtle bg-bg-surface px-4 py-2.5 ${
               i18n.language === "en" ? "pr-10" : "pe-10"
-            } text-sm text-text-main shadow-soft/40 placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg-page ${
+            } text-sm text-text-main  shadow-soft/40 placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg-page ${
               isHero ? "md:text-base" : "text-sm"
             }`}
           />
