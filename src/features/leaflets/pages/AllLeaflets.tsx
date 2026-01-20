@@ -19,7 +19,7 @@ const AllLeaflets: FC = () => {
   const hasNonIndexableFilters = useMemo(
     () =>
       NON_INDEXABLE_FILTERS.some((key) => searchParams.has(`filter-${key}`)),
-    [searchParams]
+    [searchParams],
   );
 
   return (

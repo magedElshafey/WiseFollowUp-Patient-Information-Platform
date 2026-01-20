@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import SearchBar from "@/features/search-advanced/components/SearchBar";
 import { useSearchController } from "@/features/search-advanced/hooks/useSearchController";
+import HeroLayout from "@/common/layout/hero-layout/HeroLayout";
 
 const AllLeafletsSearchHeader: FC = () => {
   const { t } = useTranslation();
@@ -25,26 +26,36 @@ const AllLeafletsSearchHeader: FC = () => {
     }));
   }, [searchValue]);
   return (
-    <header className="border-b border-border-subtle bg-bg-page">
-      <div className="containerr py-6 space-y-3">
-        <h1 className="text-2xl font-bold text-text-main">
-          Browse all leaflets
-        </h1>
-
-        <p className="text-sm text-text-muted max-w-xl">
-          Trusted patient information reviewed by healthcare professionals.
-        </p>
-
-        <SearchBar variant="compact" controller={searchController} />
-
-        <Link
-          to="/search-advanced"
-          className="text-xs underline text-primary w-fit"
+    <HeroLayout minHeight="min-h-[30vh]">
+      <header className="containerr py-6 ">
+        <div
+          className="space-y-2  mx-auto max-w-5xl
+              min-h-[200px]
+              rounded-card
+              bg-bg-surface/70
+              backdrop-blur-sm
+              p-6 md:p-8
+              shadow-soft"
         >
-          {t("Advanced search")}
-        </Link>
-      </div>
-    </header>
+          <h1 className="text-2xl font-bold text-primary">
+            Browse all leaflets
+          </h1>
+
+          <p className="text-sm text-text-muted max-w-xl">
+            Trusted patient information reviewed by healthcare professionals.
+          </p>
+
+          <SearchBar variant="compact" controller={searchController} />
+
+          <Link
+            to="/search-advanced"
+            className="text-xs underline text-primary w-fit"
+          >
+            {t("Advanced search")}
+          </Link>
+        </div>
+      </header>
+    </HeroLayout>
   );
 };
 
