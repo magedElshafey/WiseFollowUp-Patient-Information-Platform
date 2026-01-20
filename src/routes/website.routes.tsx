@@ -27,7 +27,7 @@ export const websiteRoutes: RouteObject = {
     {
       path: "search-advanced",
       element: lazyLoad(
-        () => import("../features/search-advanced/pages/AdvancedSearch")
+        () => import("../features/search-advanced/pages/AdvancedSearch"),
       ),
       handle: {
         breadcrumb: "About",
@@ -57,7 +57,7 @@ export const websiteRoutes: RouteObject = {
     {
       path: "submit-review",
       element: lazyLoad(
-        () => import("../features/submit-review/pages/SubmitReview")
+        () => import("../features/submit-review/pages/SubmitReview"),
       ),
       handle: {
         breadcrumb: "terms",
@@ -76,13 +76,13 @@ export const websiteRoutes: RouteObject = {
         {
           index: true,
           element: lazyLoad(
-            () => import("../features/leaflets/pages/AllLeaflets")
+            () => import("../features/leaflets/pages/AllLeaflets"),
           ),
         },
         {
           path: ":slug",
           element: lazyLoad(
-            () => import("../features/leaflets/pages/LeafletsDetails")
+            () => import("../features/leaflets/pages/LeafletsDetails"),
           ),
           handle: {
             breadcrumb: "leaflet name",
@@ -101,18 +101,14 @@ export const websiteRoutes: RouteObject = {
           index: true,
           element: lazyLoad(
             () =>
-              import(
-                "../features/medical-calculators/pages/MedicalCalculatorsPage"
-              )
+              import("../features/medical-calculators/pages/MedicalCalculatorsPage"),
           ),
         },
         {
           path: ":slug",
           element: lazyLoad(
             () =>
-              import(
-                "../features/medical-calculators/pages/CalculatorDetailsPage"
-              )
+              import("../features/medical-calculators/pages/CalculatorDetailsPage"),
           ),
           handle: {
             breadcrumb: "leaflet name",
@@ -132,9 +128,9 @@ export const websiteRoutes: RouteObject = {
       },
     },
     {
-      path: "blogs/:slugAndId",
+      path: "blogs/:slug",
       element: lazyLoad(
-        () => import("../features/blogs/pages/BlogDetailsPage")
+        () => import("../features/blogs/pages/BlogDetailsPage"),
       ),
       handle: {
         breadcrumb: "blog name",

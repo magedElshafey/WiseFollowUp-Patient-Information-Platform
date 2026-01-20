@@ -4,21 +4,24 @@ import { Outlet } from "react-router-dom";
 import Footer from "./footer/Footer";
 import CookieBanner from "@/features/cookies/CookieBanner";
 import IntroMotion from "../intro-motion/IntroMotion";
-
+import { WebsiteSettingsProvider } from "@/store/WebsiteSettingsProvider";
 const WebsiteLayout = () => {
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden mt-[60px]">
-      <IntroMotion />
-      <ScrollToTopButton />
+    <WebsiteSettingsProvider>
+      <div className="flex flex-col min-h-screen overflow-x-hidden mt-[60px]">
+        <IntroMotion />
+        <ScrollToTopButton />
 
-      <StickyNavbar src="/images/main-logo.png" />
+        <StickyNavbar />
 
-      <main className="grow py-2 flex flex-col">
-        <Outlet />
-      </main>
-      <Footer />
-      <CookieBanner />
-    </div>
+        <main className="grow py-2 flex flex-col">
+          <Outlet />
+        </main>
+
+        <Footer />
+        <CookieBanner />
+      </div>
+    </WebsiteSettingsProvider>
   );
 };
 

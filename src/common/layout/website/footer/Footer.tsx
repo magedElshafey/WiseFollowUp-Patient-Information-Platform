@@ -12,9 +12,15 @@ const LINK_GROUPS: FooterLinkGroupT[] = [
     title: "Explore",
     links: [
       { label: "All patient leaflets", href: "/leaflets" },
-      { label: "Eye conditions", href: "/explore?category=eye-conditions" },
-      { label: "Procedures & surgery", href: "/explore?category=procedures" },
-      { label: "Medications", href: "/explore?category=medications" },
+      {
+        label: "Eye conditions",
+        href: "/leaflets?filter-search=eye conditions",
+      },
+      {
+        label: "Procedures & surgery",
+        href: "/leaflets?filter-search=procedures",
+      },
+      { label: "Medications", href: "/leaflets?filter-search=medications" },
     ],
   },
   {
@@ -24,6 +30,7 @@ const LINK_GROUPS: FooterLinkGroupT[] = [
       { label: "About Wise Follow Up", href: "/about" },
       { label: "Contact us", href: "/contact-us" },
       { label: "Blogs", href: "/blogs" },
+      { label: "share your experiance", href: "/submit-review" },
     ],
   },
 ];

@@ -21,7 +21,11 @@ const MedicalPage: React.FC = () => {
           },
         }}
       />
-      <ArticleDocPage useQueryHook={useGetMedical} skeletonType="blog" />
+      <ArticleDocPage
+        useQueryHook={useGetMedical}
+        skeletonType="article-page"
+        seoType="none"
+      />
     </>
   );
 };

@@ -6,17 +6,15 @@ import NavbarLanguageToggle from "./lang-menu/LangMenu";
 import NavbarCtaButton from "./cta/NavbarCtaButton";
 import MobileMenuButton from "./mobile-menu-button/MobileMenuButton";
 import MobileMenu from "../mobile-menu/MobileMenu";
+import { useWebsiteSettings } from "@/store/WebsiteSettingsProvider";
 
 export type NavbarProps = {
   links?: NavLinkItem[];
-  src?: string;
 };
 
-const Navbar: React.FC<NavbarProps> = ({
-  links = DEFAULT_LINKS,
-  src = "/images/main-logo.png",
-}) => {
+const Navbar: React.FC<NavbarProps> = ({ links = DEFAULT_LINKS }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { settings } = useWebsiteSettings();
 
   const toggleMenu = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -47,7 +45,7 @@ const Navbar: React.FC<NavbarProps> = ({
           "
           aria-label="Main navigation"
         >
-          <Logo src={src} />
+          <Logo src={settings?.app_logo || "/images/main-logo.png"} />
 
           {/* Desktop nav */}
           <div className="hidden md:flex md:items-center md:gap-6 lg:gap-8">

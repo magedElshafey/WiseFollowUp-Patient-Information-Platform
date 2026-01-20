@@ -4,7 +4,7 @@
 // import { Axios } from "@/lib/axios/Axios";
 // import { apiRoutes } from "@/services/api-routes/apiRoutes";
 // import type { LeafletType } from "../types/leaflets.types";
-// import { PaginatedResponse } from "@/types/Response";
+// import type { PaginatedResponse } from "@/types/Response";
 // import getNextPage from "@/utils/getNextPage";
 
 // const useInfiniteLeaflets = () => {
@@ -13,35 +13,40 @@
 //   const pageFromUrl = Number(searchParams.get("page")) || 1;
 //   const sortBy = searchParams.get("sort_by");
 
+//   /**
+//    * Build filters params (filter-xxx => xxx / xxx[])
+//    */
 //   const filterParams = Array.from(searchParams.entries()).reduce(
 //     (current, [key, value]) => {
 //       if (key.startsWith("filter-")) {
-//         const filterKey = key.split("-")?.[1] || "";
-//         const currentValue = current.get(filterKey);
+//         const filterKey = key.split("-")[1];
+//         if (!filterKey) return current;
 
-//         if (filterKey && currentValue) {
+//         // handle multiple values
+//         if (current.has(filterKey)) {
+//           const existing = current.get(filterKey);
 //           current.delete(filterKey);
-//           current.append(`${filterKey}[]`, currentValue);
+//           if (existing) current.append(`${filterKey}[]`, existing);
 //           current.append(`${filterKey}[]`, value);
-//         } else if (current.get(`${filterKey}[]`)) {
+//         } else if (current.has(`${filterKey}[]`)) {
 //           current.append(`${filterKey}[]`, value);
 //         } else {
 //           current.set(filterKey, value);
 //         }
 //       }
+
 //       return current;
 //     },
-//     new URLSearchParams()
+//     new URLSearchParams(),
 //   );
 
-//   if (sortBy) filterParams.set("sort", sortBy);
+//   if (sortBy) {
+//     filterParams.set("sort", sortBy);
+//   }
 
 //   return useInfiniteQuery<
-//     PaginatedResponse<LeafletType[]>, // data
-//     Error, // error
-//     PaginatedResponse<LeafletType[]>, // select
-//     [string, string, string], // queryKey
-//     number // pageParam type ✅
+//     PaginatedResponse<LeafletType[]>, // page type
+//     Error
 //   >({
 //     queryKey: [apiRoutes.leaflets, "infinite", filterParams.toString()],
 
@@ -50,15 +55,15 @@
 //         `${apiRoutes.leaflets}?${filterParams.toString()}`,
 //         {
 //           params: { page: pageParam },
-//         }
+//         },
 //       );
 
 //       return data;
 //     },
 
-//     getNextPageParam: (lastPage) => getNextPage(lastPage),
-
 //     initialPageParam: pageFromUrl,
+
+//     getNextPageParam: (lastPage) => getNextPage(lastPage),
 //   });
 // };
 
@@ -74,12 +79,10 @@ import getNextPage from "@/utils/getNextPage";
 
 const useInfiniteLeaflets = () => {
   const [searchParams] = useSearchParams();
-
-  const pageFromUrl = Number(searchParams.get("page")) || 1;
   const sortBy = searchParams.get("sort_by");
 
   /**
-   * Build filters params (filter-xxx => xxx / xxx[])
+   * Build filters params
    */
   const filterParams = Array.from(searchParams.entries()).reduce(
     (current, [key, value]) => {
@@ -87,7 +90,6 @@ const useInfiniteLeaflets = () => {
         const filterKey = key.split("-")[1];
         if (!filterKey) return current;
 
-        // handle multiple values
         if (current.has(filterKey)) {
           const existing = current.get(filterKey);
           current.delete(filterKey);
@@ -99,34 +101,33 @@ const useInfiniteLeaflets = () => {
           current.set(filterKey, value);
         }
       }
-
       return current;
     },
-    new URLSearchParams()
+    new URLSearchParams(),
   );
 
   if (sortBy) {
     filterParams.set("sort", sortBy);
   }
 
-  return useInfiniteQuery<
-    PaginatedResponse<LeafletType[]>, // page type
-    Error
-  >({
+  return useInfiniteQuery<PaginatedResponse<LeafletType[]>, Error>({
     queryKey: [apiRoutes.leaflets, "infinite", filterParams.toString()],
 
-    queryFn: async ({ pageParam }) => {
+    queryFn: async ({ pageParam = 1 }) => {
       const { data } = await Axios.get<PaginatedResponse<LeafletType[]>>(
-        `${apiRoutes.leaflets}?${filterParams.toString()}`,
+        apiRoutes.leaflets,
         {
-          params: { page: pageParam },
-        }
+          params: {
+            ...Object.fromEntries(filterParams),
+            page: pageParam,
+          },
+        },
       );
 
       return data;
     },
 
-    initialPageParam: pageFromUrl,
+    initialPageParam: 1,
 
     getNextPageParam: (lastPage) => getNextPage(lastPage),
   });

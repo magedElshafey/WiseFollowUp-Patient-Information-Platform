@@ -25,7 +25,7 @@ const BlogHeader: React.FC<{ post: Articles }> = ({ post }) => {
           </div>
           <div className="space-y-1">
             <div className="flex gap-2">
-              {post.author?.image && (
+              {post.author?.image ? (
                 <MetaItem>
                   <img
                     alt={post.author.name}
@@ -33,6 +33,8 @@ const BlogHeader: React.FC<{ post: Articles }> = ({ post }) => {
                     className="w-12 h-12 rounded-full object-contain"
                   />
                 </MetaItem>
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-border-subtle" />
               )}
 
               <div className="flex flex-col gap-[2px] italic">

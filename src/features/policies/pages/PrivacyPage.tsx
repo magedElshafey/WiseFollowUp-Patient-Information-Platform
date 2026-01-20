@@ -22,7 +22,11 @@ const PrivacyPage: React.FC = () => {
           },
         }}
       />
-      <ArticleDocPage useQueryHook={useGetPrivacy} skeletonType="blog" />
+      <ArticleDocPage
+        useQueryHook={useGetPrivacy}
+        skeletonType="article-page"
+        seoType="none"
+      />
     </>
   );
 };

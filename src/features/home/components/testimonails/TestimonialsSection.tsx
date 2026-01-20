@@ -6,15 +6,17 @@ import { Link } from "react-router-dom";
 import MainBtn from "@/common/components/buttons/MainBtn";
 import type { Reviews } from "../../types/reviews.types";
 import { useTranslation } from "react-i18next";
+
 const MAX_REVIEWS = 4;
 
 const TestimonialsSection: React.FC = () => {
   const query = useGetAllReviews();
   const reviews = (query.data ?? []) as Reviews[];
   const { t } = useTranslation();
+
   return (
-    <FetchHandler queryResult={query} skeletonType="card">
-      {reviews.length > 0 && (
+    <FetchHandler queryResult={query} skeletonType="testimonials">
+      {reviews.length > 0 ? (
         <section
           aria-labelledby="reviews-heading"
           className="section-shell bg-bg-alt"
@@ -49,7 +51,7 @@ const TestimonialsSection: React.FC = () => {
                   "
                 >
                   {/* Comment */}
-                  <p className="text-sm text-text-main leading-relaxed">
+                  <p className="text-sm text-text-main leading-relaxed min-h-[4.5rem]">
                     “{review.comment}”
                   </p>
 
@@ -70,7 +72,7 @@ const TestimonialsSection: React.FC = () => {
               ))}
             </ul>
 
-            {/* CTA */}
+            {/* CTA (space reserved) */}
             <div className="flex justify-center md:justify-end">
               <Link to="/submit-review">
                 <MainBtn
@@ -83,7 +85,7 @@ const TestimonialsSection: React.FC = () => {
             </div>
           </div>
         </section>
-      )}
+      ) : null}
     </FetchHandler>
   );
 };

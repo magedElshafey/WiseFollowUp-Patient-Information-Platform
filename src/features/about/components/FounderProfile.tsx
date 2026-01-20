@@ -1,21 +1,15 @@
-// src/components/about/FounderProfile.tsx
-import { FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import type { Founder } from "../types/aboutFounders";
+import SocialButton from "./SocialButton";
+import { SOCIAL_CONFIG } from "../utils/socialConfig";
+import { ImageWithPlaceholder } from "./HeroImageWithPlaceholder";
 
-type Props = {
-  name: string;
-  role: string;
-  image: string;
-  bio: string;
-  socials: {
-    linkedin?: string;
-    twitter?: string;
-  };
+interface Props extends Founder {
   reverse?: boolean;
-};
+}
 
 export default function FounderProfile({
   name,
-  role,
+  position,
   image,
   bio,
   socials,
@@ -32,20 +26,16 @@ export default function FounderProfile({
         `}
       >
         {/* Image */}
-        <div className="relative">
-          <img
-            src={image}
-            alt={name}
-            loading="lazy"
-            className="
-              w-full
-              h-[420px] md:h-[480px]
-              object-cover
-              rounded-card
-              shadow-soft
-            "
-          />
-        </div>
+        <ImageWithPlaceholder
+          src={image}
+          alt={name}
+          className="
+            w-full
+            h-[420px] md:h-[480px]
+            rounded-card
+            shadow-soft
+          "
+        />
 
         {/* Content */}
         <div className="max-w-xl">
@@ -54,74 +44,38 @@ export default function FounderProfile({
           </h2>
 
           <p className="mt-1 text-primary font-medium text-sm md:text-base">
-            {role}
+            {position}
           </p>
 
           <p className="mt-6 text-base md:text-lg text-text-muted leading-relaxed whitespace-pre-line">
-            {bio}
+            {bio.join("\n")}
           </p>
 
-          {/* Social links */}
-          {(socials.linkedin || socials.twitter) && (
-            <div className="mt-6 flex items-center gap-3">
-              {socials.linkedin && (
-                <SocialButton href={socials.linkedin} label="LinkedIn profile">
-                  <FaLinkedin size={18} />
-                  <span>LinkedIn</span>
-                </SocialButton>
-              )}
+          {socials?.length > 0 && (
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              {socials.map(({ type, link }, index) => {
+                const key = type.toLowerCase();
+                const config = SOCIAL_CONFIG[key];
 
-              {socials.twitter && (
-                <SocialButton
-                  href={socials.twitter}
-                  label="X / Twitter profile"
-                >
-                  <FaXTwitter size={18} />
-                  <span>X (Twitter)</span>
-                </SocialButton>
-              )}
+                if (!config || !link) return null;
+
+                const { Icon, label } = config;
+
+                return (
+                  <SocialButton
+                    key={`${key}-${index}`}
+                    href={link}
+                    label={label}
+                  >
+                    <Icon size={18} />
+                    <span className="hidden sm:inline">{label}</span>
+                  </SocialButton>
+                );
+              })}
             </div>
           )}
         </div>
       </div>
     </section>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                Social Btn                                  */
-/* -------------------------------------------------------------------------- */
-
-function SocialButton({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="
-        inline-flex items-center gap-2
-        rounded-pill
-        border border-border-subtle
-        bg-bg-page
-        px-4 py-2
-        text-sm font-medium text-text-main
-        hover:bg-primary-soft hover:text-primary
-        transition
-        focus-visible:outline-none
-        focus-visible:ring-2 focus-visible:ring-primary
-        focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
-      "
-    >
-      {children}
-    </a>
   );
 }

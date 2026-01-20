@@ -1,7 +1,71 @@
+// import { FC, ReactNode } from "react";
+
+// type HeroLayoutProps = {
+//   children: ReactNode;
+//   minHeight?: string;
+// };
+
+// const HeroLayout: FC<HeroLayoutProps> = ({
+//   children,
+//   minHeight = "min-h-[60vh] lg:min-h-[80vh]",
+// }) => {
+//   return (
+//     <section
+//       role="banner"
+//       className={`
+//         relative
+//         ${minHeight}
+//         flex items-center
+//         overflow-hidden
+
+//         /* smooth single gradient */
+//         bg-gradient-to-b
+//         from-primary/20
+//         via-primary/10
+//         to-bg-page
+//       `}
+//     >
+//       {/* soft ambient blobs – no hard edges */}
+//       <span
+//         aria-hidden
+//         className="
+//           pointer-events-none
+//           absolute -top-40 -right-40
+//           h-[32rem] w-[32rem]
+//           rounded-full
+//           bg-primary/20
+//           blur-[120px]
+//         "
+//       />
+
+//       <span
+//         aria-hidden
+//         className="
+//           pointer-events-none
+//           absolute -bottom-40 -left-40
+//           h-[32rem] w-[32rem]
+//           rounded-full
+//           bg-accent/20
+//           blur-[120px]
+//         "
+//       />
+
+//       {/* content */}
+//       <div className="containerr relative w-full">{children}</div>
+//     </section>
+//   );
+// };
+
+// export default HeroLayout;
 import { FC, ReactNode } from "react";
 
 type HeroLayoutProps = {
   children: ReactNode;
+  /**
+   * Minimum height of hero section
+   * Example:
+   * "min-h-[60vh] lg:min-h-[80vh]"
+   */
   minHeight?: string;
 };
 
@@ -15,43 +79,60 @@ const HeroLayout: FC<HeroLayoutProps> = ({
       className={`
         relative
         ${minHeight}
-        flex items-center
-        overflow-hidden
 
-        /* smooth single gradient */
+        /* layout */
+        flex
+        items-start
+
+        /* spacing */
+        py-16 sm:py-20 lg:py-24
+
+        /* background */
         bg-gradient-to-b
         from-primary/20
         via-primary/10
         to-bg-page
       `}
     >
-      {/* soft ambient blobs – no hard edges */}
-      <span
+      {/* =====================
+          Ambient background blobs
+          (isolated overflow)
+         ===================== */}
+      <div
         aria-hidden
         className="
           pointer-events-none
-          absolute -top-40 -right-40
-          h-[32rem] w-[32rem]
-          rounded-full
-          bg-primary/20
-          blur-[120px]
+          absolute inset-0
+          overflow-hidden
         "
-      />
+      >
+        <span
+          className="
+            absolute -top-40 -right-40
+            h-[32rem] w-[32rem]
+            rounded-full
+            bg-primary/20
+            blur-[120px]
+          "
+        />
 
-      <span
-        aria-hidden
-        className="
-          pointer-events-none
-          absolute -bottom-40 -left-40
-          h-[32rem] w-[32rem]
-          rounded-full
-          bg-accent/20
-          blur-[120px]
-        "
-      />
+        <span
+          className="
+            absolute -bottom-40 -left-40
+            h-[32rem] w-[32rem]
+            rounded-full
+            bg-accent/20
+            blur-[120px]
+          "
+        />
+      </div>
 
-      {/* content */}
-      <div className="containerr relative w-full">{children}</div>
+      {/* =====================
+          Content
+         ===================== */}
+      <div className="relative z-10 w-full">
+        <div className="containerr">{children}</div>
+      </div>
     </section>
   );
 };

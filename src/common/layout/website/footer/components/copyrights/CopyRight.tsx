@@ -4,28 +4,36 @@ import { openCookieSettings } from "@/features/cookies/CookieConsentProvider";
 import useGetAllPolicies from "@/features/policies/api/useGetAllPolicies";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-const CopyRight = () => {
-  const year = new Date().getFullYear();
-  const { data } = useGetAllPolicies();
-  console.log("policy data", data);
-  const policyLinks = useMemo<FooterLink[]>(() => {
-    if (!data?.length) return [];
+import { useWebsiteSettings } from "@/store/WebsiteSettingsProvider";
 
-    return data.map((policy) => ({
+const CopyRight: React.FC = () => {
+  const { settings, isLoading: isSettingsLoading } = useWebsiteSettings();
+  const { data, isLoading: isPoliciesLoading } = useGetAllPolicies();
+  const year = new Date().getFullYear();
+  const { t } = useTranslation();
+
+  const policyLinks = useMemo<FooterLink[]>(() => {
+    if (!data?.data?.length) return [];
+    return data.data.map((policy) => ({
       label: policy.title,
       href: `/policies/${policy.slug}`,
     }));
   }, [data]);
-  const linksToRender = policyLinks.length ? policyLinks : [];
-  const { t } = useTranslation();
+
+  const hasDisclaimer = Boolean(settings?.copyrights_disclaimer);
+  const hasPolicies = policyLinks.length > 0;
+
   return (
     <div
       className="
-            mt-6 pt-4 border-t border-border-subtle
-            flex flex-col gap-3 md:flex-row md:items-center md:justify-between
-          "
+        mt-6 pt-4 border-t border-border-subtle
+        flex flex-col gap-3
+        md:flex-row md:items-center md:justify-between
+      "
     >
-      <div className="text-xs text-text-muted">
+      {/* ================= LEFT ================= */}
+      <div className="text-xs text-text-muted max-w-xl">
+        {/* Copyright line (static → no CLS) */}
         <p className="mb-1">
           &copy; {year}{" "}
           <a
@@ -36,24 +44,43 @@ const CopyRight = () => {
           >
             medwisely
           </a>
-          . All rights reserved.
+          . {t("All rights reserved")}.
         </p>
-        <p className="text-[11px] leading-relaxed">
-          Information on this website is for general education only and does not
-          replace advice from your own doctor or healthcare team.
-        </p>
+
+        {/* Disclaimer */}
+        {isSettingsLoading ? (
+          <div aria-hidden className="mt-1 space-y-1">
+            <div className="h-3 w-full rounded bg-border-subtle animate-pulse" />
+            <div className="h-3 w-5/6 rounded bg-border-subtle animate-pulse" />
+          </div>
+        ) : hasDisclaimer ? (
+          <p className="text-[11px] leading-relaxed">
+            {settings?.copyrights_disclaimer}
+          </p>
+        ) : null}
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 md:justify-end">
-        {/* Small pills for policies */}
-        {linksToRender?.length > 0 && (
-          <ul className="flex flex-wrap items-center gap-2 text-xs">
-            {linksToRender.map((item, index) => (
-              <li key={item.href + index}>
-                <Link
-                  to={item.href}
-                  aria-label={item.label}
-                  className="
+      {/* ================= RIGHT ================= */}
+      {(isPoliciesLoading || hasPolicies) && (
+        <div className="flex flex-wrap items-center gap-3 md:justify-end">
+          {/* Policies pills */}
+          {isPoliciesLoading ? (
+            <ul aria-hidden className="flex flex-wrap gap-2">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <li
+                  key={i}
+                  className="h-6 w-20 rounded-pill bg-border-subtle animate-pulse"
+                />
+              ))}
+            </ul>
+          ) : hasPolicies ? (
+            <ul className="flex flex-wrap items-center gap-2 text-xs">
+              {policyLinks.map((item, index) => (
+                <li key={item.href + index}>
+                  <Link
+                    to={item.href}
+                    aria-label={item.label}
+                    className="
                       inline-flex items-center rounded-pill
                       border border-border-subtle
                       px-3 py-1
@@ -63,28 +90,33 @@ const CopyRight = () => {
                       focus-visible:ring-primary focus-visible:ring-offset-2
                       focus-visible:ring-offset-bg-surface
                     "
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : null}
 
-        <button
-          type="button"
-          onClick={openCookieSettings}
-          className="
-    inline-flex items-center rounded-pill border border-border-subtle
-    px-3 py-1 text-[11px] text-text-muted
-    hover:bg-bg-page hover:text-text-main
-    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
-    focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
-  "
-        >
-          {t("Cookie settings")}
-        </button>
-      </div>
+          {/* Cookie settings (always visible → stable layout) */}
+          <button
+            type="button"
+            onClick={openCookieSettings}
+            className="
+              inline-flex items-center rounded-pill
+              border border-border-subtle
+              px-3 py-1 text-[11px] text-text-muted
+              hover:bg-bg-page hover:text-text-main
+              focus-visible:outline-none focus-visible:ring-2
+              focus-visible:ring-primary
+              focus-visible:ring-offset-2
+              focus-visible:ring-offset-bg-surface
+            "
+          >
+            {t("Cookie settings")}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

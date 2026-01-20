@@ -22,6 +22,8 @@ export const apiRoutes = {
   contacts: "contacts",
   hero: "content/home-intro",
   trust: "content/home-trust",
-  categories: "categories"
-
+  categories: "categories",
+  vision: "content/about-vision",
+  aboutHero: "content/about-intro",
+  founders: "content/about-founders", aboutInfo: "content/about-wise-info"
 };

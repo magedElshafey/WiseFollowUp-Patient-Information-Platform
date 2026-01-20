@@ -72,18 +72,11 @@ const BlogCardFeed: React.FC<{ post: Articles }> = ({ post }) => {
       </div>
 
       {/* Title */}
-      <h3
-        className="
-          mt-1 text-base font-semibold leading-snug text-text-main
-          transition-colors
-          group-hover:text-primary
-        "
-      >
+      <h3 className="mt-1 text-base font-semibold leading-snug text-text-main min-h-[2.5rem]">
         {post.title}
       </h3>
 
-      {/* Excerpt */}
-      <p className="mt-1 text-sm text-text-muted line-clamp-2">
+      <p className="mt-1 text-sm text-text-muted line-clamp-2 min-h-[2.5rem]">
         {post.excerpt}
       </p>
       {/* Author (optional) */}

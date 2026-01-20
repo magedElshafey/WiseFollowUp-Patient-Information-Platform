@@ -8,6 +8,7 @@ export default function useGetBlogDetails(slug: string) {
     queryKey: [apiRoutes.blogs, slug],
     queryFn: async () => {
       const { data } = await Axios.get(`${apiRoutes.blogs}/${slug}`);
+      console.log("blog details page", data?.data);
       return data?.data as Articles;
     },
     enabled: Boolean(slug),

@@ -1,14 +1,21 @@
+// src/features/blogs/pages/BlogDetailsPage.tsx
 import React from "react";
 import { useParams } from "react-router-dom";
 import ArticleDocPage from "./ArticleDocPage";
-import useGetBlogDetails from "../api/useGetBlogDetails.tsx";
+import useGetBlogDetails from "../api/useGetBlogDetails";
+
 const BlogDetailsPage: React.FC = () => {
   const { slug } = useParams();
 
-  // ✅ wrapper hook عشان ArticleDocPage يبقى consistent
   const useQueryHook = () => useGetBlogDetails(slug || "");
 
-  return <ArticleDocPage useQueryHook={useQueryHook} skeletonType="blog" />;
+  return (
+    <ArticleDocPage
+      useQueryHook={useQueryHook}
+      skeletonType="article-page"
+      seoType="blog" // ✅ مهم
+    />
+  );
 };
 
 export default BlogDetailsPage;

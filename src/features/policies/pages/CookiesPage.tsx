@@ -4,6 +4,8 @@ import { useGetCookies } from "@/features/blogs/api/pages";
 import PageSeo from "@/common/components/seo/PageSeo";
 
 const CookiesPage: React.FC = () => {
+  const { data } = useGetCookies();
+  console.log("data from cookies", data);
   return (
     <>
       <PageSeo
@@ -12,7 +14,11 @@ const CookiesPage: React.FC = () => {
         canonicalPath="/cookies-policy"
         ogType="website"
       />
-      <ArticleDocPage useQueryHook={useGetCookies} skeletonType="blog" />
+      <ArticleDocPage
+        useQueryHook={useGetCookies}
+        skeletonType="article-page"
+        seoType="none" // ✅ مهم
+      />
     </>
   );
 };

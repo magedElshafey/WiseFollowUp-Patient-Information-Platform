@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
 export interface LogoProps {
-  src?: string;
+  src: string;
 }
 
-const Logo: React.FC<LogoProps> = ({ src = "/images/main-logo.png" }) => {
+const Logo: React.FC<LogoProps> = ({ src }) => {
   return (
     <Link
       to="/"
