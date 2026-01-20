@@ -38,11 +38,13 @@ const AllLeafletsSearchHeader: FC = () => {
               shadow-soft"
         >
           <h1 className="text-2xl font-bold text-primary">
-            Browse all leaflets
+            {t("Browse all leaflets")}
           </h1>
 
           <p className="text-sm text-text-muted max-w-xl">
-            Trusted patient information reviewed by healthcare professionals.
+            {t(
+              "Trusted patient information reviewed by healthcare professionals.",
+            )}
           </p>
 
           <SearchBar variant="compact" controller={searchController} />

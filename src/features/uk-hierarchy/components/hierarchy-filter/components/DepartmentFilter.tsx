@@ -19,7 +19,7 @@ const DepartmentFilter: FC = () => {
     <FetchHandler queryResult={queryResult} skeletonType="list">
       {departments.length === 0 ? (
         <div className="py-4 text-center text-sm text-text-muted">
-          {t("No countries available")}
+          {t("No departments available")}
         </div>
       ) : (
         departments.map((department) => {
@@ -34,7 +34,7 @@ const DepartmentFilter: FC = () => {
               onToggle={() =>
                 handleChangeFilters(
                   "department_id",
-                  isSelected ? undefined : String(department.id)
+                  isSelected ? undefined : String(department.id),
                 )
               }
             />

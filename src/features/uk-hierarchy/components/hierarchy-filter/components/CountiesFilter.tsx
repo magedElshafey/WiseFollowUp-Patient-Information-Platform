@@ -18,7 +18,7 @@ const CountiesFilter: FC = () => {
     <FetchHandler queryResult={queryResult} skeletonType="list">
       {counties.length === 0 ? (
         <div className="py-4 text-center text-sm text-text-muted">
-          {t("no brands available")}
+          {t("no counties available")}
         </div>
       ) : (
         counties.map((county) => {
@@ -33,7 +33,7 @@ const CountiesFilter: FC = () => {
               onToggle={() => {
                 handleChangeFilters(
                   "county_id",
-                  selected ? undefined : String(county.id)
+                  selected ? undefined : String(county.id),
                 );
                 handleChangeFilters("organization_id", undefined);
               }}

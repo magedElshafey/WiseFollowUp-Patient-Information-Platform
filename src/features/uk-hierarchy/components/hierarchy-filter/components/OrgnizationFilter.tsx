@@ -24,7 +24,7 @@ const OrgFilter: FC = () => {
     <FetchHandler queryResult={queryResult} skeletonType="list">
       {orgs.length === 0 ? (
         <div className="py-4 text-center text-sm text-text-muted">
-          {t("no brands available")}
+          {t("no organizations available")}
         </div>
       ) : (
         orgs.map((org) => {
@@ -39,7 +39,7 @@ const OrgFilter: FC = () => {
               onToggle={() =>
                 handleChangeFilters(
                   "organization_id",
-                  isSelected ? undefined : String(org.id)
+                  isSelected ? undefined : String(org.id),
                 )
               }
             />

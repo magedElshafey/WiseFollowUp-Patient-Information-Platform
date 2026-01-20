@@ -19,7 +19,7 @@ const OrgnizationTypesFilter: FC = () => {
     <FetchHandler queryResult={queryResult} skeletonType="list">
       {types.length === 0 ? (
         <div className="py-4 text-center text-sm text-text-muted">
-          {t("No countries available")}
+          {t("No organizations types available")}
         </div>
       ) : (
         types.map((type) => {
@@ -34,7 +34,7 @@ const OrgnizationTypesFilter: FC = () => {
               onToggle={() => {
                 handleChangeFilters(
                   "organization_type_id",
-                  isSelected ? undefined : String(type.id)
+                  isSelected ? undefined : String(type.id),
                 );
 
                 // reset dependent filter
