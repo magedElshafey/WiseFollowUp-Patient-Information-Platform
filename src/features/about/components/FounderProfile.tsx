@@ -2,7 +2,7 @@ import type { Founder } from "../types/aboutFounders";
 import SocialButton from "./SocialButton";
 import { SOCIAL_CONFIG } from "../utils/socialConfig";
 import { ImageWithPlaceholder } from "./HeroImageWithPlaceholder";
-
+import { useTranslation } from "react-i18next";
 interface Props extends Founder {
   reverse?: boolean;
 }
@@ -15,6 +15,7 @@ export default function FounderProfile({
   socials,
   reverse = false,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <section className="bg-bg-surface py-section-y">
       <div
@@ -68,7 +69,7 @@ export default function FounderProfile({
                     label={label}
                   >
                     <Icon size={18} />
-                    <span className="hidden sm:inline">{label}</span>
+                    <span className="hidden sm:inline">{t(label)}</span>
                   </SocialButton>
                 );
               })}

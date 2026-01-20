@@ -4,7 +4,7 @@ import { ImageWithPlaceholder } from "./HeroImageWithPlaceholder";
 
 export default function FoundersHero({ data }: { data: HeroAbout }) {
   return (
-    <HeroLayout minHeight="min-h-[80vh]">
+    <HeroLayout minHeight="min-h-[80vh] overflow-y-hidden">
       <div className="relative containerr pt-section-y pb-40">
         {/* Center story */}
         <div className="relative z-10 mx-auto max-w-2xl text-center">

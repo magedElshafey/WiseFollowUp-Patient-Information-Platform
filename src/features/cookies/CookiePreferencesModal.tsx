@@ -1,10 +1,12 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useCookieConsent } from "./CookieConsentProvider";
 import type { CookiePreferences } from "./cookie-consent";
-
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 type Props = { open: boolean; onClose: () => void };
 
 const CookiePreferencesModal: React.FC<Props> = ({ open, onClose }) => {
+  const { t } = useTranslation();
   const { prefs, savePrefs, acceptAll } = useCookieConsent();
   const titleId = useId();
   const descId = useId();
@@ -38,8 +40,8 @@ const CookiePreferencesModal: React.FC<Props> = ({ open, onClose }) => {
       // simple focus trap
       const focusables = Array.from(
         el.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        )
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
       );
       if (!focusables.length) return;
 
@@ -92,14 +94,15 @@ const CookiePreferencesModal: React.FC<Props> = ({ open, onClose }) => {
           <div className="flex items-start justify-between gap-4">
             <div>
               <h2 id={titleId} className="text-lg font-semibold text-text-main">
-                Cookie settings
+                {t("Cookie settings")}
               </h2>
               <p
                 id={descId}
                 className="mt-1 text-sm text-text-muted leading-relaxed"
               >
-                Choose which optional cookies you allow. Essential cookies are
-                always on to keep the site working.
+                {t(
+                  "Choose which optional cookies you allow. Essential cookies are always on to keep the site working.",
+                )}
               </p>
             </div>
 
@@ -114,7 +117,7 @@ const CookiePreferencesModal: React.FC<Props> = ({ open, onClose }) => {
                 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
               "
             >
-              Close
+              {t("Close")}
             </button>
           </div>
 
@@ -150,23 +153,12 @@ const CookiePreferencesModal: React.FC<Props> = ({ open, onClose }) => {
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row gap-2 sm:justify-end">
-            {/* <button
-              type="button"
-              onClick={rejectNonEssential}
-              className="
-                rounded-pill border border-border-subtle bg-bg-page
-                px-4 py-2 text-sm font-semibold text-text-main
-                hover:bg-primary-soft hover:text-primary
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
-                focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
-              "
-            >
-              Reject non-essential
-            </button> */}
-
             <button
               type="button"
-              onClick={acceptAll}
+              onClick={() => {
+                acceptAll();
+                onClose();
+              }}
               className="
                 rounded-pill border border-border-subtle bg-bg-surface
                 px-4 py-2 text-sm font-semibold text-text-main
@@ -175,7 +167,7 @@ const CookiePreferencesModal: React.FC<Props> = ({ open, onClose }) => {
                 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
               "
             >
-              Accept all
+              {t("Accept all")}
             </button>
 
             <button
@@ -192,15 +184,15 @@ const CookiePreferencesModal: React.FC<Props> = ({ open, onClose }) => {
                 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
               "
             >
-              Save settings
+              {t("Save settings")}
             </button>
           </div>
 
           <p className="mt-3 text-[11px] text-text-muted leading-relaxed">
-            Learn more in our{" "}
-            <a className="text-primary hover:underline" href="/cookies">
-              Cookies Policy
-            </a>
+            {t("Learn more in our")}{" "}
+            <Link className="text-primary hover:underline" to="/cookies-policy">
+              {t("Cookies Policy")}
+            </Link>
             .
           </p>
         </div>
@@ -219,15 +211,16 @@ function PrefRow(props: {
   onChange: (v: boolean) => void;
 }) {
   const id = useId();
+  const { t } = useTranslation();
   return (
     <div className="rounded-card border border-border-subtle bg-bg-page p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
           <label htmlFor={id} className="text-sm font-semibold text-text-main">
-            {props.title}
+            {t(props.title)}
           </label>
           <p className="mt-1 text-xs text-text-muted leading-relaxed">
-            {props.description}
+            {t(props.description)}
           </p>
         </div>
 

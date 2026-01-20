@@ -22,8 +22,15 @@ const LeafletsList: FC = () => {
     },
   });
   const { t } = useTranslation();
+
   return (
     <div className="w-full flex-1">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {queryResult.isLoading &&
+          Array.from({ length: 4 }).map((_, i) => (
+            <LeafletCardSkeleton key={i} />
+          ))}
+      </div>
       {leaflets.length > 0 ? (
         <>
           <ResultsToolbar resultsCount={leaflets.length} />

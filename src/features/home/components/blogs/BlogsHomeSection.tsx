@@ -20,7 +20,7 @@ const BlogsHomeSection: React.FC<Props> = ({ posts }) => {
         />
 
         <div className="grid gap-4 md:gap-6 lg:gap-8 xl:gap-10 lg:grid-cols-3 items-start">
-          {posts.map((p) => (
+          {posts.slice(0, 3).map((p) => (
             <BlogCard key={p.id} post={p} />
           ))}
         </div>

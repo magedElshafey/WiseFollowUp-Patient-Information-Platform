@@ -44,7 +44,7 @@ const ContactPage: React.FC = () => {
   return (
     <>
       <PageSeo
-        title="Contact Wise Follow Up"
+        title="Contact WiseFollowUp"
         description="Contact Wise Follow Up for questions, feedback, or to report an issue. We value your input and aim to improve patient-friendly medical information."
         canonicalPath="/contact-us"
         structuredData={{
@@ -127,8 +127,9 @@ const ContactPage: React.FC = () => {
           <div className="rounded-card bg-bg-page border border-border-subtle p-5">
             <h3 className="font-semibold mb-2">🚨 {t("Report an issue")}</h3>
             <p className="text-sm text-text-muted">
-              Found incorrect information, a broken link, or outdated content?
-              Please report it so we can fix it quickly.
+              {t(
+                "Found incorrect information, a broken link, or outdated content? Please report it so we can fix it quickly.",
+              )}
             </p>
           </div>
 
@@ -136,9 +137,9 @@ const ContactPage: React.FC = () => {
           <div className="rounded-card bg-bg-page border border-border-subtle p-5">
             <h3 className="font-semibold mb-2">ℹ️ {t("What to expect")}</h3>
             <ul className="text-sm text-text-muted list-disc pl-5 space-y-1">
-              <li>We usually reply within a few working days</li>
-              <li>This is not an emergency service</li>
-              <li>Messages are reviewed by the Wise Follow Up team</li>
+              <li>{t("We usually reply within a few working days")}</li>
+              <li>{t("This is not an emergency service")}</li>
+              <li>{t("Messages are reviewed by the Wise Follow Up team")}</li>
             </ul>
           </div>
         </div>

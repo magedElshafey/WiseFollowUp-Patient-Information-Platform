@@ -7,17 +7,17 @@ import PageSeo from "@/common/components/seo/PageSeo";
 import LeafletShareActions from "../components/LeafletShareActions";
 import ReadingProgress from "@/common/reading-progress/ReadingProgress";
 import { HiExclamationTriangle } from "react-icons/hi2";
-
+import { useTranslation } from "react-i18next";
 /* -------------------------------------------------------------------------- */
 /*                                   Page                                     */
 /* -------------------------------------------------------------------------- */
 
 const LeafletDetailsPage: FC = () => {
   const { slug } = useParams<{ slug: string }>();
-
+  const { t } = useTranslation();
   const queryResult = useGetLeafletsDetails({ slug: slug || "" });
   const leaflet = queryResult.data;
-
+  console.log("publication_date", leaflet?.publication_date);
   const pdfUrl = useMemo(() => leaflet?.pdf_url, [leaflet]);
 
   /* ------------------------------- SEO JSON-LD ------------------------------ */
@@ -95,12 +95,14 @@ const LeafletDetailsPage: FC = () => {
                     aria-label="Leaflet summary"
                   >
                     <h3 className="text-sm font-semibold text-text-main mb-2">
-                      At a glance
+                      {t("At a glance")}
                     </h3>
 
                     <p className="text-sm text-text-muted leading-relaxed">
                       {leaflet.short_description ||
-                        "This leaflet provides patient information reviewed by healthcare professionals."}
+                        t(
+                          "This leaflet provides patient information reviewed by healthcare professionals.",
+                        )}
                     </p>
                   </section>
 
@@ -124,7 +126,7 @@ const LeafletDetailsPage: FC = () => {
                         {/* Mobile */}
                         <div className="block lg:hidden p-6 text-center">
                           <p className="text-sm text-text-muted mb-3">
-                            This leaflet is available as a PDF.
+                            {t("This leaflet is available as a PDF.")}
                           </p>
 
                           <a
@@ -133,7 +135,7 @@ const LeafletDetailsPage: FC = () => {
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center rounded-pill bg-primary px-5 py-2 text-sm font-medium text-white"
                           >
-                            Open PDF
+                            {t("Open PDF")}
                           </a>
                         </div>
                       </>
@@ -174,30 +176,30 @@ const LeafletDetailsPage: FC = () => {
                           id="medical-disclaimer-title"
                           className="text-sm font-semibold text-text-main"
                         >
-                          Important medical information
+                          {t("Important medical information")}
                         </h3>
 
                         <p className="text-sm text-text-muted leading-relaxed">
-                          This leaflet is provided for general educational
-                          purposes only and is designed to support — not replace
-                          — advice from your own doctor, optometrist, or
-                          healthcare professional.
+                          {t(
+                            "This leaflet is provided for general educational purposes only and is designed to support— not replace — advice from your own doctor, optometrist, or healthcare professional.",
+                          )}
                         </p>
 
                         <ul className="list-disc pl-5 text-sm text-text-muted space-y-1">
                           <li>
-                            Always follow the advice given to you during your
-                            consultation, even if it differs from what you read
-                            here.
+                            {t(
+                              "Always follow the advice given to you during your consultation, even if it differs from what you read here.",
+                            )}
                           </li>
                           <li>
-                            Medical information may change over time and may not
-                            reflect your individual circumstances.
+                            {t(
+                              "Medical information may change over time and may not reflect your individual circumstances.",
+                            )}
                           </li>
                           <li>
-                            If your symptoms worsen, change suddenly, or you are
-                            concerned, seek urgent medical advice or emergency
-                            care.
+                            {t(
+                              "If your symptoms worsen, change suddenly, or you are concerned, seek urgent medical advice or emergency care.",
+                            )}
                           </li>
                         </ul>
                       </div>
@@ -212,7 +214,7 @@ const LeafletDetailsPage: FC = () => {
                           id="related-leaflets-heading"
                           className="text-sm font-semibold text-text-main mb-3"
                         >
-                          Related leaflets
+                          {t("Related leaflets")}
                         </h3>
 
                         <div className="grid gap-3 sm:grid-cols-2">
@@ -256,7 +258,7 @@ const LeafletDetailsPage: FC = () => {
                   />
 
                   <MetaItem label="Version" value={leaflet.version} />
-                  <MetaItem label="leaflet type" value={leaflet.type} />
+                  <MetaItem label="document type" value={leaflet.type} />
                   <MetaItem
                     label="organization"
                     value={leaflet.organization?.name}
@@ -291,14 +293,14 @@ const LeafletDetailsPage: FC = () => {
                         rel="noopener noreferrer"
                         className="mt-2 inline-flex w-full items-center justify-center rounded-pill bg-primary px-4 py-2 text-sm font-medium text-white"
                       >
-                        Open PDF in new tab
+                        {t("Open PDF in new tab")}
                       </a>
                       <LeafletShareActions title={leaflet.title} />
                       <button
                         onClick={() => window.print()}
                         className="w-full text-xs text-primary underline"
                       >
-                        Print page
+                        {t("Print this page")}
                       </button>
                     </>
                   )}
@@ -318,16 +320,21 @@ export default LeafletDetailsPage;
 /*                                   Helpers                                  */
 /* -------------------------------------------------------------------------- */
 
-const EmptyPdfState = () => (
-  <div className="flex h-[50vh] items-center justify-center text-center p-6">
-    <div>
-      <p className="text-sm font-medium text-text-main">PDF not available</p>
-      <p className="mt-1 text-xs text-text-muted">
-        This leaflet does not currently have a PDF version.
-      </p>
+const EmptyPdfState = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex h-[50vh] items-center justify-center text-center p-6">
+      <div>
+        <p className="text-sm font-medium text-text-main">
+          {t("PDF not available")}
+        </p>
+        <p className="mt-1 text-xs text-text-muted">
+          {t("This leaflet does not currently have a PDF version.")}
+        </p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 type MetaValue = string | number | undefined | null;
 
@@ -338,12 +345,13 @@ type MetaItemProps = {
 };
 
 const MetaItem: FC<MetaItemProps> = ({ label, value, isLink = false }) => {
+  const { t } = useTranslation();
   if (!value) return null;
 
   return (
     <div>
       <p className="text-[11px] uppercase tracking-wide text-text-muted">
-        {label}
+        {t(label)}
       </p>
 
       {isLink && typeof value === "string" ? (
@@ -364,7 +372,7 @@ const MetaItem: FC<MetaItemProps> = ({ label, value, isLink = false }) => {
             break-all
           "
         >
-          Visit source
+          {t("Visit source")}
         </a>
       ) : (
         <p className="text-sm font-medium text-text-main break-words">

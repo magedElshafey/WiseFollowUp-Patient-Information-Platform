@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useCookieConsent } from "./CookieConsentProvider";
 import CookiePreferencesModal from "./CookiePreferencesModal";
 import { Link } from "react-router-dom";
-
+import { useTranslation } from "react-i18next";
 const CookieBanner: React.FC = () => {
   const { hasDecision, acceptAll } = useCookieConsent();
   const [openPrefs, setOpenPrefs] = useState(false);
-
+  const { t } = useTranslation();
   useEffect(() => {
     const openHandler = () => setOpenPrefs(true);
     window.addEventListener("wf:open-cookie-settings", openHandler);
@@ -36,13 +36,12 @@ const CookieBanner: React.FC = () => {
           <div className="grid gap-3 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-start">
             <div className="space-y-1">
               <p className="text-sm font-semibold text-text-main">
-                Cookies on Wise Follow Up
+                {t("Cookies on WiseFollowUp")}
               </p>
               <p className="text-xs text-text-muted leading-relaxed">
-                We use essential cookies for site functionality. With your
-                permission, we also use optional cookies (e.g., analytics) to
-                improve the website. You can change your choice at any time in
-                Cookie settings.
+                {t(
+                  "We use essential cookies for site functionality. With your permission, we also use optional cookies (e.g., analytics) to improve the website. You can change your choice at any time in Cookie settings.",
+                )}
               </p>
               <Link
                 to="/policies/cookies-policy"
@@ -52,7 +51,7 @@ const CookieBanner: React.FC = () => {
                   focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface rounded-sm
                 "
               >
-                Read our Cookies Policy
+                {t("Read our Cookies Policy")}
               </Link>
             </div>
 
@@ -69,7 +68,7 @@ const CookieBanner: React.FC = () => {
                   focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
                 "
               >
-                Manage
+                {t("Manage")}
               </button>
 
               <button
@@ -82,7 +81,7 @@ const CookieBanner: React.FC = () => {
                   focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface
                 "
               >
-                Accept all
+                {t("Accept all")}
               </button>
             </div>
           </div>

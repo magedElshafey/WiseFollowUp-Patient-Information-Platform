@@ -17,7 +17,7 @@ export default function AboutPage() {
   const missionQuery = useGetMissionVission();
   const foundersQuery = useGetAboutFounders();
   const aboutInfoQuery = useGetAboutInfo();
-
+  console.log("mission query", missionQuery?.data);
   return (
     <>
       <PageSeo
@@ -50,8 +50,8 @@ export default function AboutPage() {
           queryResult={missionQuery}
           skeletonType="vision-mission-skeleton"
         >
-          {missionQuery?.data && missionQuery.data?.length > 0 ? (
-            <MissionVisionMessage data={missionQuery.data} />
+          {missionQuery?.data && missionQuery.data?.cards?.length > 0 ? (
+            <MissionVisionMessage data={missionQuery.data?.cards} />
           ) : null}
         </FetchHandler>
 

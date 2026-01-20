@@ -105,11 +105,11 @@ const LeafletsFilters: FC = () => {
               <CountiesFilter />
             </FilterSection>
 
-            <FilterSection title={t("orgnizations types")}>
+            <FilterSection title={t("organizations types")}>
               <OrgnizationTypesFilter />
             </FilterSection>
 
-            <FilterSection title={t("orgnization")}>
+            <FilterSection title={t("organizations")}>
               <OrgnizationFilter />
             </FilterSection>
 

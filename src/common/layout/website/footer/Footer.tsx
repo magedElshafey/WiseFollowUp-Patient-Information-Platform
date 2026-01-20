@@ -30,7 +30,7 @@ const LINK_GROUPS: FooterLinkGroupT[] = [
       { label: "About Wise Follow Up", href: "/about" },
       { label: "Contact us", href: "/contact-us" },
       { label: "Blogs", href: "/blogs" },
-      { label: "share your experiance", href: "/submit-review" },
+      { label: "Share your experience", href: "/submit-review" },
     ],
   },
 ];

@@ -186,7 +186,7 @@ const PageSeo: React.FC<PageSeoProps> = ({
 
   fav,
 }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { settings } = useWebsiteSettings();
 
   const lang = i18n.language || "en";
@@ -225,8 +225,8 @@ const PageSeo: React.FC<PageSeoProps> = ({
       <html lang={lang} dir={dir} />
       <meta charSet="utf-8" />
 
-      <title>{fullTitle}</title>
-      <meta name="description" content={metaDescription} />
+      <title>{t(fullTitle)}</title>
+      <meta name="description" content={t(metaDescription)} />
       <meta name="robots" content={robots} />
 
       <link rel="icon" href={fav || favicon} />

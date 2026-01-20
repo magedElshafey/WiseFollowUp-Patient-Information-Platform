@@ -18,8 +18,8 @@ const RecentlyUpdatedSection: React.FC<Props> = ({ leaflets }) => {
           titleId="recently-updated-heading"
           description="Content reviewed to reflect current guidance."
           hasViewAll
-          path="/leaflets??sort_by=date-desc"
-          viewAllText="View all updates →"
+          path="/leaflets?sort_by=date-desc"
+          viewAllText="View all →"
         />
 
         <div

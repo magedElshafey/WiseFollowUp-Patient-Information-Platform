@@ -4,10 +4,8 @@ import { openCookieSettings } from "@/features/cookies/CookieConsentProvider";
 import useGetAllPolicies from "@/features/policies/api/useGetAllPolicies";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useWebsiteSettings } from "@/store/WebsiteSettingsProvider";
 
 const CopyRight: React.FC = () => {
-  const { settings, isLoading: isSettingsLoading } = useWebsiteSettings();
   const { data, isLoading: isPoliciesLoading } = useGetAllPolicies();
   const year = new Date().getFullYear();
   const { t } = useTranslation();
@@ -20,7 +18,6 @@ const CopyRight: React.FC = () => {
     }));
   }, [data]);
 
-  const hasDisclaimer = Boolean(settings?.copyrights_disclaimer);
   const hasPolicies = policyLinks.length > 0;
 
   return (
@@ -46,18 +43,6 @@ const CopyRight: React.FC = () => {
           </a>
           . {t("All rights reserved")}.
         </p>
-
-        {/* Disclaimer */}
-        {isSettingsLoading ? (
-          <div aria-hidden className="mt-1 space-y-1">
-            <div className="h-3 w-full rounded bg-border-subtle animate-pulse" />
-            <div className="h-3 w-5/6 rounded bg-border-subtle animate-pulse" />
-          </div>
-        ) : hasDisclaimer ? (
-          <p className="text-[11px] leading-relaxed">
-            {settings?.copyrights_disclaimer}
-          </p>
-        ) : null}
       </div>
 
       {/* ================= RIGHT ================= */}
