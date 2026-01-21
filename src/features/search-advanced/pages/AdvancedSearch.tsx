@@ -9,7 +9,7 @@ import PageSeo from "@/common/components/seo/PageSeo";
 const SEARCH_TYPES = [
   { id: 0, name: "Default search", key: undefined },
   { id: 1, name: "Trust ID", key: "trust_id" },
-  { id: 2, name: "Author", key: "author" },
+  { id: 2, name: "organizations name", key: "organization_id" },
   // { id: 3, name: "Date", key: "date" },
 ];
 
@@ -36,7 +36,7 @@ const AdvancedSearch = () => {
             </h1>
             <p className="mt-2 text-text-muted max-w-xl mx-auto">
               {t(
-                "Refine your search using keywords, Trust ID, author name, or date range."
+                "Refine your search using keywords, Trust ID, author name, or date range.",
               )}
             </p>
           </div>
@@ -91,7 +91,7 @@ const AdvancedSearch = () => {
             <p className="text-sm text-text-muted">
               {isTrustId &&
                 t(
-                  "Trust ID is a reference code for a leaflet, usually provided by the healthcare organization."
+                  "Trust ID is a reference code for a leaflet, usually provided by the healthcare organization.",
                 )}
               {controller.payload.key === "author" &&
                 t("Search by the name of the author or reviewer.")}

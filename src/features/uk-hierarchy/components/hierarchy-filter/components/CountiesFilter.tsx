@@ -35,7 +35,7 @@ const CountiesFilter: FC = () => {
                   "county_id",
                   selected ? undefined : String(county.id),
                 );
-                handleChangeFilters("organization_id", undefined);
+                // handleChangeFilters("organization_id", undefined);
               }}
             />
           );

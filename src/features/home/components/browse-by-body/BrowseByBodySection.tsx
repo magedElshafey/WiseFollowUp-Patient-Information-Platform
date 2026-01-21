@@ -1,40 +1,4 @@
-// import React from "react";
-// import SectionHeader from "@/common/components/section-header/SectionHeader";
-// import BodySystemTile from "./BodySystemTile";
-// import type { DepartmentSystem } from "@/features/uk-hierarchy/types/ukHierarchy.types";
-// type Props = {
-//   systems: DepartmentSystem[];
-// };
-
-// const BrowseByBodySection: React.FC<Props> = ({ systems }) => {
-//   return (
-//     <section aria-labelledby="browse-by-body-heading" className="section-shell">
-//       <div className="containerr">
-//         <SectionHeader
-//           title="Browse by body system"
-//           titleId="browse-by-body-heading"
-//           description="Start with where the problem is, then explore common conditions"
-//           hasViewAll={false}
-//         />
-
-//         <div
-//           className="
-//             grid gap-4
-//            grid-cols-2 md:grid-cols-3
-//             lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6
-//           "
-//         >
-//           {systems.map((system) => (
-//             <BodySystemTile key={system.id} system={system} />
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default BrowseByBodySection;
-import React from "react";
+import React, { useMemo, useRef, useState } from "react";
 import SectionHeader from "@/common/components/section-header/SectionHeader";
 import BodySystemTile from "./BodySystemTile";
 import type { DepartmentSystem } from "@/features/uk-hierarchy/types/ukHierarchy.types";
@@ -43,7 +7,27 @@ type Props = {
   systems: DepartmentSystem[];
 };
 
+const INITIAL_VISIBLE_COUNT = 12;
+
 const BrowseByBodySection: React.FC<Props> = ({ systems }) => {
+  const [showAll, setShowAll] = useState(false);
+  const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const visibleSystems = useMemo(() => {
+    return showAll ? systems : systems.slice(0, INITIAL_VISIBLE_COUNT);
+  }, [systems, showAll]);
+
+  const hasMore = systems.length > INITIAL_VISIBLE_COUNT;
+
+  const handleToggle = () => {
+    setShowAll((prev) => !prev);
+
+    // UX & Accessibility: رجّع الفوكس للزر بعد التغيير
+    requestAnimationFrame(() => {
+      toggleButtonRef.current?.focus();
+    });
+  };
+
   return (
     <section aria-labelledby="browse-by-body-heading" className="section-shell">
       <div className="containerr">
@@ -62,12 +46,33 @@ const BrowseByBodySection: React.FC<Props> = ({ systems }) => {
             lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6
           "
         >
-          {systems.map((system) => (
+          {visibleSystems.map((system) => (
             <li key={system.id}>
               <BodySystemTile system={system} />
             </li>
           ))}
         </ul>
+
+        {hasMore && (
+          <div className="mt-6 flex justify-center">
+            <button
+              ref={toggleButtonRef}
+              type="button"
+              onClick={handleToggle}
+              className="
+                rounded-lg border border-gray-300
+                px-6 py-2 text-sm font-medium
+                transition hover:bg-gray-100
+                focus:outline-none focus-visible:ring
+                focus-visible:ring-primary-500
+              "
+              aria-expanded={showAll}
+              aria-controls="browse-by-body-heading"
+            >
+              {showAll ? "Show less" : "View more"}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

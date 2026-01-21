@@ -37,7 +37,7 @@ interface MainSelectProps<T extends OptionType> {
 
 function useClickOutside<T extends HTMLElement>(
   ref: React.RefObject<T>,
-  handler: () => void
+  handler: () => void,
 ) {
   useEffect(() => {
     const listener = (e: MouseEvent) => {
@@ -132,7 +132,7 @@ const MainSelectInner = <T extends OptionType>(props: MainSelectProps<T>) => {
   });
 
   const filtered = displayedOptions.filter((o) =>
-    o.name.toLowerCase().includes(search.toLowerCase())
+    o.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   // keyboard handling
@@ -145,7 +145,7 @@ const MainSelectInner = <T extends OptionType>(props: MainSelectProps<T>) => {
           openList();
         } else {
           setFocusedIndex((prev) =>
-            Math.min(prev + 1, Math.max(0, filtered.length - 1))
+            Math.min(prev + 1, Math.max(0, filtered.length - 1)),
           );
         }
         break;
@@ -236,8 +236,8 @@ const MainSelectInner = <T extends OptionType>(props: MainSelectProps<T>) => {
   const showLabel = selectedLabel
     ? t(selectedLabel)
     : placeholder
-    ? t(placeholder)
-    : "";
+      ? t(placeholder)
+      : "";
 
   return (
     <div className={`w-full ${className || ""}`}>
@@ -363,7 +363,7 @@ shadow-soft
 };
 
 const MainSelect = React.forwardRef(MainSelectInner) as <T extends OptionType>(
-  p: MainSelectProps<T> & { ref?: React.Ref<HTMLInputElement> }
+  p: MainSelectProps<T> & { ref?: React.Ref<HTMLInputElement> },
 ) => React.ReactElement;
 
 export default MainSelect;

@@ -35,12 +35,12 @@ const CountriesFilter: FC = () => {
               onToggle={() => {
                 handleChangeFilters(
                   "country_id",
-                  isSelected ? undefined : String(country.id)
+                  isSelected ? undefined : String(country.id),
                 );
 
                 // Reset dependent filters
                 handleChangeFilters("county_id", undefined);
-                handleChangeFilters("organization_id", undefined);
+                // handleChangeFilters("organization_id", undefined);
               }}
             />
           );

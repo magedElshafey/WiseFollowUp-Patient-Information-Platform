@@ -103,7 +103,7 @@ const FilterItem: FC<FilterItemProps> = ({
         focus:outline-none focus-visible:ring-2 focus-visible:ring-primary
         ${
           selected
-            ? "border-primary bg-primary-soft text-text-main"
+            ? "border-primary bg-primary-soft text-text-main my-2"
             : "border-transparent hover:bg-bg-page text-text-muted"
         }
       `}

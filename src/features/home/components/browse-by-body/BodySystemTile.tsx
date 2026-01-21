@@ -35,9 +35,9 @@ const BodySystemTile: React.FC<Props> = ({ system }) => {
 
       {/* Content */}
       <div className="space-y-1">
-        <h3 className="text-sm font-semibold text-text-main">{name}</h3>
+        <h3 className="font-semibold text-text-main">{name}</h3>
 
-        <p className="text-xs text-text-muted line-clamp-2 min-h-[2rem]">
+        <p className="text-sm text-text-muted line-clamp-2 min-h-[2rem]">
           {description || ""}
         </p>
       </div>

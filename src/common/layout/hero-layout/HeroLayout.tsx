@@ -12,7 +12,7 @@ type HeroLayoutProps = {
 
 const HeroLayout: FC<HeroLayoutProps> = ({
   children,
-  minHeight = "min-h-[60vh] lg:min-h-[80vh]",
+  minHeight = "min-h-[60vh]",
 }) => {
   return (
     <section
@@ -24,7 +24,7 @@ const HeroLayout: FC<HeroLayoutProps> = ({
     overflow-x-hidden
         /* layout */
         flex
-        items-start
+        items-center
 
         /* spacing */
         py-16 sm:py-20 lg:py-24

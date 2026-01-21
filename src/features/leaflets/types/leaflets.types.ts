@@ -48,8 +48,7 @@ export interface Filters {
   country_id?: string;
   county_id?: string;
   organization_type_id?: string;
-  organization_id?: string;
-  department_id?: string;
+  department_id?: string[];
 
 }
 

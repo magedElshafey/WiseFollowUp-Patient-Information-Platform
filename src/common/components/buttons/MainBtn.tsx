@@ -10,7 +10,7 @@ type ButtonProps = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const baseClasses = `
-  inline-flex items-center justify-center
+ flex items-center justify-center
   rounded-pill
   text-sm font-semibold
   focus-visible:outline-none

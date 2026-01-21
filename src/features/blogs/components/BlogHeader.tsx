@@ -11,7 +11,7 @@ const BlogHeader: React.FC<{ post: Articles }> = ({ post }) => {
   return (
     <HeroLayout minHeight="min-h-[30vh]">
       <header>
-        <div className="flex flex-col md:flex-row justify-between gap-4">
+        <div className="flex flex-col md:flex-row justify-between gap-4 items-center">
           <div className="flex flex-col gap-4">
             {post.category && <CategoryPill label={post.category.name} />}
 

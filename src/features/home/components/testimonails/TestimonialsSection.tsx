@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useRef, useState } from "react";
 import SectionHeader from "@/common/components/section-header/SectionHeader";
 import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
 import useGetAllReviews from "../../api/reveiws/useGetAllReviews";
@@ -7,12 +7,30 @@ import MainBtn from "@/common/components/buttons/MainBtn";
 import type { Reviews } from "../../types/reviews.types";
 import { useTranslation } from "react-i18next";
 
-const MAX_REVIEWS = 4;
+const INITIAL_VISIBLE_REVIEWS = 4;
 
 const TestimonialsSection: React.FC = () => {
   const query = useGetAllReviews();
   const reviews = (query.data ?? []) as Reviews[];
   const { t } = useTranslation();
+
+  const [showAll, setShowAll] = useState(false);
+  const toggleBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  const visibleReviews = useMemo(() => {
+    return showAll ? reviews : reviews.slice(0, INITIAL_VISIBLE_REVIEWS);
+  }, [reviews, showAll]);
+
+  const hasMore = reviews.length > INITIAL_VISIBLE_REVIEWS;
+
+  const handleToggle = () => {
+    setShowAll((prev) => !prev);
+
+    // Accessibility & UX: حافظ على الفوكس
+    requestAnimationFrame(() => {
+      toggleBtnRef.current?.focus();
+    });
+  };
 
   return (
     <FetchHandler queryResult={query} skeletonType="testimonials">
@@ -25,7 +43,7 @@ const TestimonialsSection: React.FC = () => {
             <SectionHeader
               title="What people say"
               titleId="reviews-heading"
-              description="Feedback from people who have used our patient leaflets."
+              description="Feedback from people who have used our platform."
               hasViewAll={false}
             />
 
@@ -38,7 +56,7 @@ const TestimonialsSection: React.FC = () => {
                 lg:grid-cols-3 xl:grid-cols-4
               "
             >
-              {reviews.slice(0, MAX_REVIEWS).map((review) => (
+              {visibleReviews.map((review) => (
                 <li
                   key={review.id}
                   className="
@@ -72,9 +90,29 @@ const TestimonialsSection: React.FC = () => {
               ))}
             </ul>
 
-            {/* CTA (space reserved) */}
-            <div className="flex justify-center md:justify-end">
-              <Link to="/submit-review">
+            {/* Actions */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              {hasMore && (
+                <button
+                  ref={toggleBtnRef}
+                  type="button"
+                  onClick={handleToggle}
+                  className="
+                    self-center sm:self-auto
+                    rounded-lg border border-border-subtle
+                    px-5 py-2 text-xs sm:text-sm font-medium
+                    transition hover:bg-bg-surface
+                    focus:outline-none focus-visible:ring
+                    focus-visible:ring-primary-500
+                  "
+                  aria-expanded={showAll}
+                  aria-controls="reviews-heading"
+                >
+                  {showAll ? t("Show less") : t("View more")}
+                </button>
+              )}
+
+              <Link to="/submit-review" className="self-center sm:self-auto">
                 <MainBtn
                   variant="primary"
                   className="text-xs sm:text-sm px-4 py-2 sm:px-5 sm:py-2.5"

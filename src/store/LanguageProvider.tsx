@@ -6,18 +6,16 @@ interface LanguageContextProps {
   changeLanguage: (newLanguage: string) => void;
 }
 const LanguageContext = createContext<LanguageContextProps | undefined>(
-  undefined
+  undefined,
 );
 interface LanguageProviderProps {
   children: React.ReactNode;
 }
 const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = useState(i18n.language);
-  const [key, setKey] = useState(0);
   const changeLanguage = (newLanguage: string) => {
     setLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
-    setKey((prev) => prev + 1);
     queryClient.resetQueries();
     queryClient.invalidateQueries();
   };
@@ -28,7 +26,7 @@ const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   }, [language]);
   return (
     <LanguageContext.Provider value={{ language, changeLanguage }}>
-      <div key={key}>{children}</div>
+      <div>{children}</div>
     </LanguageContext.Provider>
   );
 };

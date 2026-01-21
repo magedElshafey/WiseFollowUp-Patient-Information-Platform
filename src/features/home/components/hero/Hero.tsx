@@ -6,6 +6,7 @@ import { useSearchController } from "@/features/search-advanced/hooks/useSearchC
 import { useTranslation } from "react-i18next";
 import useGetHero from "../../api/hero/useGetHero";
 import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
+import { Link } from "react-router-dom";
 
 const HomeHero: React.FC = () => {
   const searchController = useSearchController({ mode: "normal" });
@@ -33,25 +34,38 @@ const HomeHero: React.FC = () => {
             />
 
             <div className="mt-8 md:mt-10">
-              <SearchBar controller={searchController} variant="hero" />
-
-              <p className="text-xs sm:text-sm text-text-muted mt-2 mb-5">
-                {t(
+              <SearchBar
+                controller={searchController}
+                variant="hero"
+                placeholder={t(
                   "Not sure where to start? Try searching a symptom, condition, or body system.",
                 )}
-              </p>
-
+              />
+              <Link
+                to="/search-advanced"
+                className="text-xs underline text-primary w-fit"
+              >
+                {t("Advanced search")}
+              </Link>
               {query.data.featured_words?.length > 0 && (
-                <div className="flex flex-wrap justify-center gap-2 mb-5">
-                  {query.data.featured_words.map((item) => (
-                    <button
-                      key={item}
-                      onClick={() => searchController.handleSelect(item)}
-                      className="rounded-pill border border-border-subtle px-3 py-1 text-xs text-text-muted transition hover:bg-primary-soft hover:text-primary"
-                    >
-                      {item}
-                    </button>
-                  ))}
+                <div className="space-y-2 my-9 flex flex-col items-center">
+                  {/* Label / CTA */}
+                  <p className="text-xs font-medium text-text-muted">
+                    {t("Try searching for")}
+                  </p>
+
+                  {/* Featured buttons */}
+                  <div className="flex flex-wrap gap-2">
+                    {query.data.featured_words.map((item) => (
+                      <button
+                        key={item}
+                        onClick={() => searchController.handleSelect(item)}
+                        className="rounded-pill border border-border-subtle px-3 py-1 text-xs text-text-muted transition hover:bg-primary-soft hover:text-primary"
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
 

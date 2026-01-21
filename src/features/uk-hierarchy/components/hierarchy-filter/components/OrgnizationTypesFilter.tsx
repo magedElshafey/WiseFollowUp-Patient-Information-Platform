@@ -38,7 +38,7 @@ const OrgnizationTypesFilter: FC = () => {
                 );
 
                 // reset dependent filter
-                handleChangeFilters("organization_id", undefined);
+                // handleChangeFilters("organization_id", undefined);
               }}
             />
           );

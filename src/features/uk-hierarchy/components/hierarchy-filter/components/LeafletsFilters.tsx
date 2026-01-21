@@ -4,7 +4,6 @@ import MainBtn from "@/common/components/buttons/MainBtn";
 import CountriesFilter from "./CountriesFilter";
 import CountiesFilter from "./CountiesFilter";
 import OrgnizationTypesFilter from "./OrgnizationTypesFilter";
-import OrgnizationFilter from "./OrgnizationFilter";
 import DepartmentFilter from "./DepartmentFilter";
 import YearFilter from "@/features/uk-hierarchy/components/hierarchy-filter/components/years-filter/YearFilter";
 import { useLeafletsFilters } from "../providers/LeafletsFiltersProvider";
@@ -109,9 +108,9 @@ const LeafletsFilters: FC = () => {
               <OrgnizationTypesFilter />
             </FilterSection>
 
-            <FilterSection title={t("organizations")}>
+            {/* <FilterSection title={t("organizations")}>
               <OrgnizationFilter />
-            </FilterSection>
+            </FilterSection> */}
 
             <FilterSection title={t("departments")}>
               <DepartmentFilter />
