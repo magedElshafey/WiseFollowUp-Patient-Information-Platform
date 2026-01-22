@@ -9,10 +9,14 @@ import MobileToc from "@/features/blogs/components/MobileToc";
 import HtmlConverter from "@/common/components/htmlConverter/HtmlConverter";
 import type { TocItem } from "@/features/blogs/types/TocItem";
 import type { UseQueryResult } from "@tanstack/react-query";
-
+import { useTranslation } from "react-i18next";
 import { useSectionsWithIds } from "@/features/blogs/hooks/useSectionsWithIds";
 import { useTocOffsetCssVar } from "@/features/blogs/hooks/useTocOffsetCssVar";
 import { useActiveHeadingObserver } from "@/features/blogs/hooks/useActiveHeadingObserver";
+import FeaturedLeafletCard from "@/features/home/components/featured-leaflets/FeaturedLeafletCard";
+import { LeafletType } from "@/features/leaflets/types/leaflets.types";
+import BlogCardFeed from "@/features/home/components/blogs/BlogCard";
+import { Articles } from "../types/blog.types";
 export type ArticleSeoType = "blog" | "none";
 
 type Props = {
@@ -29,6 +33,7 @@ const ArticleDocPage: React.FC<Props> = ({
   tocFromData = true,
   seoType = "none",
 }) => {
+  const { t } = useTranslation();
   const query = useQueryHook();
   const post = seoType === "blog" ? query.data : query?.data?.data;
 
@@ -101,6 +106,48 @@ const ArticleDocPage: React.FC<Props> = ({
                 <BlogAside tocItems={tocItems} activeId={activeId} />
               </aside>
             </div>
+            {seoType === "blog" && (
+              <div className="mt-4 md:mt-5 lg:mt-6 xl:mt-7">
+                {post?.related_blogs && post.related_blogs.length > 0 && (
+                  <section
+                    className="mt4 md:mt-5 lg:mt-6 xl:mt-7"
+                    aria-labelledby="related-leaflets-heading"
+                  >
+                    <h3
+                      id="related-leaflets-heading"
+                      className="text-sm font-semibold text-text-main mb-3"
+                    >
+                      {t("Related blogs")}
+                    </h3>
+
+                    <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                      {post.related_blogs.slice(0, 3).map((item: Articles) => (
+                        <BlogCardFeed post={item} />
+                      ))}
+                    </div>
+                  </section>
+                )}
+                {/* Related related leaflets */}
+                {post?.related_leaflets && post.related_leaflets.length > 0 && (
+                  <section aria-labelledby="related-leaflets-heading">
+                    <h3
+                      id="related-leaflets-heading"
+                      className="text-sm font-semibold text-text-main mb-3"
+                    >
+                      {t("Related leaflets")}
+                    </h3>
+
+                    <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                      {post.related_leaflets
+                        .slice(0, 3)
+                        .map((item: LeafletType) => (
+                          <FeaturedLeafletCard leaflet={item} />
+                        ))}
+                    </div>
+                  </section>
+                )}
+              </div>
+            )}
           </main>
 
           <MobileToc tocItems={tocItems} activeId={activeId} />

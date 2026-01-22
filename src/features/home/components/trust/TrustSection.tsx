@@ -96,9 +96,11 @@ const TrustSection: React.FC = () => {
                   `}
                 >
                   <p className="text-xs text-text-muted leading-relaxed">
-                    {t(
-                      "Information on this website is for guidance only and does not replace medical advice. If you are worried about sudden or severe symptoms, please seek urgent medical care.",
-                    )}
+                    {query?.data?.note
+                      ? query?.data?.note
+                      : t(
+                          "Information on this website is for guidance only and does not replace medical advice. If you are worried about sudden or severe symptoms, please seek urgent medical care.",
+                        )}
                   </p>
                 </div>
               </div>

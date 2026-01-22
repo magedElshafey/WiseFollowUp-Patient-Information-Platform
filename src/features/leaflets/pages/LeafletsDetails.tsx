@@ -1,5 +1,5 @@
 import { FC, useMemo } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
 import useGetLeafletsDetails from "../api/useGetLeafletsDetails";
 import { formatDate } from "@/utils/formatDate";
@@ -8,6 +8,9 @@ import LeafletShareActions from "../components/LeafletShareActions";
 import ReadingProgress from "@/common/reading-progress/ReadingProgress";
 import { HiExclamationTriangle } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";
+import FeaturedLeafletCard from "@/features/home/components/featured-leaflets/FeaturedLeafletCard";
+import BlogCardFeed from "@/features/home/components/blogs/BlogCard";
+import useGetLeafletsDiscilimar from "../api/useGetLeafletsDiscilimar";
 /* -------------------------------------------------------------------------- */
 /*                                   Page                                     */
 /* -------------------------------------------------------------------------- */
@@ -16,6 +19,7 @@ const LeafletDetailsPage: FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t } = useTranslation();
   const queryResult = useGetLeafletsDetails({ slug: slug || "" });
+  const { data } = useGetLeafletsDiscilimar();
   const leaflet = queryResult.data;
   console.log("publication_date", leaflet?.publication_date);
   const pdfUrl = useMemo(() => leaflet?.pdf_url, [leaflet]);
@@ -141,24 +145,23 @@ const LeafletDetailsPage: FC = () => {
                       </>
                     )}
                   </section>
-
-                  {/* When to seek urgent help */}
-                  <section
-                    role="note"
-                    aria-labelledby="medical-disclaimer-title"
-                    className="
+                  {data && data?.is_active && (
+                    <section
+                      role="note"
+                      aria-labelledby="medical-disclaimer-title"
+                      className="
         rounded-card
         border border-border-subtle
         bg-bg-surface
         p-5
         shadow-soft
       "
-                  >
-                    <div className="flex items-start gap-3">
-                      {/* Icon */}
-                      <span
-                        aria-hidden="true"
-                        className="
+                    >
+                      <div className="flex items-start gap-3">
+                        {/* Icon */}
+                        <span
+                          aria-hidden="true"
+                          className="
             mt-0.5
             inline-flex h-8 w-8 flex-shrink-0
             items-center justify-center
@@ -166,47 +169,35 @@ const LeafletDetailsPage: FC = () => {
             bg-primary-soft
             text-primary
           "
-                      >
-                        <HiExclamationTriangle size={18} />
-                      </span>
-
-                      {/* Content */}
-                      <div className="space-y-2">
-                        <h3
-                          id="medical-disclaimer-title"
-                          className="text-sm font-semibold text-text-main"
                         >
-                          {t("Important medical information")}
-                        </h3>
+                          <HiExclamationTriangle size={18} />
+                        </span>
 
-                        <p className="text-sm text-text-muted leading-relaxed">
-                          {t(
-                            "This leaflet is provided for general educational purposes only and is designed to support— not replace — advice from your own doctor, optometrist, or healthcare professional.",
+                        {/* Content */}
+                        <div className="space-y-2">
+                          <h3
+                            id="medical-disclaimer-title"
+                            className="text-sm font-semibold text-text-main"
+                          >
+                            {data?.heading}
+                          </h3>
+
+                          <p className="text-sm text-text-muted leading-relaxed">
+                            {data?.description.join("\n")}
+                          </p>
+                          {data?.details?.length > 0 && (
+                            <ul className="list-disc pl-5 text-sm text-text-muted space-y-1">
+                              {data?.details?.map((item, index) => (
+                                <li key={index}>{item}</li>
+                              ))}
+                            </ul>
                           )}
-                        </p>
-
-                        <ul className="list-disc pl-5 text-sm text-text-muted space-y-1">
-                          <li>
-                            {t(
-                              "Always follow the advice given to you during your consultation, even if it differs from what you read here.",
-                            )}
-                          </li>
-                          <li>
-                            {t(
-                              "Medical information may change over time and may not reflect your individual circumstances.",
-                            )}
-                          </li>
-                          <li>
-                            {t(
-                              "If your symptoms worsen, change suddenly, or you are concerned, seek urgent medical advice or emergency care.",
-                            )}
-                          </li>
-                        </ul>
+                        </div>
                       </div>
-                    </div>
-                  </section>
+                    </section>
+                  )}
 
-                  {/* Related leaflets */}
+                  {/* Related blogs */}
                   {leaflet?.related_leaflets &&
                     leaflet.related_leaflets.length > 0 && (
                       <section aria-labelledby="related-leaflets-heading">
@@ -217,20 +208,30 @@ const LeafletDetailsPage: FC = () => {
                           {t("Related leaflets")}
                         </h3>
 
-                        <div className="grid gap-3 sm:grid-cols-2">
-                          {leaflet.related_leaflets.slice(0, 4).map((item) => (
-                            <Link
-                              key={item.id}
-                              to={`/leaflets/${item.slug}`}
-                              className="rounded-card border border-border-subtle bg-bg-surface p-4 hover:shadow-soft transition"
-                            >
-                              <p className="text-sm font-medium text-text-main">
-                                {item.title}
-                              </p>
-                              <p className="text-xs text-text-muted line-clamp-2">
-                                {item.short_description}
-                              </p>
-                            </Link>
+                        <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                          {leaflet.related_leaflets.slice(0, 3).map((item) => (
+                            <FeaturedLeafletCard leaflet={item} />
+                          ))}
+                        </div>
+                      </section>
+                    )}
+                  {/* Related leaflets */}
+                  {leaflet?.related_blogs &&
+                    leaflet.related_blogs.length > 0 && (
+                      <section
+                        className="mt4 md:mt-5 lg:mt-6 xl:mt-7"
+                        aria-labelledby="related-leaflets-heading"
+                      >
+                        <h3
+                          id="related-leaflets-heading"
+                          className="text-sm font-semibold text-text-main mb-3"
+                        >
+                          {t("Related blogs")}
+                        </h3>
+
+                        <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                          {leaflet.related_blogs.slice(0, 3).map((item) => (
+                            <BlogCardFeed post={item} />
                           ))}
                         </div>
                       </section>

@@ -1,7 +1,6 @@
 import HeroLayout from "@/common/layout/hero-layout/HeroLayout";
 import SearchBar from "@/features/search-advanced/components/SearchBar";
 import { useSearchController } from "../hooks/useSearchController";
-import MainDate from "@/common/components/inputs/MainDateInput";
 import MainSelect from "@/common/components/inputs/MainSelect";
 import { useTranslation } from "react-i18next";
 import SearchHistoryPanel from "../components/SearchHistoryPanel";
@@ -17,7 +16,6 @@ const AdvancedSearch = () => {
   const controller = useSearchController({ mode: "advanced" });
   const { t } = useTranslation();
 
-  const isDate = controller.payload.key === "date";
   const isTrustId = controller.payload.key === "trust_id";
 
   return (
@@ -66,25 +64,14 @@ const AdvancedSearch = () => {
               />
 
               {/* Dynamic input */}
-              {isDate ? (
-                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-end gap-3">
-                  <MainDate placeholder={t("From")} />
-                  <span className="pb-3 text-sm text-text-muted text-center">
-                    {t("to")}
-                  </span>
-                  <MainDate placeholder={t("To (optional)")} />
-                </div>
-              ) : (
-                <SearchBar
-                  variant="compact"
-                  controller={controller}
-                  placeholder={
-                    isTrustId
-                      ? t("Enter Trust ID (e.g. NHS-OPH-221)")
-                      : undefined
-                  }
-                />
-              )}
+
+              <SearchBar
+                variant="compact"
+                controller={controller}
+                placeholder={
+                  isTrustId ? t("Enter Trust ID (e.g. NHS-OPH-221)") : undefined
+                }
+              />
             </div>
 
             {/* Hint */}
@@ -93,8 +80,7 @@ const AdvancedSearch = () => {
                 t(
                   "Trust ID is a reference code for a leaflet, usually provided by the healthcare organization.",
                 )}
-              {controller.payload.key === "author" &&
-                t("Search by the name of the author or reviewer.")}
+
               {!controller.payload.key &&
                 t("Search symptoms, conditions, or keywords.")}
             </p>

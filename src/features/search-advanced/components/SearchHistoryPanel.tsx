@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   getSearchHistory,
   togglePin,
@@ -14,10 +15,11 @@ type Props = {
 const GROUP_LABEL: Record<string, string> = {
   default: "Recent searches",
   trust_id: "Trust IDs",
-  author: "Authors",
+  organization_id: "organizations name",
 };
 
 const SearchHistoryPanel = ({ onSelect }: Props) => {
+  const { t } = useTranslation();
   const [items, setItems] = useState<SearchHistoryItem[]>([]);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const SearchHistoryPanel = ({ onSelect }: Props) => {
       acc[item.key].push(item);
       return acc;
     },
-    {}
+    {},
   );
 
   return (
@@ -40,7 +42,7 @@ const SearchHistoryPanel = ({ onSelect }: Props) => {
       <div className="rounded-card border border-border-subtle bg-bg-surface p-5 space-y-5">
         <div className="flex justify-between items-center">
           <h2 className="text-sm font-semibold text-text-main">
-            Your searches
+            {t("Your searches")}
           </h2>
 
           <button
@@ -50,14 +52,14 @@ const SearchHistoryPanel = ({ onSelect }: Props) => {
             }}
             className="text-xs underline text-text-muted hover:text-primary"
           >
-            Clear all
+            {t("Clear all")}
           </button>
         </div>
 
         {Object.entries(grouped).map(([key, list]) => (
           <div key={key} className="space-y-2">
             <p className="text-xs text-text-muted font-medium">
-              {GROUP_LABEL[key]}
+              {t(GROUP_LABEL[key])}
             </p>
 
             <div className="flex flex-wrap gap-2">

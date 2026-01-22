@@ -1,3 +1,4 @@
+import { Articles } from "@/features/blogs/types/blog.types";
 import { sortableKeys } from "../constants/leaflets.constants";
 
 
@@ -34,7 +35,8 @@ export interface LeafletType {
   pdf_url?: string; // 👈 optional
   created_at: string;
   updated_at: string;
-  related_leaflets?: LeafletType[]
+  related_leaflets?: LeafletType[];
+  related_blogs?: Articles[]
 }
 export type Organization = {
   name: string;
