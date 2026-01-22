@@ -77,7 +77,7 @@ const SubmitReviewPage: React.FC = () => {
           </h1>
           <p className="mt-3 text-text-muted">
             {t(
-              "Your feedback helps us improve clarity, accuracy, and usability for patients."
+              "Your feedback helps us improve clarity, accuracy, and usability for patients.",
             )}
           </p>
         </div>
@@ -111,7 +111,7 @@ const SubmitReviewPage: React.FC = () => {
 
             <MainInput
               label="Your name"
-              placeholder="Optional display name"
+              placeholder="Your name"
               required
               {...register("name")}
               error={errors.name?.message}
@@ -138,7 +138,7 @@ const SubmitReviewPage: React.FC = () => {
             {/* Safety note */}
             <p className="text-xs text-text-muted leading-relaxed">
               {t(
-                "This form is for feedback only. Do not include personal medical information."
+                "This form is for feedback only. Do not include personal medical information.",
               )}
             </p>
 

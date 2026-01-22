@@ -33,15 +33,13 @@ const BlogHeader: React.FC<{ post: Articles }> = ({ post }) => {
                     className="w-12 h-12 rounded-full object-contain"
                   />
                 </MetaItem>
-              ) : (
-                <div className="w-12 h-12 rounded-full bg-border-subtle" />
-              )}
+              ) : null}
 
               <div className="flex flex-col gap-[2px] italic">
                 {post.author?.name && (
                   <MetaItem>
                     <span className="font-semibold text-sm text-text-main">
-                      {t("Blog.by", "By")}: {post.author.name}
+                      {t("By")}: {post.author.name}
                     </span>
                   </MetaItem>
                 )}

@@ -49,7 +49,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
       >
         <div className="relative flex-1">
           <input
-            type="search"
             autoComplete="off"
             value={query}
             onChange={(e) => {

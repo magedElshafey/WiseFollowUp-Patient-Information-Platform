@@ -244,17 +244,29 @@ const LeafletDetailsPage: FC = () => {
                 >
                   <MetaItem
                     label="Last reviewed"
-                    value={formatDate(leaflet.reviewed_at)}
+                    value={
+                      leaflet?.reviewed_at
+                        ? formatDate(leaflet.reviewed_at)
+                        : "NA"
+                    }
                   />
 
                   <MetaItem
                     label="Next review"
-                    value={formatDate(leaflet.next_review_date)}
+                    value={
+                      leaflet?.next_review_date
+                        ? formatDate(leaflet.next_review_date)
+                        : "NA"
+                    }
                   />
 
                   <MetaItem
                     label="Publication date"
-                    value={formatDate(leaflet.publication_date)}
+                    value={
+                      leaflet?.publication_date
+                        ? formatDate(leaflet.publication_date)
+                        : "NA"
+                    }
                   />
 
                   <MetaItem label="Version" value={leaflet.version} />

@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from "react";
 import SectionHeader from "@/common/components/section-header/SectionHeader";
 import BodySystemTile from "./BodySystemTile";
 import type { DepartmentSystem } from "@/features/uk-hierarchy/types/ukHierarchy.types";
-
+import { useTranslation } from "react-i18next";
 type Props = {
   systems: DepartmentSystem[];
 };
@@ -10,6 +10,7 @@ type Props = {
 const INITIAL_VISIBLE_COUNT = 12;
 
 const BrowseByBodySection: React.FC<Props> = ({ systems }) => {
+  const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
   const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -69,7 +70,7 @@ const BrowseByBodySection: React.FC<Props> = ({ systems }) => {
               aria-expanded={showAll}
               aria-controls="browse-by-body-heading"
             >
-              {showAll ? "Show less" : "View more"}
+              {showAll ? t("Show less") : t("View more")}
             </button>
           </div>
         )}
