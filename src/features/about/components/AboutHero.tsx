@@ -1,8 +1,10 @@
 import HeroLayout from "@/common/layout/hero-layout/HeroLayout";
 import { HeroAbout } from "../types/aboutHero.types";
 import { ImageWithPlaceholder } from "./HeroImageWithPlaceholder";
+import HtmlConverter from "@/common/components/htmlConverter/HtmlConverter";
 
 export default function FoundersHero({ data }: { data: HeroAbout }) {
+  console.log("about des", data?.description);
   return (
     <HeroLayout minHeight="min-h-[80vh] overflow-y-hidden">
       <div className="relative containerr  lg:pb-40">
@@ -11,10 +13,10 @@ export default function FoundersHero({ data }: { data: HeroAbout }) {
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary leading-tight">
             {data?.heading}
           </h1>
-
-          <p className="mt-6 text-base md:text-lg text-text-muted leading-relaxed">
+          <HtmlConverter html={data?.description} />
+          {/* <p className="mt-6 text-base md:text-lg text-text-muted leading-relaxed">
             {data?.description}
-          </p>
+          </p> */}
         </div>
 
         {/* Desktop founders images */}

@@ -3,6 +3,7 @@ import SocialButton from "./SocialButton";
 import { SOCIAL_CONFIG } from "../utils/socialConfig";
 import { ImageWithPlaceholder } from "./HeroImageWithPlaceholder";
 import { useTranslation } from "react-i18next";
+import HtmlConverter from "@/common/components/htmlConverter/HtmlConverter";
 interface Props extends Founder {
   reverse?: boolean;
 }
@@ -47,10 +48,10 @@ export default function FounderProfile({
           <p className="mt-1 text-primary font-medium text-sm md:text-base">
             {position}
           </p>
-
-          <p className="mt-6 text-base md:text-lg text-text-muted leading-relaxed whitespace-pre-line">
+          <HtmlConverter html={bio?.join("\n")} />
+          {/* <p className="mt-6 text-base md:text-lg text-text-muted leading-relaxed whitespace-pre-line">
             {bio.join("\n")}
-          </p>
+          </p> */}
 
           {socials?.length > 0 && (
             <div className="mt-6 flex flex-wrap items-center gap-3">
