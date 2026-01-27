@@ -2,7 +2,7 @@ const CategoryPill: React.FC<{ label: string }> = ({ label }) => (
   <span
     className="
       inline-flex items-center gap-1
-      rounded-full px-3 py-1
+      rounded-full 
       text-[11px] font-semibold tracking-[0.16em] uppercase
       bg-[color:var(--section-chip-bg)]
       text-[color:var(--section-chip-text)]

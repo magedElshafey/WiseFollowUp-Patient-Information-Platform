@@ -11,8 +11,8 @@ const BlogHeader: React.FC<{ post: Articles }> = ({ post }) => {
   return (
     <HeroLayout minHeight="min-h-[30vh]">
       <header>
-        <div className="flex flex-col md:flex-row justify-between gap-4 items-center">
-          <div className="flex flex-col gap-4">
+        <div className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-3 lg:gap-4 lg:items-center">
+          <div className="flex flex-col gap-2 md:gap-3 lg:gap-4">
             {post.category && <CategoryPill label={post.category.name} />}
 
             <h1 className="text-2xl md:text-3xl font-bold text-text-main">
@@ -23,7 +23,7 @@ const BlogHeader: React.FC<{ post: Articles }> = ({ post }) => {
               <p className="max-w-3xl text-text-muted">{post.excerpt}</p>
             )}
           </div>
-          <div className="space-y-1">
+          <div >
             <div className="flex gap-2">
               {post.author?.image ? (
                 <MetaItem>
