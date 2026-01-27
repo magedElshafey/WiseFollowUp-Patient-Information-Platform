@@ -26,5 +26,6 @@ export const apiRoutes = {
   vision: "content/about-vision",
   aboutHero: "content/about-intro",
   founders: "content/about-founders", aboutInfo: "content/about-wise-info",
-  leafletDesc: "content/leaflets-disclaimer"
+  leafletDesc: "content/leaflets-disclaimer",
+  report: "leaflets/report"
 };

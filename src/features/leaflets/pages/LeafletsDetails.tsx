@@ -11,6 +11,9 @@ import { useTranslation } from "react-i18next";
 import FeaturedLeafletCard from "@/features/home/components/featured-leaflets/FeaturedLeafletCard";
 import BlogCardFeed from "@/features/home/components/blogs/BlogCard";
 import useGetLeafletsDiscilimar from "../api/useGetLeafletsDiscilimar";
+import useReportLeaflet from "../api/useReportLeaflet";
+import handlePromisError from "@/utils/handlePromiseError";
+import { toast } from "sonner";
 /* -------------------------------------------------------------------------- */
 /*                                   Page                                     */
 /* -------------------------------------------------------------------------- */
@@ -20,8 +23,8 @@ const LeafletDetailsPage: FC = () => {
   const { t } = useTranslation();
   const queryResult = useGetLeafletsDetails({ slug: slug || "" });
   const { data } = useGetLeafletsDiscilimar();
+  const { isPending, mutateAsync } = useReportLeaflet();
   const leaflet = queryResult.data;
-  console.log("publication_date", leaflet?.publication_date);
   const pdfUrl = useMemo(() => leaflet?.pdf_url, [leaflet]);
 
   /* ------------------------------- SEO JSON-LD ------------------------------ */
@@ -40,7 +43,17 @@ const LeafletDetailsPage: FC = () => {
         },
       }
     : undefined;
-
+  const handleReportClick = async () => {
+    try {
+      const response = await mutateAsync(slug || "");
+      console.log("respomn", response);
+      if (response?.status) {
+        toast.success(response?.message);
+      }
+    } catch (error) {
+      handlePromisError(error);
+    }
+  };
   return (
     <>
       {leaflet && (
@@ -314,6 +327,14 @@ const LeafletDetailsPage: FC = () => {
                         className="w-full text-xs text-primary underline"
                       >
                         {t("Print this page")}
+                      </button>
+                      <button
+                        onClick={handleReportClick}
+                        disabled={isPending}
+                        className="flex items-center justify-center bg-red-700 duration-300 transition-opacity hover:bg-red-700/85 text-white  w-full  disabled:cursor-not-allowed disabled:bg-red-700/85 rounded-pill
+px-4 py-2"
+                      >
+                        {t("report an issue")}
                       </button>
                     </>
                   )}

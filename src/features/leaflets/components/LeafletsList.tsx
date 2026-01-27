@@ -6,13 +6,16 @@ import type { LeafletType } from "../types/leaflets.types";
 import ResultsToolbar from "./ResultsToolbar";
 import LeafletCardSkeleton from "./LeafletCardSkeleton";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
+import LeafletsStatsHeader from "./LeafletsStatsHeader";
 const LeafletsList: FC = () => {
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   const queryResult = useInfiniteLeaflets();
+
   const pages = queryResult.data?.pages ?? [];
 
   const leaflets = useMemo(() => pages.flatMap((p) => p.data), [pages]);
+  const totalLeaflets = queryResult.data?.pages?.[0]?.meta?.total ?? 0;
 
   useInfiniteScroll({
     target: loadMoreRef,
@@ -36,6 +39,7 @@ const LeafletsList: FC = () => {
     <div className="w-full flex-1">
       {leaflets.length > 0 ? (
         <>
+          <LeafletsStatsHeader total={totalLeaflets} />
           <ResultsToolbar resultsCount={leaflets.length} />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
