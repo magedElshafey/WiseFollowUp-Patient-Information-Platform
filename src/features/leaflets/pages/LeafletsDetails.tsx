@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import FetchHandler from "@/common/api/fetchHandler/FetchHandler";
 import useGetLeafletsDetails from "../api/useGetLeafletsDetails";
@@ -13,12 +13,14 @@ import BlogCardFeed from "@/features/home/components/blogs/BlogCard";
 import useGetLeafletsDiscilimar from "../api/useGetLeafletsDiscilimar";
 import useReportLeaflet from "../api/useReportLeaflet";
 import handlePromisError from "@/utils/handlePromiseError";
-import { toast } from "sonner";
+import ReportSuccessModal from "../components/ReportSuccessModal";
 /* -------------------------------------------------------------------------- */
 /*                                   Page                                     */
 /* -------------------------------------------------------------------------- */
 
 const LeafletDetailsPage: FC = () => {
+  const [showReportModal, setShowReportModal] = useState(false);
+
   const { slug } = useParams<{ slug: string }>();
   const { t } = useTranslation();
   const queryResult = useGetLeafletsDetails({ slug: slug || "" });
@@ -31,24 +33,23 @@ const LeafletDetailsPage: FC = () => {
 
   const structuredData = leaflet
     ? {
-        "@context": "https://schema.org",
-        "@type": "MedicalWebPage",
-        name: leaflet.title,
-        description: leaflet.short_description,
-        datePublished: leaflet.publication_date,
-        dateModified: leaflet.reviewed_at || leaflet.updated_at,
-        publisher: {
-          "@type": "Organization",
-          name: leaflet.organization?.name,
-        },
-      }
+      "@context": "https://schema.org",
+      "@type": "MedicalWebPage",
+      name: leaflet.title,
+      description: leaflet.short_description,
+      datePublished: leaflet.publication_date,
+      dateModified: leaflet.reviewed_at || leaflet.updated_at,
+      publisher: {
+        "@type": "Organization",
+        name: leaflet.organization?.name,
+      },
+    }
     : undefined;
   const handleReportClick = async () => {
     try {
       const response = await mutateAsync(slug || "");
-      console.log("respomn", response);
       if (response?.status) {
-        toast.success(response?.message);
+        setShowReportModal(true);
       }
     } catch (error) {
       handlePromisError(error);
@@ -341,6 +342,11 @@ px-4 py-2"
                 </aside>
               </div>
             </main>
+            <ReportSuccessModal
+              open={showReportModal}
+              onClose={() => setShowReportModal(false)}
+            />
+
           </>
         )}
       </FetchHandler>

@@ -17,7 +17,6 @@ export default function AboutPage() {
   const missionQuery = useGetMissionVission();
   const foundersQuery = useGetAboutFounders();
   const aboutInfoQuery = useGetAboutInfo();
-  console.log("mission query", missionQuery?.data);
   return (
     <>
       <PageSeo

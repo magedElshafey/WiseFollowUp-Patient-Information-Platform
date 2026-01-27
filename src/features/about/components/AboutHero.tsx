@@ -4,19 +4,15 @@ import { ImageWithPlaceholder } from "./HeroImageWithPlaceholder";
 import HtmlConverter from "@/common/components/htmlConverter/HtmlConverter";
 
 export default function FoundersHero({ data }: { data: HeroAbout }) {
-  console.log("about des", data?.description);
   return (
     <HeroLayout minHeight="min-h-[80vh] overflow-y-hidden">
       <div className="relative containerr  lg:pb-40">
         {/* Center story */}
         <div className="relative z-10 mx-auto max-w-2xl text-center">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary leading-tight mb-7">
             {data?.heading}
           </h1>
           <HtmlConverter html={data?.description} />
-          {/* <p className="mt-6 text-base md:text-lg text-text-muted leading-relaxed">
-            {data?.description}
-          </p> */}
         </div>
 
         {/* Desktop founders images */}

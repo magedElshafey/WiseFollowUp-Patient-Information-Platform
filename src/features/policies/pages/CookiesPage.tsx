@@ -4,8 +4,6 @@ import { useGetCookies } from "@/features/blogs/api/pages";
 import PageSeo from "@/common/components/seo/PageSeo";
 
 const CookiesPage: React.FC = () => {
-  const { data } = useGetCookies();
-  console.log("data from cookies", data);
   return (
     <>
       <PageSeo

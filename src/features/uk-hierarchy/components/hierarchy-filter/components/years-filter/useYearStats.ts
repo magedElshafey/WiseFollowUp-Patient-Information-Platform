@@ -18,7 +18,6 @@ export const useYearStats = () =>
         queryKey: [apiRoutes.years],
         queryFn: async () => {
             const { data } = await Axios.get(apiRoutes.years);
-            console.log("data from years query", data)
             return data.data as Response;
         },
         staleTime: 5 * 60 * 1000,
