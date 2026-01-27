@@ -6,10 +6,10 @@
     "noEmit": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+      "@/*": ["./src/*"]
+    },
+    "module": "ESNext",
+    "moduleResolution": "NodeNext"
   },
   "files": [],
   "references": [

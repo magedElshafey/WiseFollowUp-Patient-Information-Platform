@@ -1,5 +1,5 @@
 export const apiUrl: string = "https://dashboard.wisefollowup.com/api/v1/";
-export const baseUrl: string = "https://appadvertisements.almasader.net";
+export const baseUrl: string = "https://wisefollowup.com";
 export const apiRoutes = {
   about: "about",
   cities: "cities",
