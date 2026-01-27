@@ -34,10 +34,13 @@ const SubmitReviewPage: React.FC = () => {
   const onSubmit = async (data: SubmitReviewValues) => {
     const email = getValues().email;
     try {
-      await submitReview.mutateAsync(data);
-      toast.success(t("Thank you for your review"));
-      mutateNewsLetter(email);
-      reset();
+      const response = await submitReview.mutateAsync(data);
+      if (response?.status) {
+        toast.success(t(response?.message));
+        mutateNewsLetter(email);
+        reset();
+
+      }
     } catch (error) {
       handlePromisError(error);
     }

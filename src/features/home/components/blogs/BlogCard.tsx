@@ -10,35 +10,41 @@ const BlogCardFeed: React.FC<{ post: Articles }> = ({ post }) => {
     <Link
       to={`/blogs/${post.slug}`}
       className="
-        group block
-        pl-4 py-4
-        relative
+        group block relative
+        py-4
 
-        /* ===== Border base ===== */
-        border-l-2 border-border-subtle
+        /* ===== Padding حسب الاتجاه ===== */
+        ltr:pl-4 rtl:pr-4
 
-        /* ===== Gradient overlay (hidden by default) ===== */
+        /* ===== Border base حسب الاتجاه ===== */
+        ltr:border-l-2 rtl:border-r-2
+        border-border-subtle
+
+        /* ===== Gradient background ===== */
         bg-no-repeat
-        bg-left-top
-        bg-[length:2px_0%]
-
-        /* Soft palette gradient */
         bg-gradient-to-b
         from-primary/60
         via-primary/40
         to-accent/40
 
-        /* Smooth fill animation */
+        /* ===== Background position حسب الاتجاه ===== */
+        ltr:bg-left-top
+        rtl:bg-right-top
+
+        /* ===== Initial background size ===== */
+        bg-[length:2px_0%]
+
+        /* ===== Animation ===== */
         transition-[background-size,border-color] duration-500 ease-out
 
-        /* Hover / focus state */
+        /* ===== Hover / focus ===== */
         hover:bg-[length:2px_100%]
         hover:border-transparent
 
         focus-visible:bg-[length:2px_100%]
         focus-visible:border-transparent
 
-        /* Accessibility */
+        /* ===== Accessibility ===== */
         focus-visible:outline-none
         focus-visible:ring-2
         focus-visible:ring-primary
@@ -76,10 +82,12 @@ const BlogCardFeed: React.FC<{ post: Articles }> = ({ post }) => {
         {post.title}
       </h3>
 
+      {/* Excerpt */}
       <p className="mt-1 text-sm text-text-muted line-clamp-2 min-h-[2.5rem]">
         {post.excerpt}
       </p>
-      {/* Author (optional) */}
+
+      {/* Author */}
       {post.author?.name && (
         <p className="mt-3 text-xs text-text-muted">
           By <span className="font-medium">{post.author.name}</span>

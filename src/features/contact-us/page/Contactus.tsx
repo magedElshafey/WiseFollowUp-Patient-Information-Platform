@@ -31,7 +31,7 @@ const ContactPage: React.FC = () => {
     const email = getValues().email;
     try {
       const response = await mutateAsync(data);
-      if (response?.success) {
+      if (response?.status) {
         toast.success(response.message);
         mutateNewsLetter(email);
         reset();

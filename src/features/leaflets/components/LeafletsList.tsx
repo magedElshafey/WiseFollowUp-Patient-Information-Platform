@@ -37,22 +37,22 @@ const LeafletsList: FC = () => {
   }
   return (
     <div className="w-full flex-1">
+      <LeafletsStatsHeader total={totalLeaflets} />
+      <ResultsToolbar resultsCount={leaflets.length} />
       {leaflets.length > 0 ? (
-        <>
-          <LeafletsStatsHeader total={totalLeaflets} />
-          <ResultsToolbar resultsCount={leaflets.length} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {leaflets.map((leaflet: LeafletType) => (
-              <FeaturedLeafletCard key={leaflet.id} leaflet={leaflet} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {leaflets.map((leaflet: LeafletType) => (
+            <FeaturedLeafletCard key={leaflet.id} leaflet={leaflet} />
+          ))}
+
+          {queryResult.isFetchingNextPage &&
+            Array.from({ length: 4 }).map((_, i) => (
+              <LeafletCardSkeleton key={i} />
             ))}
+        </div>
 
-            {queryResult.isFetchingNextPage &&
-              Array.from({ length: 4 }).map((_, i) => (
-                <LeafletCardSkeleton key={i} />
-              ))}
-          </div>
-        </>
       ) : (
         <div className="py-12 text-center space-y-2">
           <p className="text-lg font-medium text-text-main">

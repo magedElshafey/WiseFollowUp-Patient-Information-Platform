@@ -8,6 +8,7 @@ const BrandBlock: React.FC = () => {
 
   const slogan = settings?.app_slogan;
   const notEmergency = settings?.not_emergency;
+  const logo = settings?.app_logo
   const forClinicians = settings?.for_clinicians;
 
   return (
@@ -21,7 +22,7 @@ const BrandBlock: React.FC = () => {
     >
       {/* Logo (fixed height → no CLS) */}
       <div className="h-11">
-        <Logo src="/images/footer-logo.png" />
+        <Logo src={logo || "/images/footer-logo.png"} />
       </div>
 
       {/* Slogan */}
