@@ -5,6 +5,7 @@ import LeafletsFiltersProvider from "../../uk-hierarchy/components/hierarchy-fil
 import LeafletsFilters from "../../uk-hierarchy/components/hierarchy-filter/components/LeafletsFilters";
 import LeafletsList from "../components/LeafletsList";
 import AllLeafletsSearchHeader from "../components/AllLeafletsSearchHeader";
+import { useScrollToTopOnFilters } from "@/common/hooks/useScrollToTopOnFilters";
 
 const NON_INDEXABLE_FILTERS = [
   "year_from",
@@ -21,7 +22,7 @@ const AllLeaflets: FC = () => {
       NON_INDEXABLE_FILTERS.some((key) => searchParams.has(`filter-${key}`)),
     [searchParams],
   );
-
+  useScrollToTopOnFilters();
   return (
     <>
       <PageSeo

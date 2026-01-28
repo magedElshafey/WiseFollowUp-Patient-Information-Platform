@@ -27,6 +27,7 @@ const FilterItem: FC<FilterItemProps> = ({
   return (
     <button
       type="button"
+      onMouseDown={(e) => e.preventDefault()}
       onClick={handleClick}
       role={checkbox ? "checkbox" : "button"}
       aria-checked={checkbox ? selected : undefined}

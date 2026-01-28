@@ -14,6 +14,9 @@ import type {
   LeafletsFiltersContext as ILeafletsFiltersContext,
 } from "../../../../leaflets/types/leaflets.types";
 import { sortableKeys } from "../../../../leaflets/constants/leaflets.constants";
+function isSameFilters(a: Filters, b: Filters) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
 
 
 const LeafletsFiltersContext = createContext<ILeafletsFiltersContext>({
@@ -91,10 +94,10 @@ const LeafletsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const handleSortChange = useCallback(
     (newSortBy: ILeafletsFiltersContext["sortBy"]) => {
-      if (!isPushed.current) {
-        window.history.pushState({}, "");
-        isPushed.current = true;
-      }
+      // if (!isPushed.current) {
+      //   window.history.pushState({}, "");
+      //   isPushed.current = true;
+      // }
       setSortBy(newSortBy);
       setSearchParams(
         (searchParams) => {
@@ -116,10 +119,10 @@ const LeafletsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
     value: Filters[typeof key] | undefined,
     debounce?: boolean
   ) {
-    if (!isPushed.current) {
-      window.history.pushState({}, "");
-      isPushed.current = true;
-    }
+    // if (!isPushed.current) {
+    //   window.history.pushState({}, "");
+    //   isPushed.current = true;
+    // }
     function handleChange() {
       setSearchParams(
         (params) => {
@@ -161,10 +164,10 @@ const LeafletsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const resetFilters = useCallback(() => {
-    if (!isPushed.current) {
-      window.history.pushState({}, "");
-      isPushed.current = true;
-    }
+    // if (!isPushed.current) {
+    //   window.history.pushState({}, "");
+    //   isPushed.current = true;
+    // }
 
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
@@ -230,7 +233,11 @@ const LeafletsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
 
       }
     }
-    setFilters(nextFilters);
+    // setFilters(nextFilters);
+    setFilters((prev) =>
+      isSameFilters(prev, nextFilters) ? prev : nextFilters
+    );
+
   }, [searchParams]);
 
   const appliedFilters = Array.from(searchParams.entries()).reduce(
