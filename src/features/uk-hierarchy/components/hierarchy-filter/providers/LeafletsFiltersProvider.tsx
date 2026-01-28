@@ -15,6 +15,7 @@ import type {
 } from "../../../../leaflets/types/leaflets.types";
 import { sortableKeys } from "../../../../leaflets/constants/leaflets.constants";
 
+
 const LeafletsFiltersContext = createContext<ILeafletsFiltersContext>({
   sortBy: undefined,
   filters: {},
@@ -59,16 +60,28 @@ const LeafletsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
     for (const [key, value] of searchParams.entries()) {
       if (key.startsWith("filter-")) {
         const filterKey = key.split("-")[1] as keyof Filters;
-        if (filterKey in parsed) {
-          const existingValue = parsed[filterKey];
-          if (Array.isArray(existingValue)) {
-            (existingValue as string[]).push(value);
-          } else {
-            parsed[filterKey] = [existingValue as string, value] as any;
-          }
+        // if (filterKey in parsed) {
+        //   const existingValue = parsed[filterKey];
+        //   if (Array.isArray(existingValue)) {
+        //     (existingValue as string[]).push(value);
+        //   } else {
+        //     parsed[filterKey] = [existingValue as string, value] as any;
+        //   }
+        // } else {
+        //   parsed[filterKey] = value as any;
+        // }
+        // parsed[filterKey] = normalizeFilterValue(
+        //   parsed[filterKey],
+        //   value
+        // );
+        if (filterKey === "department_id") {
+          parsed.department_id = parsed.department_id
+            ? [...parsed.department_id, value]
+            : [value];
         } else {
           parsed[filterKey] = value as any;
         }
+
       }
     }
     return parsed;
@@ -193,16 +206,28 @@ const LeafletsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
     for (const [key, value] of searchParams.entries()) {
       if (key.startsWith("filter-")) {
         const filterKey = key.split("-")[1] as keyof Filters;
-        if (filterKey in nextFilters) {
-          const existingValue = nextFilters[filterKey];
-          if (Array.isArray(existingValue)) {
-            (existingValue as string[]).push(value);
-          } else {
-            nextFilters[filterKey] = [existingValue as string, value] as any;
-          }
+        // if (filterKey in nextFilters) {
+        //   const existingValue = nextFilters[filterKey];
+        //   if (Array.isArray(existingValue)) {
+        //     (existingValue as string[]).push(value);
+        //   } else {
+        //     nextFilters[filterKey] = [existingValue as string, value] as any;
+        //   }
+        // } else {
+        //   nextFilters[filterKey] = value as any;
+        // }
+        // nextFilters[filterKey] = normalizeFilterValue(
+        //   nextFilters[filterKey],
+        //   value
+        // );
+        if (filterKey === "department_id") {
+          nextFilters.department_id = nextFilters.department_id
+            ? [...nextFilters.department_id, value]
+            : [value];
         } else {
           nextFilters[filterKey] = value as any;
         }
+
       }
     }
     setFilters(nextFilters);
