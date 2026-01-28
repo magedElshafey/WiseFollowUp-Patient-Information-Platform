@@ -35,7 +35,7 @@ const Navbar: React.FC<Props> = ({ links = DEFAULT_LINKS }) => {
             aria-label="Main navigation"
             className="flex items-center justify-between h-16"
           >
-            <Logo src={settings?.app_logo || "/images/main-logo.png"} />
+            <Logo src={settings?.app_logo || ""} />
 
             {/* Desktop */}
             <div className="hidden md:block">

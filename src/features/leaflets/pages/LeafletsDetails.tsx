@@ -309,7 +309,7 @@ const LeafletDetailsPage: FC = () => {
                   {leaflet?.read_time_minutes && (
                     <MetaItem
                       label="reading time"
-                      value={leaflet?.read_time_minutes}
+                      value={`${leaflet?.read_time_minutes} ${t("minutes")}`}
                     />
                   )}
                   {pdfUrl && (

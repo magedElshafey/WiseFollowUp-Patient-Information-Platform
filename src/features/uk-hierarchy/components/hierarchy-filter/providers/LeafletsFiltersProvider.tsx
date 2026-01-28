@@ -147,26 +147,6 @@ const LeafletsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
-  // const resetFilters = useCallback(() => {
-  //   if (!isPushed.current) {
-  //     window.history.pushState({}, "");
-  //     isPushed.current = true;
-  //   }
-  //   if (debounceRef.current) {
-  //     clearTimeout(debounceRef.current);
-  //   }
-
-  //   setFilters({});
-
-  //   setSearchParams((params) => {
-  //     Array.from(params.keys()).forEach((key) => {
-  //       if (key.startsWith("filter-")) {
-  //         params.delete(key);
-  //       }
-  //     });
-  //     return params;
-  //   });
-  // }, [setSearchParams]);
   const resetFilters = useCallback(() => {
     if (!isPushed.current) {
       window.history.pushState({}, "");
@@ -203,7 +183,7 @@ const LeafletsFiltersProvider: FC<PropsWithChildren> = ({ children }) => {
     const sortKey = sortParam?.split("-")[0];
     const nextSort =
       sortParam &&
-      sortableKeys.some((key) => sortKey === key || sortKey === key)
+        sortableKeys.some((key) => sortKey === key || sortKey === key)
         ? (sortParam as ILeafletsFiltersContext["sortBy"])
         : undefined;
     setSortBy(nextSort);

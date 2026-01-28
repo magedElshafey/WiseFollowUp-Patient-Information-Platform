@@ -54,10 +54,9 @@ const LeafletsFilters: FC = () => {
           w-[85vw] max-w-[380px] lg:w-full
           bg-bg-surface lg:bg-transparent
           transform transition-transform duration-300 ease-in-out
-          ${
-            isDrawerOpen
-              ? "translate-x-0"
-              : "-translate-x-full lg:translate-x-0"
+          ${isDrawerOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
           }
         `}
       >
@@ -107,10 +106,6 @@ const LeafletsFilters: FC = () => {
             <FilterSection title={t("organizations types")}>
               <OrgnizationTypesFilter />
             </FilterSection>
-
-            {/* <FilterSection title={t("organizations")}>
-              <OrgnizationFilter />
-            </FilterSection> */}
 
             <FilterSection title={t("departments")}>
               <DepartmentFilter />

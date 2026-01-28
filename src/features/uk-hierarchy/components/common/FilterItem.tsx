@@ -98,13 +98,12 @@ const FilterItem: FC<FilterItemProps> = ({
       aria-pressed={!checkbox ? selected : undefined}
       className={`
         w-full flex items-center gap-3
-        rounded-xl px-3 py-2 text-left border
-        transition-all
+        rounded-xl px-3 py-2 text-start border
+        transition-all 
         focus:outline-none focus-visible:ring-2 focus-visible:ring-primary
-        ${
-          selected
-            ? "border-primary bg-primary-soft text-text-main my-2"
-            : "border-transparent hover:bg-bg-page text-text-muted"
+        ${selected
+          ? "border-primary bg-primary-soft text-text-main my-2"
+          : "border-transparent hover:bg-bg-page text-text-muted"
         }
       `}
     >
@@ -118,9 +117,8 @@ const FilterItem: FC<FilterItemProps> = ({
           aria-hidden
         >
           <FaCheck
-            className={`h-2.5 w-2.5 text-white ${
-              selected ? "opacity-100" : "opacity-0"
-            }`}
+            className={`h-2.5 w-2.5 text-white ${selected ? "opacity-100" : "opacity-0"
+              }`}
           />
         </span>
       )}

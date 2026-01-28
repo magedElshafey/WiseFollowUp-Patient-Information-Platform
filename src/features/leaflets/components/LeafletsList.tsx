@@ -25,23 +25,26 @@ const LeafletsList: FC = () => {
     },
   });
   const { t } = useTranslation();
-  if (queryResult?.isLoading) {
-    return (
-      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {queryResult.isLoading &&
-          Array.from({ length: 4 }).map((_, i) => (
-            <LeafletCardSkeleton key={i} />
-          ))}
-      </div>
-    );
-  }
+  // if (queryResult?.isLoading) {
+  //   return (
+  //     <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5">
+  //       {queryResult.isLoading &&
+  //         Array.from({ length: 4 }).map((_, i) => (
+  //           <LeafletCardSkeleton key={i} />
+  //         ))}
+  //     </div>
+  //   );
+  // }
   return (
     <div className="w-full flex-1">
       <LeafletsStatsHeader total={totalLeaflets} />
       <ResultsToolbar resultsCount={leaflets.length} />
+      {queryResult?.isLoading && <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <LeafletCardSkeleton key={i} />
+        ))}
+      </div>}
       {leaflets.length > 0 ? (
-
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {leaflets.map((leaflet: LeafletType) => (
             <FeaturedLeafletCard key={leaflet.id} leaflet={leaflet} />
