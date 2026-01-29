@@ -25,27 +25,58 @@ const LeafletsList: FC = () => {
     },
   });
   const { t } = useTranslation();
-  // if (queryResult?.isLoading) {
-  //   return (
-  //     <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5">
-  //       {queryResult.isLoading &&
-  //         Array.from({ length: 4 }).map((_, i) => (
-  //           <LeafletCardSkeleton key={i} />
-  //         ))}
-  //     </div>
-  //   );
-  // }
+
   return (
-    <div className="w-full flex-1">
-      <LeafletsStatsHeader total={totalLeaflets} />
-      <ResultsToolbar resultsCount={leaflets.length} />
-      {queryResult?.isLoading && <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <LeafletCardSkeleton key={i} />
-        ))}
-      </div>}
+    <div className="flex-1 w-full">
+      {queryResult?.isLoading ? (
+        <div className="mb-6 animate-pulse">
+          {/* subtitle */}
+          <div className="w-40 h-4 mb-2 bg-gray-200 rounded dark:bg-gray-700" />
+
+          <div className="flex items-baseline gap-2">
+            {/* number */}
+            <div className="w-24 h-10 bg-gray-200 rounded dark:bg-gray-700" />
+
+            {/* label */}
+            <div className="w-16 h-4 bg-gray-200 rounded dark:bg-gray-700" />
+          </div>
+        </div>
+      ) : (
+        <LeafletsStatsHeader total={totalLeaflets} />
+      )}
+      {queryResult?.isLoading ? (
+        <div className="flex items-center justify-between gap-3 mb-4 animate-pulse">
+          {/* Left */}
+          <div className="flex items-center gap-3">
+            {/* Mobile filter button */}
+            <div className="lg:hidden">
+              <div className="w-24 bg-gray-200 rounded-md h-9 dark:bg-gray-700" />
+            </div>
+
+            {/* Results count */}
+            <div className="hidden sm:block">
+              <div className="w-40 h-4 bg-gray-200 rounded dark:bg-gray-700" />
+            </div>
+          </div>
+
+          {/* Right */}
+          <div className="flex items-center gap-2">
+            <div className="hidden w-16 h-4 bg-gray-200 rounded sm:inline dark:bg-gray-700" />
+            <div className="w-32 bg-gray-200 rounded-md h-9 dark:bg-gray-700" />
+          </div>
+        </div>
+      ) : (
+        <ResultsToolbar resultsCount={leaflets.length} />
+      )}
+      {queryResult?.isLoading && (
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <LeafletCardSkeleton key={i} />
+          ))}
+        </div>
+      )}
       {leaflets.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
           {leaflets.map((leaflet: LeafletType) => (
             <FeaturedLeafletCard key={leaflet.id} leaflet={leaflet} />
           ))}
@@ -55,9 +86,8 @@ const LeafletsList: FC = () => {
               <LeafletCardSkeleton key={i} />
             ))}
         </div>
-
       ) : (
-        <div className="py-12 text-center space-y-2">
+        <div className="py-12 space-y-2 text-center">
           <p className="text-lg font-medium text-text-main">
             {t("No leaflets match your filters")}
           </p>

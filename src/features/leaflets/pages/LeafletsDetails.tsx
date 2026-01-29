@@ -33,17 +33,17 @@ const LeafletDetailsPage: FC = () => {
 
   const structuredData = leaflet
     ? {
-      "@context": "https://schema.org",
-      "@type": "MedicalWebPage",
-      name: leaflet.title,
-      description: leaflet.short_description,
-      datePublished: leaflet.publication_date,
-      dateModified: leaflet.reviewed_at || leaflet.updated_at,
-      publisher: {
-        "@type": "Organization",
-        name: leaflet.organization?.name,
-      },
-    }
+        "@context": "https://schema.org",
+        "@type": "MedicalWebPage",
+        name: leaflet.title,
+        description: leaflet.short_description,
+        datePublished: leaflet.publication_date,
+        dateModified: leaflet.reviewed_at || leaflet.updated_at,
+        publisher: {
+          "@type": "Organization",
+          name: leaflet.organization?.name,
+        },
+      }
     : undefined;
   const handleReportClick = async () => {
     try {
@@ -73,9 +73,9 @@ const LeafletDetailsPage: FC = () => {
           <>
             <ReadingProgress />
             {/* ================= Medical Header ================= */}
-            <header className="bg-bg-page border-b border-border-subtle">
-              <div className="containerr py-8 space-y-2">
-                <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-text-main">
+            <header className="border-b bg-bg-page border-border-subtle">
+              <div className="py-8 space-y-2 containerr">
+                <h1 className="text-xl font-bold md:text-2xl lg:text-3xl text-text-main">
                   {leaflet.title}
                 </h1>
 
@@ -96,11 +96,11 @@ const LeafletDetailsPage: FC = () => {
             </header>
 
             {/* ================= Content ================= */}
-            <main className="containerr py-8">
+            <main className="py-8 containerr">
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-card-gap">
                 {/* ================= Main ================= */}
                 <section
-                  className="lg:col-span-3 space-y-6"
+                  className="space-y-6 lg:col-span-3"
                   aria-labelledby="leaflet-content-heading"
                 >
                   <h2 id="leaflet-content-heading" className="sr-only">
@@ -109,14 +109,14 @@ const LeafletDetailsPage: FC = () => {
 
                   {/* At a glance */}
                   <section
-                    className="rounded-card border border-border-subtle bg-bg-surface p-5"
+                    className="p-5 border rounded-card border-border-subtle bg-bg-surface"
                     aria-label="Leaflet summary"
                   >
-                    <h3 className="text-sm font-semibold text-text-main mb-2">
+                    <h3 className="mb-2 text-sm font-semibold text-text-main">
                       {t("At a glance")}
                     </h3>
 
-                    <p className="text-sm text-text-muted leading-relaxed">
+                    <p className="text-sm leading-relaxed text-text-muted">
                       {leaflet.short_description ||
                         t(
                           "This leaflet provides patient information reviewed by healthcare professionals.",
@@ -126,7 +126,7 @@ const LeafletDetailsPage: FC = () => {
 
                   {/* PDF */}
                   <section
-                    className="rounded-card bg-bg-surface shadow-soft overflow-hidden"
+                    className="overflow-hidden rounded-card bg-bg-surface shadow-soft"
                     aria-label="Patient leaflet document"
                   >
                     {!pdfUrl ? (
@@ -142,8 +142,8 @@ const LeafletDetailsPage: FC = () => {
                         />
 
                         {/* Mobile */}
-                        <div className="block lg:hidden p-6 text-center">
-                          <p className="text-sm text-text-muted mb-3">
+                        <div className="block p-6 text-center lg:hidden">
+                          <p className="mb-3 text-sm text-text-muted">
                             {t("This leaflet is available as a PDF.")}
                           </p>
 
@@ -151,7 +151,7 @@ const LeafletDetailsPage: FC = () => {
                             href={pdfUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center rounded-pill bg-primary px-5 py-2 text-sm font-medium text-white"
+                            className="inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white rounded-pill bg-primary"
                           >
                             {t("Open PDF")}
                           </a>
@@ -163,13 +163,7 @@ const LeafletDetailsPage: FC = () => {
                     <section
                       role="note"
                       aria-labelledby="medical-disclaimer-title"
-                      className="
-        rounded-card
-        border border-border-subtle
-        bg-bg-surface
-        p-5
-        shadow-soft
-      "
+                      className="p-5 border rounded-card border-border-subtle bg-bg-surface shadow-soft"
                     >
                       <div className="flex items-start gap-3">
                         {/* Icon */}
@@ -196,11 +190,11 @@ const LeafletDetailsPage: FC = () => {
                             {data?.heading}
                           </h3>
 
-                          <p className="text-sm text-text-muted leading-relaxed">
+                          <p className="text-sm leading-relaxed text-text-muted">
                             {data?.description.join("\n")}
                           </p>
                           {data?.details?.length > 0 && (
-                            <ul className="list-disc pl-5 text-sm text-text-muted space-y-1">
+                            <ul className="pl-5 space-y-1 text-sm list-disc text-text-muted">
                               {data?.details?.map((item, index) => (
                                 <li key={index}>{item}</li>
                               ))}
@@ -217,12 +211,12 @@ const LeafletDetailsPage: FC = () => {
                       <section aria-labelledby="related-leaflets-heading">
                         <h3
                           id="related-leaflets-heading"
-                          className="text-sm font-semibold text-text-main mb-3"
+                          className="mb-3 text-sm font-semibold text-text-main"
                         >
                           {t("Related leaflets")}
                         </h3>
 
-                        <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                           {leaflet.related_leaflets.slice(0, 3).map((item) => (
                             <FeaturedLeafletCard leaflet={item} />
                           ))}
@@ -238,12 +232,12 @@ const LeafletDetailsPage: FC = () => {
                       >
                         <h3
                           id="related-leaflets-heading"
-                          className="text-sm font-semibold text-text-main mb-3"
+                          className="mb-3 text-sm font-semibold text-text-main"
                         >
                           {t("Related blogs")}
                         </h3>
 
-                        <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                           {leaflet.related_blogs.slice(0, 3).map((item) => (
                             <BlogCardFeed post={item} />
                           ))}
@@ -254,7 +248,7 @@ const LeafletDetailsPage: FC = () => {
 
                 {/* ================= Sidebar ================= */}
                 <aside
-                  className="rounded-card bg-bg-surface p-5 shadow-soft space-y-4"
+                  className="p-5 space-y-4 rounded-card bg-bg-surface shadow-soft"
                   aria-label="Clinical information"
                 >
                   <MetaItem
@@ -318,25 +312,27 @@ const LeafletDetailsPage: FC = () => {
                         href={pdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-2 inline-flex w-full items-center justify-center rounded-pill bg-primary px-4 py-2 text-sm font-medium text-white"
+                        className="inline-flex items-center justify-center w-full px-4 py-2 mt-2 text-sm font-medium text-white rounded-pill bg-primary"
                       >
                         {t("Open PDF in new tab")}
                       </a>
                       <LeafletShareActions title={leaflet.title} />
                       <button
                         onClick={() => window.print()}
-                        className="w-full text-xs text-primary underline"
+                        className="w-full text-xs underline text-primary"
                       >
                         {t("Print this page")}
                       </button>
                       <button
                         onClick={handleReportClick}
                         disabled={isPending}
-                        className="flex items-center justify-center bg-red-700 duration-300 transition-opacity hover:bg-red-700/85 text-white  w-full  disabled:cursor-not-allowed disabled:bg-red-700/85 rounded-pill
-px-4 py-2"
+                        className="flex items-center justify-center w-full px-4 py-2 text-white transition-opacity duration-300 bg-red-700 hover:bg-red-700/85 disabled:cursor-not-allowed disabled:bg-red-700/85 rounded-pill"
                       >
                         {t("report an issue")}
                       </button>
+                      <span className=" text-text-muted">
+                        {t("something isn't right ?")}
+                      </span>
                     </>
                   )}
                 </aside>
@@ -346,7 +342,6 @@ px-4 py-2"
               open={showReportModal}
               onClose={() => setShowReportModal(false)}
             />
-
           </>
         )}
       </FetchHandler>
@@ -399,23 +394,12 @@ const MetaItem: FC<MetaItemProps> = ({ label, value, isLink = false }) => {
           href={value}
           target="_blank"
           rel="noopener noreferrer"
-          className="
-            text-sm font-medium text-primary
-            underline-offset-2
-            hover:underline
-            focus-visible:outline-none
-            focus-visible:ring-2
-            focus-visible:ring-primary
-            focus-visible:ring-offset-2
-            focus-visible:ring-offset-bg-surface
-            inline-block
-            break-all
-          "
+          className="inline-block text-sm font-medium break-all text-primary underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface"
         >
           {t("Visit source")}
         </a>
       ) : (
-        <p className="text-sm font-medium text-text-main break-words">
+        <p className="text-sm font-medium break-words text-text-main">
           {value}
         </p>
       )}

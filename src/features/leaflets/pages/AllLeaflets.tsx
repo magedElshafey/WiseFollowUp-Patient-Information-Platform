@@ -37,9 +37,9 @@ const AllLeaflets: FC = () => {
       <AllLeafletsSearchHeader />
 
       {/* Content */}
-      <div className="containerr py-6">
+      <div className="py-6 containerr">
         <LeafletsFiltersProvider>
-          <div className="flex flex-col lg:flex-row gap-4">
+          <div className="flex flex-col gap-4 lg:flex-row">
             {/* Filters (sidebar + drawer mobile) */}
             <LeafletsFilters />
 

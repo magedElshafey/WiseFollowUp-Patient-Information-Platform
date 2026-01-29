@@ -29,7 +29,7 @@ const Navbar: React.FC<Props> = ({ links = DEFAULT_LINKS }) => {
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 bg-bg-surface/95 backdrop-blur border-b border-border-subtle">
+      <header className="fixed inset-x-0 top-0 z-50 border-b bg-bg-surface/95 backdrop-blur border-border-subtle">
         <div className="containerr">
           <nav
             aria-label="Main navigation"
@@ -41,7 +41,7 @@ const Navbar: React.FC<Props> = ({ links = DEFAULT_LINKS }) => {
             <div className="hidden md:block">
               <NavbarLinks links={links} />
             </div>
-            <div className="hidden md:flex items-center gap-3">
+            <div className="items-center hidden gap-3 md:flex">
               <NavbarLanguageToggle />
               <NavbarCtaButton />
             </div>
