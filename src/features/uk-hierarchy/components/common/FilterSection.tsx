@@ -18,28 +18,16 @@ const FilterSection: FC<FilterSectionProps> = ({
   }, []);
 
   return (
-    <section
-      className="
-        bg-bg-alt
-        rounded-card
-        border border-border-subtle
-        p-4
-        space-y-3
-      "
-    >
+    <section className="p-4 space-y-3 border bg-bg-alt rounded-card border-border-subtle">
       <button
         type="button"
         onClick={toggle}
         aria-expanded={expanded}
-        className="
-          w-full flex items-center justify-between
-          text-left
-          focus:outline-none
-        "
+        className="flex items-center justify-between w-full text-left focus:outline-none"
       >
         <h4 className="text-sm font-medium text-text-main">{title}</h4>
 
-        <span className="text-text-muted text-lg leading-none">
+        <span className="text-lg leading-none text-text-muted">
           {expanded ? "−" : "+"}
         </span>
       </button>
@@ -49,7 +37,7 @@ const FilterSection: FC<FilterSectionProps> = ({
           overflow-hidden
           transition-[max-height,opacity]
           duration-300 ease-in-out
-          ${expanded ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}
+          ${expanded ? "max-h-[600px] opacity-100 overflow-y-auto" : "max-h-0 opacity-0"}
         `}
       >
         <div className="pt-2 space-y-1">{children}</div>

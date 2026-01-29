@@ -17,6 +17,8 @@ import FeaturedLeafletCard from "@/features/home/components/featured-leaflets/Fe
 import { LeafletType } from "@/features/leaflets/types/leaflets.types";
 import BlogCardFeed from "@/features/home/components/blogs/BlogCard";
 import { Articles } from "../types/blog.types";
+import { formatDate } from "@/utils/formatDate";
+import MetaItem from "@/features/blogs/components/MetaItem";
 export type ArticleSeoType = "blog" | "none";
 
 type Props = {
@@ -74,22 +76,10 @@ const ArticleDocPage: React.FC<Props> = ({
           <BlogHeader post={post} />
 
           {/* ================= CONTENT ================= */}
-          <main className="containerr mt-8 lg:mt-10">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+          <main className="mt-8 containerr lg:mt-10">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
               {/* Article */}
-              <article
-                className="
-                  prose max-w-none col-span-4
-                  bg-bg-surface
-                  border border-border-subtle
-                  rounded-card
-                  p-6
-                  prose-headings:text-text-main
-                  prose-p:text-text-muted
-                  prose-strong:text-text-main
-                  prose-a:text-primary
-                "
-              >
+              <article className="col-span-4 p-6 prose border max-w-none bg-bg-surface border-border-subtle rounded-card prose-headings:text-text-main prose-p:text-text-muted prose-strong:text-text-main prose-a:text-primary">
                 {sectionsWithIds.map((sec) => (
                   <section
                     key={sec._id}
@@ -107,45 +97,83 @@ const ArticleDocPage: React.FC<Props> = ({
               </aside>
             </div>
             {seoType === "blog" && (
-              <div className="mt-4 md:mt-5 lg:mt-6 xl:mt-7">
-                {post?.related_blogs && post.related_blogs.length > 0 && (
-                  <section
-                    className="mt4 md:mt-5 lg:mt-6 xl:mt-7"
-                    aria-labelledby="related-leaflets-heading"
-                  >
-                    <h3
-                      id="related-leaflets-heading"
-                      className="text-sm font-semibold text-text-main mb-3"
-                    >
-                      {t("Related blogs")}
-                    </h3>
+              <div className="mt-8 md:mt-10">
+                <div className="flex gap-2">
+                  {post.author?.image ? (
+                    <MetaItem>
+                      <img
+                        alt={post.author.name}
+                        src={post.author.image}
+                        className="object-contain w-12 h-12 rounded-full"
+                      />
+                    </MetaItem>
+                  ) : null}
 
-                    <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                      {post.related_blogs.slice(0, 3).map((item: Articles) => (
-                        <BlogCardFeed post={item} />
-                      ))}
-                    </div>
-                  </section>
-                )}
-                {/* Related related leaflets */}
-                {post?.related_leaflets && post.related_leaflets.length > 0 && (
-                  <section aria-labelledby="related-leaflets-heading">
-                    <h3
-                      id="related-leaflets-heading"
-                      className="text-sm font-semibold text-text-main mb-3"
-                    >
-                      {t("Related leaflets")}
-                    </h3>
+                  <div className="flex flex-col gap-[2px] italic">
+                    {post.author?.name && (
+                      <MetaItem>
+                        <span className="text-sm font-semibold text-text-main">
+                          {t("By")}: {post.author.name}
+                        </span>
+                      </MetaItem>
+                    )}
 
-                    <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                      {post.related_leaflets
-                        .slice(0, 3)
-                        .map((item: LeafletType) => (
-                          <FeaturedLeafletCard leaflet={item} />
-                        ))}
-                    </div>
-                  </section>
-                )}
+                    <span className="text-xs text-text-muted">
+                      {post.author?.affiliation}
+                    </span>
+
+                    {post.published_at && (
+                      <MetaItem>
+                        <time dateTime={formatDate(post.published_at)}>
+                          {formatDate(post.published_at)}
+                        </time>
+                      </MetaItem>
+                    )}
+                  </div>
+                </div>
+                <div className="mt-4 md:mt-5 lg:mt-6 xl:mt-7">
+                  {post?.related_blogs && post.related_blogs.length > 0 && (
+                    <section
+                      className="mt4 md:mt-5 lg:mt-6 xl:mt-7"
+                      aria-labelledby="related-leaflets-heading"
+                    >
+                      <h3
+                        id="related-leaflets-heading"
+                        className="mb-3 text-sm font-semibold text-text-main"
+                      >
+                        {t("Related blogs")}
+                      </h3>
+
+                      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                        {post.related_blogs
+                          .slice(0, 3)
+                          .map((item: Articles) => (
+                            <BlogCardFeed post={item} />
+                          ))}
+                      </div>
+                    </section>
+                  )}
+                  {/* Related related leaflets */}
+                  {post?.related_leaflets &&
+                    post.related_leaflets.length > 0 && (
+                      <section aria-labelledby="related-leaflets-heading">
+                        <h3
+                          id="related-leaflets-heading"
+                          className="mb-3 text-sm font-semibold text-text-main"
+                        >
+                          {t("Related leaflets")}
+                        </h3>
+
+                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                          {post.related_leaflets
+                            .slice(0, 3)
+                            .map((item: LeafletType) => (
+                              <FeaturedLeafletCard leaflet={item} />
+                            ))}
+                        </div>
+                      </section>
+                    )}
+                </div>
               </div>
             )}
           </main>

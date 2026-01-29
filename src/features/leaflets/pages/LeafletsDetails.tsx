@@ -88,10 +88,6 @@ const LeafletDetailsPage: FC = () => {
                     </>
                   )}
                 </p>
-
-                <p className="text-xs text-text-muted">
-                  Clinically reviewed · Written in plain language
-                </p>
               </div>
             </header>
 
@@ -326,13 +322,22 @@ const LeafletDetailsPage: FC = () => {
                       <button
                         onClick={handleReportClick}
                         disabled={isPending}
-                        className="flex items-center justify-center w-full px-4 py-2 text-white transition-opacity duration-300 bg-red-700 hover:bg-red-700/85 disabled:cursor-not-allowed disabled:bg-red-700/85 rounded-pill"
+                        className="relative flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white transition-opacity bg-red-700  hover:bg-red-700/85 rounded-pill disabled:cursor-not-allowed disabled:bg-red-700/55"
                       >
-                        {t("report an issue")}
+                        {/* Text (always takes space → no CLS) */}
+                        <span className={isPending ? "invisible" : "visible"}>
+                          {t("something isn't right ?")}
+                        </span>
+
+                        {/* Loader */}
+                        {isPending && (
+                          <span
+                            role="status"
+                            aria-label="loading"
+                            className="absolute inline-block w-4 h-4 border-2 border-white rounded-full  animate-spin border-t-transparent"
+                          />
+                        )}
                       </button>
-                      <span className=" text-text-muted">
-                        {t("something isn't right ?")}
-                      </span>
                     </>
                   )}
                 </aside>

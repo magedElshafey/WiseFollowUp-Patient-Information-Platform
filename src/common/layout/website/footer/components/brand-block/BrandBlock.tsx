@@ -13,25 +13,21 @@ const BrandBlock: React.FC = () => {
   return (
     <section
       aria-label="About Wise Follow Up"
-      className="
-        rounded-card border border-border-subtle bg-bg-page
-        p-4 sm:p-5
-        flex flex-col gap-2
-      "
+      className="flex flex-col gap-2 p-4 border rounded-card border-border-subtle bg-bg-page sm:p-5"
     >
       {/* Logo (fixed height → no CLS) */}
-      <div className="h-11">
-        <Logo src={"/images/footer-logo.png"} />
+      <div className="lg:ms-[17px] h-11">
+        <Logo src={"/images/footer-logo.png"} hasScale={true} />
       </div>
 
       {/* Slogan */}
       {isLoading ? (
         <div
           aria-hidden
-          className="h-4 w-4/5 rounded bg-border-subtle animate-pulse"
+          className="w-4/5 h-4 rounded bg-border-subtle animate-pulse"
         />
       ) : slogan ? (
-        <p className="text-xs md:text-sm text-text-muted leading-relaxed">
+        <p className="text-xs leading-relaxed md:text-sm text-text-muted">
           {slogan}
         </p>
       ) : null}
@@ -53,11 +49,11 @@ const BrandBlock: React.FC = () => {
 
             {isLoading ? (
               <>
-                <div className="h-3 w-full rounded bg-border-subtle animate-pulse" />
-                <div className="h-3 w-5/6 rounded bg-border-subtle animate-pulse" />
+                <div className="w-full h-3 rounded bg-border-subtle animate-pulse" />
+                <div className="w-5/6 h-3 rounded bg-border-subtle animate-pulse" />
               </>
             ) : notEmergency ? (
-              <p className="text-text-muted leading-relaxed">{notEmergency}</p>
+              <p className="leading-relaxed text-text-muted">{notEmergency}</p>
             ) : null}
           </div>
 
@@ -67,11 +63,11 @@ const BrandBlock: React.FC = () => {
 
             {isLoading ? (
               <>
-                <div className="h-3 w-full rounded bg-border-subtle animate-pulse" />
-                <div className="h-3 w-4/6 rounded bg-border-subtle animate-pulse" />
+                <div className="w-full h-3 rounded bg-border-subtle animate-pulse" />
+                <div className="w-4/6 h-3 rounded bg-border-subtle animate-pulse" />
               </>
             ) : forClinicians ? (
-              <p className="text-text-muted leading-relaxed">{forClinicians}</p>
+              <p className="leading-relaxed text-text-muted">{forClinicians}</p>
             ) : null}
           </div>
         </div>

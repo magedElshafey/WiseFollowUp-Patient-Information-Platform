@@ -15,7 +15,7 @@ const DepartmentFilter: FC = () => {
 
   const queryResult = useGetDepartments();
   const departments = queryResult.data ?? [];
-
+  console.log("department number", departments?.length);
   const toggleDepartment = (id: string) => {
     const exists = department_id.includes(id);
 
@@ -32,7 +32,7 @@ const DepartmentFilter: FC = () => {
   return (
     <FetchHandler queryResult={queryResult} skeletonType="list">
       {departments.length === 0 ? (
-        <div className="py-4 text-center text-sm text-text-muted">
+        <div className="py-4 text-sm text-center text-text-muted">
           {t("No departments available")}
         </div>
       ) : (

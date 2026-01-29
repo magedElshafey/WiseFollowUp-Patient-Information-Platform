@@ -1,62 +1,22 @@
-import { useTranslation } from "react-i18next";
 import CategoryPill from "./CategoryPill";
 import type { Articles } from "../types/blog.types";
-import MetaItem from "./MetaItem";
-import { formatDate } from "@/utils/formatDate";
 import HeroLayout from "@/common/layout/hero-layout/HeroLayout";
 
 const BlogHeader: React.FC<{ post: Articles }> = ({ post }) => {
-  const { t } = useTranslation();
-
   return (
     <HeroLayout minHeight="min-h-[30vh]">
       <header>
-        <div className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-3 lg:gap-4 lg:items-center">
+        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-3 lg:gap-4 lg:items-center">
           <div className="flex flex-col gap-2 md:gap-3 lg:gap-4">
             {post.category && <CategoryPill label={post.category.name} />}
 
-            <h1 className="text-2xl md:text-3xl font-bold text-text-main">
+            <h1 className="text-2xl font-bold md:text-3xl text-text-main">
               {post.title}
             </h1>
 
             {post.excerpt && (
               <p className="max-w-3xl text-text-muted">{post.excerpt}</p>
             )}
-          </div>
-          <div >
-            <div className="flex gap-2">
-              {post.author?.image ? (
-                <MetaItem>
-                  <img
-                    alt={post.author.name}
-                    src={post.author.image}
-                    className="w-12 h-12 rounded-full object-contain"
-                  />
-                </MetaItem>
-              ) : null}
-
-              <div className="flex flex-col gap-[2px] italic">
-                {post.author?.name && (
-                  <MetaItem>
-                    <span className="font-semibold text-sm text-text-main">
-                      {t("By")}: {post.author.name}
-                    </span>
-                  </MetaItem>
-                )}
-
-                <span className="text-xs text-text-muted">
-                  {post.author?.affiliation}
-                </span>
-
-                {post.published_at && (
-                  <MetaItem>
-                    <time dateTime={formatDate(post.published_at)}>
-                      {formatDate(post.published_at)}
-                    </time>
-                  </MetaItem>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </header>
